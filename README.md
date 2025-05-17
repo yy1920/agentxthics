@@ -15,6 +15,7 @@ AgentXthics allows researchers to model and simulate how agents with different e
 ## Ethical Frameworks Research
 
 The AgentXthics project's primary research focus is exploring how explicit ethical frameworks influence agent behavior in competitive resource management environments.
+See `ethical_frameworks_simulations` for more details.
 
 ### Research Objective 
 

@@ -1,0 +1,191 @@
+Premise
+Each agent is an electricity trading company. They generate a certain amount of electricity each turn and also get a certain amount of demand each turn which may or may not be sufficiently met  by the amount generated. 
+The goal of the agent is to maximise their profits from selling electricity to customers (meeting demand) or other trading companies.
+
+Dataset
+https://www.eia.gov/electricity/wholesale/ - Electricity prices
+https://www.eia.gov/opendata/browser/electricity - Electricity Supply and demand data
+What we want to achieve
+Monitor agent communication in a competitive environment (more complex the prisoner’s dilemma)
+Identify any emergent behaviour - is there deception/collaboration in certain scenarios?
+Monitor logic if aspects with regards to safety concerns - do they make irrational decisions that cause major loss, where the holes in their logic are?
+
+Hypothesis to test
+Text communication between agents impacts their decision making as opposed to just historic decisions and other data
+The agents will form relationships with one another based on historic behaviour.
+Agents will aim for collaboration based on trust
+Agents will cause deception to maximise profits
+Agents will prioritise profits over market stability.
+Agents will display emergent behaviour when faced with unpredictable marked behaviour.
+Agents will always make the most logical decisions based on their circumstances.
+Agents will not mistake numerical amounts
+
+Extensions
+Safety agents based on problems
+More unpredictability in the market requires more flexibility in decisions to make profits.
+
+Environment Specification
+Agent
+Inputs 
+Net electricity (Generation for turn - Demand for turn)
+Demand Forecast for next turn
+Electricity storage capacity
+Outputs
+Communication with other agents to purchase electricity through contracts.
+Contract params: Amount, total price, Message (reason to sell)
+Amount of electricity bought from other agents
+
+Turn steps:
+Start turn
+Publish amount of surplus electricity you have
+Make proposal to 1 other agent to purchase electricity at certain rate (if required)
+Decide to accept/reject/counter any offer
+Auction remaining electricity 
+profit/loss calculations for each agent
+
+
+
+# Electricity Trading Game Implementation Plan
+
+After reviewing the project structure and Yash's proposal, I can see that we need to develop a more complex multi-agent system to simulate electricity trading companies in a competitive market environment. This will help test hypotheses about agent communication, emergent behavior, and safety-relevant logic.
+
+## Current Understanding
+
+The existing codebase has:
+1. A simpler conservation/consumption game (similar to prisoner's dilemma)
+2. A framework for running research scenarios
+3. Analysis tools for logs and agent decisions
+4. Configuration systems for different game parameters
+
+For the proposed electricity trading simulation, we need a more sophisticated environment where:
+- Agents represent electricity trading companies
+- Each agent generates electricity and has demand to meet
+- Agents can trade electricity through contracts and auctions
+- Communication between agents impacts decision-making
+- The system can reveal emergent behaviors including collaboration and deception
+
+## Implementation Architecture
+
+Here's a proposed architecture for the electricity trading game:
+
+```mermaid
+graph LR
+    A[Main Simulation Controller] --> B[Environment State Manager]
+    A --> C[Agent Manager]
+    A --> D[Market Mechanism]
+    A --> E[Analysis Pipeline]
+    
+    B --> B1[Electricity Generation]
+    B --> B2[Demand Generation]
+    B --> B3[Market State Tracking]
+    
+    C --> C1[Agent Communication]
+    C --> C2[Agent Decision Making]
+    C --> C3[Contract Management]
+    
+    D --> D1[Proposal System]
+    D --> D2[Auction System]
+    D --> D3[Contract Resolution]
+    
+    E --> E1[Communication Analysis]
+    E --> E2[Market Efficiency Analysis]
+    E --> E3[Emergent Behavior Detection]
+```
+
+## Development Plan
+
+### 1. Core Components
+
+1. **ElectricityTradingGame Class**
+   - Main simulation controller
+   - Turn-based logic
+   - Market state management
+
+2. **ElectricityTradingAgent Class**
+   - Extends base_agent.py
+   - Contains logic for electricity generation, demand, storage
+   - Handles communication and decision-making
+
+3. **Market Mechanism**
+   - Contract proposal system
+   - Auction system
+   - Settlement and profit calculation
+
+### 2. Game Flow
+
+```mermaid
+sequenceDiagram
+    participant Controller
+    participant Agent
+    participant Market
+    
+    Controller->>Agent: Start Turn (update generation/demand)
+    Agent->>Controller: Publish surplus/deficit
+    Controller->>Agent: Provide market state
+    Agent->>Agent: Make proposals to other agents
+    Agent->>Agent: Review received proposals
+    Agent->>Market: Accept/Reject/Counter proposals
+    Agent->>Market: Participate in auction
+    Market->>Controller: Calculate profits/losses
+    Controller->>Agent: Update state with results
+```
+
+### 3. Implementation Steps
+
+1. **Create core data structures**
+   - Agent state (generation, demand, storage, profits)
+   - Market state (prices, contracts, auction results)
+   - Communication logs
+
+2. **Implement turn phases**
+   - Generation/demand phase
+   - Communication/proposal phase
+   - Decision phase (accept/reject contracts)
+   - Auction phase
+   - Settlement phase
+
+3. **Develop agent prompting system**
+   - Clear format for agent decisions
+   - Include relevant market information
+   - Capture reasoning for analysis
+
+4. **Build analysis tools**
+   - Track communication patterns
+   - Detect cooperation/deception
+   - Measure market efficiency
+   - Identify decision-making patterns
+
+### 4. Integration with Existing Framework
+
+- Leverage the existing analysis pipeline
+- Use the configuration system for game parameters
+- Connect to the ethical frameworks if needed
+- Ensure proper logging for later analysis
+
+## Key Features to Implement
+
+1. **Electricity Generation & Demand**
+   - Randomized or patterned generation
+   - Demand forecasting system
+   - Storage capacity mechanics
+
+2. **Contract System**
+   - Proposal format (amount, price, message)
+   - Negotiation mechanics
+   - Contract fulfillment tracking
+
+3. **Auction System**
+   - Bidding mechanics
+   - Clearing price determination
+   - Allocation algorithms
+
+4. **Communication Analysis**
+   - Message parsing
+   - Intent detection
+   - Truth/deception analysis
+
+5. **Market Dynamics**
+   - Price volatility
+   - Scarcity conditions
+   - Demand fluctuations
+

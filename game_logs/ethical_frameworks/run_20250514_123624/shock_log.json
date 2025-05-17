@@ -1,0 +1,22 @@
+[
+  {
+    "round": 0,
+    "type": "positive",
+    "amount": 22
+  },
+  {
+    "round": 3,
+    "type": "positive",
+    "amount": 23
+  },
+  {
+    "round": 4,
+    "type": "negative",
+    "amount": -24
+  },
+  {
+    "round": 5,
+    "type": "negative",
+    "amount": -14
+  }
+]

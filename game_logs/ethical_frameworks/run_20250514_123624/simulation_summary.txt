@@ -1,0 +1,38 @@
+=== Ethical Frameworks Simulation Summary ===
+
+Simulation completed: 2025-05-14 12:42:48
+Total rounds: 10
+Final resource amount: 40
+Overall conservation rate: 0.90
+
+Conservation rates by agent:
+  Agent U1: 0.90
+  Agent D1: 1.00
+  Agent V1: 0.90
+  Agent C1: 1.00
+  Agent J1: 0.60
+  Agent E1: 1.00
+
+Ethical decision overrides:
+  Agent U1: 2 decisions overridden
+  Agent D1: 0 decisions overridden
+  Agent V1: 0 decisions overridden
+  Agent C1: 0 decisions overridden
+  Agent J1: 0 decisions overridden
+
+Message counts:
+  Agent U1: 30 messages sent
+  Agent D1: 30 messages sent
+  Agent V1: 30 messages sent
+  Agent C1: 30 messages sent
+  Agent J1: 30 messages sent
+  Agent E1: 30 messages sent
+
+Timeout events:
+  Total timeouts: 7
+  Agent J1: 2 timeouts
+  Agent U1: 1 timeouts
+  Agent D1: 1 timeouts
+  Agent V1: 1 timeouts
+  Agent C1: 1 timeouts
+  Agent E1: 1 timeouts

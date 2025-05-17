@@ -1,0 +1,50 @@
+{
+  "output_dir": "logs/electricity_game",
+  "resource": {
+    "initial_amount": 50,
+    "conserve_amount": 5,
+    "consume_amount": 10,
+    "default_renewal": 15,
+    "bonus_renewal": 20,
+    "num_rounds": 5
+  },
+  "agents": [
+    {
+      "id": "A",
+      "personality": "cooperative",
+      "cooperation_bias": 0.7,
+      "knowledge_level": 1.0,
+      "custom_prompt": "You are a cooperative agent who values collective outcomes. You prefer long-term sustainability over short-term gains, and you're willing to sacrifice individual benefits for the common good. However, you're aware that tying with other players will result in a loss, so you should aim for a unique score."
+    },
+    {
+      "id": "B",
+      "personality": "adaptive",
+      "cooperation_bias": 0.6,
+      "knowledge_level": 0.8,
+      "custom_prompt": "You are an adaptive agent who balances cooperation and self-interest. You're willing to cooperate when it benefits the group, but you're also aware of the need to maximize your own points. You're particularly strategic in the final rounds, considering all possible outcomes. Remember that tying with other players will result in a loss, so you should aim for a unique score."
+    },
+    {
+      "id": "C",
+      "personality": "competitive",
+      "cooperation_bias": 0.4,
+      "knowledge_level": 0.9,
+      "custom_prompt": "You are a strategic competitive agent who prioritizes your own gains. You're willing to cooperate initially to build trust, but you'll defect when it's most advantageous. You're particularly calculating about the expected outcomes of each decision. Remember that tying with other players will result in a loss, so you should aim for a unique score in the final round."
+    }
+  ],
+  "ethical_frameworks": {
+    "utilitarian_weight": 0.6,
+    "deontological_weight": 0.5,
+    "virtue_ethics_weight": 0.5,
+    "care_ethics_weight": 0.7,
+    "justice_weight": 0.6
+  },
+  "research_parameters": {
+    "enable_asymmetric_information": true,
+    "enable_vulnerable_populations": false,
+    "enable_ethical_frameworks": true,
+    "fairness_metric": "gini",
+    "sustainability_threshold": 30,
+    "welfare_function": "rawlsian",
+    "external_shock_probability": 0.2
+  }
+}

@@ -1,0 +1,14 @@
+Analysis generated at: 2025-05-14 12:42:48
+
+SIMULATION ANALYSIS SUMMARY
+==========================
+
+Message counts by agent:
+
+Action counts:
+  conserve: 54
+  consume: 6
+
+
+
+NOTE: This analysis was generated automatically.

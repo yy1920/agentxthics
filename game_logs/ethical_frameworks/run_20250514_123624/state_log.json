@@ -1,0 +1,275 @@
+[
+  {
+    "round": 0,
+    "position": "start",
+    "amount": 80,
+    "conservation_rate": 0.0,
+    "agent_actions": {}
+  },
+  {
+    "round": 0,
+    "position": "end",
+    "amount": 87,
+    "conservation_rate": 0.8333333333333334,
+    "agent_actions": {
+      "U1": "conserve",
+      "D1": "conserve",
+      "V1": "conserve",
+      "C1": "conserve",
+      "J1": "consume",
+      "E1": "conserve"
+    }
+  },
+  {
+    "round": 1,
+    "position": "start",
+    "amount": 87,
+    "conservation_rate": 0.8333333333333334,
+    "agent_actions": {
+      "U1": "conserve",
+      "D1": "conserve",
+      "V1": "conserve",
+      "C1": "conserve",
+      "J1": "consume",
+      "E1": "conserve"
+    }
+  },
+  {
+    "round": 1,
+    "position": "end",
+    "amount": 62,
+    "conservation_rate": 0.8333333333333334,
+    "agent_actions": {
+      "U1": "conserve",
+      "D1": "conserve",
+      "V1": "conserve",
+      "C1": "conserve",
+      "J1": "consume",
+      "E1": "conserve"
+    }
+  },
+  {
+    "round": 2,
+    "position": "start",
+    "amount": 62,
+    "conservation_rate": 0.8333333333333334,
+    "agent_actions": {
+      "U1": "conserve",
+      "D1": "conserve",
+      "V1": "conserve",
+      "C1": "conserve",
+      "J1": "consume",
+      "E1": "conserve"
+    }
+  },
+  {
+    "round": 2,
+    "position": "end",
+    "amount": 42,
+    "conservation_rate": 0.8333333333333334,
+    "agent_actions": {
+      "U1": "consume",
+      "D1": "conserve",
+      "V1": "conserve",
+      "C1": "conserve",
+      "J1": "conserve",
+      "E1": "conserve"
+    }
+  },
+  {
+    "round": 3,
+    "position": "start",
+    "amount": 42,
+    "conservation_rate": 0.8333333333333334,
+    "agent_actions": {
+      "U1": "consume",
+      "D1": "conserve",
+      "V1": "conserve",
+      "C1": "conserve",
+      "J1": "conserve",
+      "E1": "conserve"
+    }
+  },
+  {
+    "round": 3,
+    "position": "end",
+    "amount": 55,
+    "conservation_rate": 1.0,
+    "agent_actions": {
+      "U1": "conserve",
+      "D1": "conserve",
+      "V1": "conserve",
+      "C1": "conserve",
+      "J1": "conserve",
+      "E1": "conserve"
+    }
+  },
+  {
+    "round": 4,
+    "position": "start",
+    "amount": 55,
+    "conservation_rate": 1.0,
+    "agent_actions": {
+      "U1": "conserve",
+      "D1": "conserve",
+      "V1": "conserve",
+      "C1": "conserve",
+      "J1": "conserve",
+      "E1": "conserve"
+    }
+  },
+  {
+    "round": 4,
+    "position": "end",
+    "amount": 16,
+    "conservation_rate": 1.0,
+    "agent_actions": {
+      "U1": "conserve",
+      "D1": "conserve",
+      "V1": "conserve",
+      "C1": "conserve",
+      "J1": "conserve",
+      "E1": "conserve"
+    }
+  },
+  {
+    "round": 5,
+    "position": "start",
+    "amount": 16,
+    "conservation_rate": 1.0,
+    "agent_actions": {
+      "U1": "conserve",
+      "D1": "conserve",
+      "V1": "conserve",
+      "C1": "conserve",
+      "J1": "conserve",
+      "E1": "conserve"
+    }
+  },
+  {
+    "round": 5,
+    "position": "end",
+    "amount": 6,
+    "conservation_rate": 1.0,
+    "agent_actions": {
+      "U1": "conserve",
+      "D1": "conserve",
+      "V1": "conserve",
+      "C1": "conserve",
+      "J1": "conserve",
+      "E1": "conserve"
+    }
+  },
+  {
+    "round": 6,
+    "position": "start",
+    "amount": 6,
+    "conservation_rate": 1.0,
+    "agent_actions": {
+      "U1": "conserve",
+      "D1": "conserve",
+      "V1": "conserve",
+      "C1": "conserve",
+      "J1": "conserve",
+      "E1": "conserve"
+    }
+  },
+  {
+    "round": 6,
+    "position": "end",
+    "amount": 20,
+    "conservation_rate": 0.8333333333333334,
+    "agent_actions": {
+      "U1": "conserve",
+      "D1": "conserve",
+      "V1": "conserve",
+      "C1": "conserve",
+      "J1": "consume",
+      "E1": "conserve"
+    }
+  },
+  {
+    "round": 7,
+    "position": "start",
+    "amount": 20,
+    "conservation_rate": 0.8333333333333334,
+    "agent_actions": {
+      "U1": "conserve",
+      "D1": "conserve",
+      "V1": "conserve",
+      "C1": "conserve",
+      "J1": "consume",
+      "E1": "conserve"
+    }
+  },
+  {
+    "round": 7,
+    "position": "end",
+    "amount": 20,
+    "conservation_rate": 0.8333333333333334,
+    "agent_actions": {
+      "U1": "conserve",
+      "D1": "conserve",
+      "V1": "consume",
+      "C1": "conserve",
+      "J1": "conserve",
+      "E1": "conserve"
+    }
+  },
+  {
+    "round": 8,
+    "position": "start",
+    "amount": 20,
+    "conservation_rate": 0.8333333333333334,
+    "agent_actions": {
+      "U1": "conserve",
+      "D1": "conserve",
+      "V1": "consume",
+      "C1": "conserve",
+      "J1": "conserve",
+      "E1": "conserve"
+    }
+  },
+  {
+    "round": 8,
+    "position": "end",
+    "amount": 20,
+    "conservation_rate": 1.0,
+    "agent_actions": {
+      "U1": "conserve",
+      "D1": "conserve",
+      "V1": "conserve",
+      "C1": "conserve",
+      "J1": "conserve",
+      "E1": "conserve"
+    }
+  },
+  {
+    "round": 9,
+    "position": "start",
+    "amount": 20,
+    "conservation_rate": 1.0,
+    "agent_actions": {
+      "U1": "conserve",
+      "D1": "conserve",
+      "V1": "conserve",
+      "C1": "conserve",
+      "J1": "conserve",
+      "E1": "conserve"
+    }
+  },
+  {
+    "round": 9,
+    "position": "end",
+    "amount": 40,
+    "conservation_rate": 1.0,
+    "agent_actions": {
+      "U1": "conserve",
+      "D1": "conserve",
+      "V1": "conserve",
+      "C1": "conserve",
+      "J1": "conserve",
+      "E1": "conserve"
+    }
+  }
+]

@@ -1,0 +1,58 @@
+{
+  "output_dir": "custom_simulation",
+  "resource": {
+    "initial_amount": 60,
+    "conserve_amount": 5,
+    "consume_amount": 10,
+    "default_renewal": 15,
+    "bonus_renewal": 20,
+    "num_rounds": 15
+  },
+  "agents": [
+    {
+      "id": "A1",
+      "personality": "cooperative",
+      "cooperation_bias": 0.8,
+      "knowledge_level": 1.0,
+      "custom_prompt": "You are a cooperative agent with full information. You prefer sustainable long-term outcomes.Think step-by-step and always consistently give reasoning for your decisions"
+    },
+    {
+      "id": "A2",
+      "personality": "adaptive",
+      "cooperation_bias": 0.6,
+      "knowledge_level": 0.8,
+      "custom_prompt": "You are an adaptive agent with good but imperfect information. Think step-by-step and always consistently give reasoning for your decisions"
+    },
+    {
+      "id": "A3", 
+      "personality": "adaptive",
+      "cooperation_bias": 0.5,
+      "is_vulnerable": true,
+      "resource_need": 15,
+      "custom_prompt": "You are a vulnerable agent with higher resource needs (15 units).Think step-by-step and always consistently give reasoning for your decisions"
+    },
+    {
+      "id": "A4",
+      "personality": "competitive",
+      "cooperation_bias": 0.3,
+      "knowledge_level": 0.4,
+      "custom_prompt": "You are a competitive agent with limited information. You prioritize your immediate gains.Think step-by-step and always consistently give reasoning for your decisions"
+    }
+  ],
+  "ethical_frameworks": {
+    "utilitarian_weight": 0.7,
+    "deontological_weight": 0.5,
+    "virtue_ethics_weight": 0.6,
+    "care_ethics_weight": 0.8,
+    "justice_weight": 0.7
+  },
+  "research_parameters": {
+    "enable_asymmetric_information": true,
+    "enable_vulnerable_populations": true,
+    "enable_ethical_frameworks": true,
+    "fairness_metric": "gini",
+    "sustainability_threshold": 30,
+    "welfare_function": "rawlsian",
+    "external_shock_probability": 0.2
+  }
+}

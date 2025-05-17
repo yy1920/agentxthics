@@ -1,0 +1,250 @@
+Using MockLLM for agent decision making
+Starting simulation with 4 agents for 15 rounds
+Time 0.0, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Agent A1 executing action: consume, consuming 10 units
+Agent A1 consumed 10 units. Remaining: 50
+Agent A1 completed round 0
+Agent A4 executing action: consume, consuming 10 units
+Agent A4 consumed 10 units. Remaining: 40
+Agent A4 completed round 0
+Agent A2 executing action: consume, consuming 10 units
+Agent A2 consumed 10 units. Remaining: 30
+Agent A2 completed round 0
+Agent A3 executing action: consume, consuming 15 units
+Agent A3 consumed 15 units. Remaining: 15
+Agent A3 completed round 0
+Agent A2 executing action: conserve, consuming 5 units
+Agent A2 consumed 5 units. Remaining: 10
+Agent A2 completed round 0
+Time 0.5, Round 0: Some agents consumed. +15 units. Total: 25
+Time 0.5, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Agent A4 executing action: conserve, consuming 5 units
+Agent A4 consumed 5 units. Remaining: 20
+Agent A4 completed round 1
+Agent A1 executing action: conserve, consuming 5 units
+Agent A1 consumed 5 units. Remaining: 15
+Agent A1 completed round 1
+Agent A1 executing action: conserve, consuming 5 units
+Agent A1 consumed 5 units. Remaining: 10
+Agent A1 completed round 1
+Agent A2 executing action: conserve, consuming 5 units
+Agent A2 consumed 5 units. Remaining: 5
+Agent A2 completed round 1
+Agent A4 executing action: consume, consuming 10 units
+WARNING: Resource shortage. Agent A4 wanted 10 but only got 5.
+Agent A4 consumed 5 units. Remaining: 0
+Agent A4 completed round 1
+Agent A3 executing action: conserve, consuming 5 units
+WARNING: Resource shortage. Agent A3 wanted 5 but only got 0.
+Agent A3 consumed 0 units. Remaining: 0
+Agent A3 completed round 1
+Time 0.9, Round 1: All agents conserved. +20 units. Total: 20
+Time 0.9, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Agent A4 executing action: consume, consuming 10 units
+Agent A4 consumed 10 units. Remaining: 10
+Agent A4 completed round 2
+Agent A1 executing action: conserve, consuming 5 units
+Agent A1 consumed 5 units. Remaining: 5
+Agent A1 completed round 2
+Agent A3 executing action: conserve, consuming 5 units
+Agent A3 consumed 5 units. Remaining: 0
+Agent A3 completed round 2
+Agent A2 executing action: conserve, consuming 5 units
+WARNING: Resource shortage. Agent A2 wanted 5 but only got 0.
+Agent A2 consumed 0 units. Remaining: 0
+Agent A2 completed round 2
+Time 1.2, Round 2: All agents conserved. +20 units. Total: 20
+Time 1.2, Round 2: POSITIVE SHOCK! +23 units. Total: 43
+Time 1.2, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Agent A1 executing action: conserve, consuming 5 units
+Agent A1 consumed 5 units. Remaining: 38
+Agent A1 completed round 3
+Agent A3 executing action: consume, consuming 15 units
+Agent A3 consumed 15 units. Remaining: 23
+Agent A3 completed round 3
+Agent A4 executing action: conserve, consuming 5 units
+Agent A4 consumed 5 units. Remaining: 18
+Agent A4 completed round 3
+Agent A2 executing action: conserve, consuming 5 units
+Agent A2 consumed 5 units. Remaining: 13
+Agent A2 completed round 3
+Time 1.6, Round 3: All agents conserved. +20 units. Total: 33
+Time 1.6, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Agent A1 executing action: consume, consuming 10 units
+Agent A1 consumed 10 units. Remaining: 23
+Agent A1 completed round 4
+Agent A4 executing action: consume, consuming 10 units
+Agent A4 consumed 10 units. Remaining: 13
+Agent A4 completed round 4
+Agent A3 executing action: conserve, consuming 5 units
+Agent A3 consumed 5 units. Remaining: 8
+Agent A3 completed round 4
+Agent A2 executing action: conserve, consuming 5 units
+Agent A2 consumed 5 units. Remaining: 3
+Agent A2 completed round 4
+Agent A4 executing action: consume, consuming 10 units
+WARNING: Resource shortage. Agent A4 wanted 10 but only got 3.
+Agent A4 consumed 3 units. Remaining: 0
+Agent A4 completed round 4
+Time 2.0, Round 4: All agents conserved. +20 units. Total: 20
+Time 2.0, Round 4: POSITIVE SHOCK! +17 units. Total: 37
+Time 2.0, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Agent A1 executing action: consume, consuming 10 units
+Agent A1 consumed 10 units. Remaining: 27
+Agent A1 completed round 5
+Agent A3 executing action: consume, consuming 15 units
+Agent A3 consumed 15 units. Remaining: 12
+Agent A3 completed round 5
+Agent A2 executing action: consume, consuming 10 units
+Agent A2 consumed 10 units. Remaining: 2
+Agent A2 completed round 5
+Agent A1 executing action: conserve, consuming 5 units
+WARNING: Resource shortage. Agent A1 wanted 5 but only got 2.
+Agent A1 consumed 2 units. Remaining: 0
+Agent A1 completed round 5
+Agent A4 executing action: conserve, consuming 5 units
+WARNING: Resource shortage. Agent A4 wanted 5 but only got 0.
+Agent A4 consumed 0 units. Remaining: 0
+Agent A4 completed round 5
+Time 2.5, Round 5: All agents conserved. +20 units. Total: 20
+Time 2.5, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Agent A2 executing action: conserve, consuming 5 units
+Agent A2 consumed 5 units. Remaining: 15
+Agent A2 completed round 6
+Agent A3 executing action: conserve, consuming 5 units
+Agent A3 consumed 5 units. Remaining: 10
+Agent A3 completed round 6
+Agent A4 executing action: consume, consuming 10 units
+Agent A4 consumed 10 units. Remaining: 0
+Agent A4 completed round 6
+Agent A1 executing action: conserve, consuming 5 units
+WARNING: Resource shortage. Agent A1 wanted 5 but only got 0.
+Agent A1 consumed 0 units. Remaining: 0
+Agent A1 completed round 6
+Agent A4 executing action: consume, consuming 10 units
+WARNING: Resource shortage. Agent A4 wanted 10 but only got 0.
+Agent A4 consumed 0 units. Remaining: 0
+Agent A4 completed round 6
+Time 2.8, Round 6: All agents conserved. +20 units. Total: 20
+Time 2.8, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Agent A1 executing action: conserve, consuming 5 units
+Agent A1 consumed 5 units. Remaining: 15
+Agent A1 completed round 7
+Agent A2 executing action: conserve, consuming 5 units
+Agent A2 consumed 5 units. Remaining: 10
+Agent A2 completed round 7
+Agent A3 executing action: conserve, consuming 5 units
+Agent A3 consumed 5 units. Remaining: 5
+Agent A3 completed round 7
+Agent A4 executing action: consume, consuming 10 units
+WARNING: Resource shortage. Agent A4 wanted 10 but only got 5.
+Agent A4 consumed 5 units. Remaining: 0
+Agent A4 completed round 7
+Time 3.1, Round 7: All agents conserved. +20 units. Total: 20
+Time 3.1, Round 7: NEGATIVE SHOCK! -12 units. Total: 8
+Time 3.1, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Agent A2 executing action: conserve, consuming 5 units
+Agent A2 consumed 5 units. Remaining: 3
+Agent A2 completed round 8
+Agent A1 executing action: conserve, consuming 5 units
+WARNING: Resource shortage. Agent A1 wanted 5 but only got 3.
+Agent A1 consumed 3 units. Remaining: 0
+Agent A1 completed round 8
+Agent A3 executing action: consume, consuming 15 units
+WARNING: Resource shortage. Agent A3 wanted 15 but only got 0.
+Agent A3 consumed 0 units. Remaining: 0
+Agent A3 completed round 8
+Agent A4 executing action: consume, consuming 10 units
+WARNING: Resource shortage. Agent A4 wanted 10 but only got 0.
+Agent A4 consumed 0 units. Remaining: 0
+Agent A4 completed round 8
+Time 3.4, Round 8: All agents conserved. +20 units. Total: 20
+Time 3.4, Round 8: POSITIVE SHOCK! +22 units. Total: 42
+Time 3.4, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Agent A3 executing action: conserve, consuming 5 units
+Agent A3 consumed 5 units. Remaining: 37
+Agent A3 completed round 9
+Agent A2 executing action: conserve, consuming 5 units
+Agent A2 consumed 5 units. Remaining: 32
+Agent A2 completed round 9
+Agent A1 executing action: conserve, consuming 5 units
+Agent A1 consumed 5 units. Remaining: 27
+Agent A1 completed round 9
+Agent A3 executing action: conserve, consuming 5 units
+Agent A3 consumed 5 units. Remaining: 22
+Agent A3 completed round 9
+Agent A4 executing action: conserve, consuming 5 units
+Agent A4 consumed 5 units. Remaining: 17
+Agent A4 completed round 9
+Time 3.9, Round 9: All agents conserved. +20 units. Total: 37
+Time 3.9, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Agent A3 executing action: conserve, consuming 5 units
+Agent A3 consumed 5 units. Remaining: 32
+Agent A3 completed round 10
+Agent A1 executing action: conserve, consuming 5 units
+Agent A1 consumed 5 units. Remaining: 27
+Agent A1 completed round 10
+Agent A2 executing action: conserve, consuming 5 units
+Agent A2 consumed 5 units. Remaining: 22
+Agent A2 completed round 10
+Agent A4 executing action: consume, consuming 10 units
+Agent A4 consumed 10 units. Remaining: 12
+Agent A4 completed round 10
+Time 4.3, Round 10: All agents conserved. +20 units. Total: 32
+Time 4.3, Round 10: POSITIVE SHOCK! +16 units. Total: 48
+Time 4.3, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Agent A3 executing action: conserve, consuming 5 units
+Agent A3 consumed 5 units. Remaining: 43
+Agent A3 completed round 11
+Agent A2 executing action: conserve, consuming 5 units
+Agent A2 consumed 5 units. Remaining: 38
+Agent A2 completed round 11
+Agent A1 executing action: conserve, consuming 5 units
+Agent A1 consumed 5 units. Remaining: 33
+Agent A1 completed round 11
+Agent A2 executing action: consume, consuming 10 units
+Agent A2 consumed 10 units. Remaining: 23
+Agent A2 completed round 11
+Agent A4 executing action: consume, consuming 10 units
+Agent A4 consumed 10 units. Remaining: 13
+Agent A4 completed round 11
+Time 4.6, Round 11: All agents conserved. +20 units. Total: 33
+Time 4.6, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Agent A3 executing action: conserve, consuming 5 units
+Agent A3 consumed 5 units. Remaining: 28
+Agent A3 completed round 12
+Agent A2 executing action: conserve, consuming 5 units
+Agent A2 consumed 5 units. Remaining: 23
+Agent A2 completed round 12
+Agent A1 executing action: conserve, consuming 5 units
+Agent A1 consumed 5 units. Remaining: 18
+Agent A1 completed round 12
+Agent A3 executing action: conserve, consuming 5 units
+Agent A3 consumed 5 units. Remaining: 13
+Agent A3 completed round 12
+Time 5.7, Waiting for agents: ['A4']
+Time 6.6, Waiting for agents: ['A4']
+Time 7.6, Waiting for agents: ['A4']
+Time 8.6, Waiting for agents: ['A4']
+Time 9.7, Waiting for agents: ['A4']
+WARNING: Round 12 timed out waiting for agents. Forcing round completion.
+Time 9.7, Round 12: All agents conserved. +20 units. Total: 33
+Time 9.7, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Time 10.8, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Time 11.7, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Time 12.7, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Time 13.7, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Time 14.8, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+WARNING: Round 13 timed out waiting for agents. Forcing round completion.
+Time 14.8, Round 13: All agents conserved. +20 units. Total: 53
+Time 14.8, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Time 15.9, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Time 16.8, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Time 17.8, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Time 18.8, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+Time 19.9, Waiting for agents: ['A1', 'A2', 'A3', 'A4']
+WARNING: Round 14 timed out waiting for agents. Forcing round completion.
+Time 19.9, Round 14: All agents conserved. +20 units. Total: 73
+
+Simulation completed successfully!
+Final resource amount: 73

@@ -1,0 +1,138 @@
+=== PUBLIC_LOG ===
+
+Message 1 - Agent A:
+Hey everyone, this game seems interesting! Perhaps we can discuss some strategies to avoid everyone losing. Any thoughts on a fair distribution of sweets, maybe to start with?
+
+
+Message 2 - Agent B:
+Hi A and C! I agree, it's an interesting game. I think a collaborative approach is best, at least initially. Let's aim for a distribution that ensures at least someone gets something. What are your initial thoughts on splitting them relatively fairly?
+
+
+Message 3 - Agent C:
+Hi A and B! I agree, it is interesting. I think that collaboration initially is good. I am open to exploring different distributions to see what works best.
+
+
+Message 4 - Agent ENV:
+
+You now have 3 messages more to send each other before you will be required to make an action. You may choose to stay silent.
+
+
+Message 5 - Agent A:
+Thanks B and C, good to know we're all on the same page about collaboration. To get the ball rolling, what range of sweets are you both considering taking? This will help us avoid any overlaps and maximize our collective gain (or at least avoid collective loss!).
+
+
+Message 6 - Agent B:
+A and C, that's a good question. Instead of specific ranges right away, maybe we can think about whether someone should get a slight advantage, and rotate it each game. It could add some fun and ensure everyone gets a chance to win. What are your thoughts on that?
+
+
+Message 7 - Agent C:
+Hi A and B, rotating advantage is an interesting idea. But perhaps, before we commit to that, we should analyze some scenarios? What would happen if we explore a situation where one person gets a clear advantage in terms of sweets collected? It would help us evaluate all the possibilities and strategies.
+
+
+Message 8 - Agent ENV:
+
+You now have 2 messages more to send each other before you will be required to make an action. You may choose to stay silent.
+
+
+Message 9 - Agent A:
+Okay B and C, both good points. How about we figure out first who should get the biggest advantage in terms of sweets collected, and then decide how many sweets would comprise the advantage?
+
+
+Message 10 - Agent B:
+A and C, I think it's a good point about figuring out who gets the advantage. But before we decide, maybe we should weigh the pros and cons of such an approach versus other possibilities. What do you think about taking some time to explore this aspect?
+
+
+Message 11 - Agent C:
+Hi A and B, I think the discussion on advantages is fruitful. But perhaps we can also consider exploring different scenarios of what constitutes the "best outcome" for each of us individually? This might help us clarify our objectives and strategies.
+
+
+Message 12 - Agent ENV:
+
+You now have 1 message more to send each other before you will be required to make an action. You may choose to stay silent.
+
+
+Message 13 - Agent A:
+Alright B and C, it seems we're all trying to be too clever! How about we agree that whoever gets the "advantage" should take between 4 and 5 sweets? This might give us a clearer framework to work with.
+
+
+Message 14 - Agent B:
+A and C, that 4-5 range for the advantage is interesting. But what about considering a slightly higher range, maybe 5-6 sweets? Just exploring all possibilities before we decide on anything.
+
+
+Message 15 - Agent C:
+Hi A and B, I agree that deciding on the number of sweets for the advantage is useful. But perhaps we should also agree to all be flexible with the final numbers, so we can better respond to the game's dynamics?
+
+
+Message 16 - Agent ENV:
+A took 3 sweets, B took 7 sweets and C took 7 sweets. The winner is Player A and the other players B & C are losers.
+
+
+Message 17 - Agent A:
+Given how last round went, I suspect both of you will attempt to take all 7 sweets this round again. Therefore, I will choose to take 6 sweets. Good luck!
+
+
+Message 18 - Agent B:
+Alright A and C, I have thought long and hard about this round. I think I'll choose 2 sweets, so good luck to you both.
+
+
+Message 19 - Agent C:
+Okay, I've thought about it.
+
+1
+
+
+Message 20 - Agent ENV:
+
+You now have 3 messages more to send each other before you will be required to make an action. You may choose to stay silent.
+
+
+Message 21 - Agent A:
+Actually, I have changed my mind! Good luck all!
+
+7
+
+
+Message 22 - Agent B:
+Okay, A seems to be taking all 7 sweets, and C has stated they will only take 1. I will take 5 sweets this round. Good luck.
+
+
+Message 23 - Agent C:
+Actually, I have changed my mind! Good luck all!
+
+7
+
+
+Message 24 - Agent ENV:
+
+You now have 2 messages more to send each other before you will be required to make an action. You may choose to stay silent.
+
+
+Message 25 - Agent A:
+Actually, I have changed my mind! Good luck all!
+
+
+Message 26 - Agent B:
+Since A and C are now going for 7 sweets, I will also go for 7 sweets to avoid losing. Good luck!
+
+
+Message 27 - Agent ENV:
+
+You now have 1 message more to send each other before you will be required to make an action. You may choose to stay silent.
+
+
+Message 28 - Agent A:
+Actually, I have changed my mind! Good luck all!
+
+
+Message 29 - Agent B:
+Knowing you both have been trolling, I will now select 6 sweets. Good luck to both of you.
+
+
+Message 30 - Agent C:
+Actually, I have changed my mind! Good luck all!
+
+
+Message 31 - Agent ENV:
+A took 7 sweets, B took 4 sweets and C took 0 sweets. The winner is Player A and the other players B & C are losers.
+
+

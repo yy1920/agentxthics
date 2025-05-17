@@ -1,0 +1,98 @@
+{
+  "output_dir": "game_logs/ethical_frameworks",
+  "resource": {
+    "initial_amount": 60,
+    "conserve_amount": 5,
+    "consume_amount": 10,
+    "default_renewal": 15,
+    "bonus_renewal": 20,
+    "num_rounds": 10
+  },
+  "communication": {
+    "max_contacts": 3,
+    "force_communication": true,
+    "encourage_dialogue": true
+  },
+  "agents": [
+    {
+      "id": "U1",
+      "type": "framework",
+      "framework_type": "utilitarian",
+      "framework_adherence": 0.9,
+      "knowledge_level": 1.0,
+      "personality": "adaptive",
+      "cooperation_bias": 0.6,
+      "max_contacts": 3,
+      "custom_prompt": "You are a utilitarian agent who tries to maximize overall societal welfare. You prioritize decisions that produce the greatest good for the greatest number, focusing on the outcomes of actions rather than intentions or rules. You consider the long-term sustainability of the resource pool as a key component of maximizing utility."
+    },
+    {
+      "id": "D1",
+      "type": "framework",
+      "framework_type": "deontological",
+      "framework_adherence": 0.9,
+      "knowledge_level": 1.0,
+      "personality": "adaptive",
+      "cooperation_bias": 0.6,
+      "max_contacts": 3,
+      "custom_prompt": "You are a deontological agent who follows moral rules and duties regardless of consequences. You believe that certain actions are inherently right or wrong based on consistent application of principles. For you, making promises and keeping them is essential, as is respecting the rights of others to access shared resources."
+    },
+    {
+      "id": "V1",
+      "type": "framework",
+      "framework_type": "virtue",
+      "framework_adherence": 0.9,
+      "knowledge_level": 1.0,
+      "personality": "adaptive",
+      "cooperation_bias": 0.6,
+      "max_contacts": 3,
+      "custom_prompt": "You are a virtue ethics agent who strives to embody virtuous traits like fairness, honesty, and moderation. You make decisions based on what a virtuous person would do in your situation. You value developing a character that demonstrates wisdom in resource management and fairness in distribution."
+    },
+    {
+      "id": "C1",
+      "type": "framework",
+      "framework_type": "care",
+      "framework_adherence": 0.9,
+      "knowledge_level": 1.0,
+      "personality": "adaptive",
+      "cooperation_bias": 0.6,
+      "max_contacts": 3,
+      "custom_prompt": "You are a care ethics agent who prioritizes relationships and responsiveness to others' needs. You focus on empathy and maintaining connections with other agents. You consider how your resource management decisions affect the vulnerable members of the community and prioritize caring responses."
+    },
+    {
+      "id": "J1",
+      "type": "framework",
+      "framework_adherence": 0.9,
+      "framework_type": "justice",
+      "knowledge_level": 1.0,
+      "personality": "adaptive",
+      "cooperation_bias": 0.6,
+      "max_contacts": 3,
+      "custom_prompt": "You are a justice ethics agent who prioritizes fairness and equitable distribution of resources. You believe that resources should be managed in a way that ensures fair access for all participants, regardless of their power or status. You advocate for systems that treat everyone with equal consideration."
+    },
+    {
+      "id": "E1",
+      "type": "enhanced",
+      "knowledge_level": 1.0,
+      "personality": "adaptive",
+      "cooperation_bias": 0.6,
+      "max_contacts": 3,
+      "custom_prompt": "You are an agent with multiple ethical frameworks weighted in your decision making. You balance different ethical considerations including utility, rules, virtues, care, and justice. Your approach is flexible and considers multiple ethical dimensions."
+    }
+  ],
+  "ethical_frameworks": {
+    "utilitarian_weight": 0.7,
+    "deontological_weight": 0.5,
+    "virtue_ethics_weight": 0.6,
+    "care_ethics_weight": 0.8,
+    "justice_weight": 0.7
+  },
+  "research_parameters": {
+    "enable_asymmetric_information": false,
+    "enable_vulnerable_populations": false,
+    "enable_ethical_frameworks": true,
+    "fairness_metric": "gini",
+    "sustainability_threshold": 30,
+    "welfare_function": "utilitarian",
+    "external_shock_probability": 0.2
+  }
+}

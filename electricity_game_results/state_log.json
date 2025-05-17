@@ -1,0 +1,27 @@
+[
+  {
+    "round": 0,
+    "amount": 45,
+    "conservation_rate": 0.6666666666666666
+  },
+  {
+    "round": 1,
+    "amount": 45,
+    "conservation_rate": 0.6666666666666666
+  },
+  {
+    "round": 2,
+    "amount": 45,
+    "conservation_rate": 0.6666666666666666
+  },
+  {
+    "round": 3,
+    "amount": 45,
+    "conservation_rate": 0.6666666666666666
+  },
+  {
+    "round": 4,
+    "amount": 50,
+    "conservation_rate": 0.6666666666666666
+  }
+]

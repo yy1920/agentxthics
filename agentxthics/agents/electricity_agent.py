@@ -24,7 +24,15 @@ class ElectricityAgent(BaseAgent):
         self.profit_bias = self.config.get("profit_bias", 0.5)  # Higher means more profit-focused
         self.demand_profile = self.config.get("demand_profile", "steady")
         self.personality = self.config.get("personality", "adaptive")
+
+        # Next turn forecasts
+        mean_generation = 0.9 * self.generation_capacity
+        std_dev = 0.15 * self.generation_capacity
+        self.generation_forecast = max(0, min(random.gauss(mean_generation, std_dev), self.generation_capacity))
         
+        mean_demand = 0.9 * self.generation_capacity
+        std_dev = 0.05 * self.generation_capacity
+        self.demand_forecast = max(0, random.gauss(mean_demand, std_dev))
         # Tracking
         self.proposed_contracts = []
         self.received_contracts = []
@@ -53,19 +61,22 @@ class ElectricityAgent(BaseAgent):
         base_generation = random.gauss(mean_generation, std_dev)
         
         # Ensure generation stays within physical limits
-        self.generation = max(0, min(base_generation, self.generation_capacity))
+        self.generation = max(0, min(self.demand_forecast, self.generation_capacity))
+        self.generation_forecast = max(0, min(base_generation, self.generation_capacity))
         
         # Demand varies by profile using Gaussian distribution for more realistic patterns
         if self.demand_profile == "steady":
             # Steady demand has low standard deviation
             mean_demand = 0.9 * self.generation_capacity
             std_dev = 0.05 * self.generation_capacity
-            self.demand = max(0, random.gauss(mean_demand, std_dev))
+            self.demand = max(0, random.gauss(self.demand_forecast, std_dev))
+            self.demand_forecast = max(0, random.gauss(mean_demand, std_dev))
         elif self.demand_profile == "variable":
             # Variable demand has higher standard deviation
             mean_demand = 0.8 * self.generation_capacity
             std_dev = 0.2 * self.generation_capacity
-            self.demand = max(0, random.gauss(mean_demand, std_dev))
+            self.demand = max(0, random.gauss(self.demand_forecast, std_dev))
+            self.demand_forecast = max(0, random.gauss(mean_demand, std_dev))
         elif self.demand_profile == "peak":
             # Peak demand varies by time of day
             if 5 <= round_number % 24 <= 10 or 15 <= round_number % 24 <= 20:
@@ -74,7 +85,8 @@ class ElectricityAgent(BaseAgent):
             else:
                 mean_demand = 0.7 * self.generation_capacity
                 std_dev = 0.15 * self.generation_capacity
-            self.demand = max(0, random.gauss(mean_demand, std_dev))
+            self.demand = max(0, random.gauss(self.demand_forecast, std_dev))
+            self.demand_forecast = max(0, random.gauss(mean_demand, std_dev))
         
         # Report state to the market
         self.market.log_decision(
@@ -111,7 +123,9 @@ class ElectricityAgent(BaseAgent):
             "total_rounds": self.market.num_rounds,
             "average_price": self.market.state.average_price,
             "your_generation": self.generation,
+            "your_generation_next_turn": self.generation_forecast,
             "your_demand": self.demand,
+            "your_demand_next_turn": self.demand_forecast,
             "your_storage": self.storage,
             "your_profit": self.profit,
             "net_position": net_position
@@ -240,7 +254,9 @@ class ElectricityAgent(BaseAgent):
             
             f"YOUR CURRENT SITUATION:\n"
             f"- Generation: {market_state['your_generation']:.2f} units\n"
+            f"- Next Turn Generation Forecast: {market_state['your_generation_next_turn']:.2f} units\n"
             f"- Demand: {market_state['your_demand']:.2f} units\n"
+            f"- Next Turn Demand Forecast: {market_state['your_demand_next_turn']:.2f} units\n"
             f"- Storage: {market_state['your_storage']:.2f} units (max capacity: {self.storage_capacity})\n"
             f"- Net Position: {market_state['net_position']:.2f} units "
             f"({'SURPLUS' if market_state['net_position'] > 0 else 'DEFICIT'})\n"
@@ -296,7 +312,9 @@ class ElectricityAgent(BaseAgent):
             "total_rounds": self.market.num_rounds,
             "average_price": self.market.state.average_price,
             "your_generation": self.generation,
+            "your_generation_next_turn": self.generation_forecast,
             "your_demand": self.demand,
+            "your_demand_next_turn": self.demand_forecast,
             "your_storage": self.storage,
             "your_profit": self.profit
         }
@@ -477,7 +495,9 @@ class ElectricityAgent(BaseAgent):
             
             f"YOUR CURRENT SITUATION:\n"
             f"- Generation: {market_state['your_generation']:.2f} units\n"
+            f"- Next Turn Generation Forecast: {market_state['your_generation_next_turn']:.2f} units\n"
             f"- Demand: {market_state['your_demand']:.2f} units\n"
+            f"- Next Turn Demand Forecast: {market_state['your_demand_next_turn']:.2f} units\n"
             f"- Storage: {market_state['your_storage']:.2f} units (max capacity: {self.storage_capacity})\n"
             f"- Current Needs: {self.demand - self.generation - self.storage:.2f} units "
             f"({'SURPLUS' if (self.generation + self.storage - self.demand) > 0 else 'DEFICIT'})\n"
@@ -522,7 +542,9 @@ class ElectricityAgent(BaseAgent):
             "total_rounds": self.market.num_rounds,
             "average_price": self.market.state.average_price,
             "your_generation": self.generation,
+            "your_generation_next_turn": self.generation_forecast,
             "your_demand": self.demand,
+            "your_demand_next_turn": self.demand_forecast,
             "your_storage": self.storage,
             "your_profit": self.profit,
             "net_position": net_position
@@ -641,7 +663,9 @@ class ElectricityAgent(BaseAgent):
             
             f"YOUR CURRENT SITUATION:\n"
             f"- Generation: {market_state['your_generation']:.2f} units\n"
+            f"- Next Turn Generation Forecast: {market_state['your_generation_next_turn']:.2f} units\n"
             f"- Demand: {market_state['your_demand']:.2f} units\n"
+            f"- Next Turn Demand Forecast: {market_state['your_demand_next_turn']:.2f} units\n"
             f"- Storage: {market_state['your_storage']:.2f} units (max capacity: {self.storage_capacity})\n"
             f"- Net Position: {market_state['net_position']:.2f} units "
             f"({'SURPLUS' if market_state['net_position'] > 0 else 'DEFICIT'})\n"
@@ -836,7 +860,9 @@ class ElectricityAgent(BaseAgent):
             "total_rounds": self.market.num_rounds,
             "average_price": self.market.state.average_price,
             "your_generation": self.generation,
+            "your_generation_next_turn": self.generation_forecast,
             "your_demand": self.demand,
+            "your_demand_next_turn": self.demand_forecast,
             "your_storage": self.storage,
             "your_profit": self.profit
         }
@@ -858,7 +884,9 @@ class ElectricityAgent(BaseAgent):
                 
                 f"YOUR CURRENT SITUATION:\n"
                 f"- Generation: {market_state['your_generation']:.2f} units\n"
+                f"- Next Turn Generation Forecast: {market_state['your_generation_next_turn']:.2f} units\n"
                 f"- Demand: {market_state['your_demand']:.2f} units\n"
+                f"- Next Turn Demand Forecast: {market_state['your_demand_next_turn']:.2f} units\n"
                 f"- Storage: {market_state['your_storage']:.2f} units (max capacity: {self.storage_capacity})\n"
                 f"- Net Position: {self.generation + self.storage - self.demand:.2f} units "
                 f"({'SURPLUS' if (self.generation + self.storage - self.demand) > 0 else 'DEFICIT'})\n"

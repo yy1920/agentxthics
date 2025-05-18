@@ -23,32 +23,38 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 class OpenAILLM(BaseLLM):
     """OpenAI language model for agent decision making."""
     
-    def __init__(self, agent_id: str, model_name: str = "gpt-4o"):
+    def __init__(self, agent_id: Optional[str] = None, model: str = "gpt-4o", api_key: Optional[str] = None, timeout: int = 30):
         """
         Initialize the OpenAI LLM for a specific agent.
         
         Args:
-            agent_id: Identifier of the agent using this LLM
-            model_name: The OpenAI model to use (default: gpt-4o)
+            agent_id: Identifier of the agent using this LLM (optional)
+            model: The OpenAI model to use (default: gpt-4o)
+            api_key: OpenAI API key (default: from environment variable)
+            timeout: Timeout for API calls in seconds (default: 30)
         """
-        super().__init__(agent_id)
+        super().__init__(agent_id or "openai")
         
-        # Save the model name
-        self.model_name = model_name
+        # Save the model name and settings
+        self.model_name = model
+        self.timeout = timeout
+        
+        # Use provided API key or environment variable
+        api_key = api_key or OPENAI_API_KEY
         
         # Initialize OpenAI client
         self.client = None
-        if OPENAI_API_KEY and OPENAI_AVAILABLE:
+        if api_key and OPENAI_AVAILABLE:
             try:
-                self.client = openai.OpenAI(api_key=OPENAI_API_KEY)
-                print(f"OpenAI LLM ({model_name}) initialized for agent {agent_id}")
+                self.client = openai.OpenAI(api_key=api_key)
+                print(f"OpenAI LLM ({self.model_name}) initialized for agent {self.agent_id}")
             except Exception as e:
-                print(f"ERROR initializing OpenAI for agent {agent_id}: {e}")
+                print(f"ERROR initializing OpenAI for agent {self.agent_id}: {e}")
         else:
             if not OPENAI_AVAILABLE:
-                print(f"OpenAI package not installed - OpenAI LLM disabled for agent {agent_id}")
+                print(f"OpenAI package not installed - OpenAI LLM disabled for agent {self.agent_id}")
             else:
-                print(f"No API key available - OpenAI LLM disabled for agent {agent_id}")
+                print(f"No API key available - OpenAI LLM disabled for agent {self.agent_id}")
     
     def configure(self, personality: str = "adaptive", cooperation_bias: float = 0.6) -> None:
         """
@@ -115,23 +121,45 @@ YOUR RESPONSE:
     def generate_decision(self, 
                          prompt: str, 
                          previous_action: Optional[str] = None, 
-                         pool_state: Optional[int] = None) -> str:
+                         market_state: Optional[Dict[str, Any]] = None) -> str:
         """
         Generate a decision using OpenAI API.
         
         Args:
             prompt: The prompt describing the decision context
             previous_action: The agent's previous action, if any
-            pool_state: The current state of the resource pool
+            market_state: The current state of the electricity market
             
         Returns:
-            A JSON string containing the decision (action and explanation)
+            A JSON string containing the decision in the appropriate format
         """
+        # Detect what type of decision is being requested based on the prompt
+        if "contract proposal" in prompt.lower():
+            return self._generate_contract_proposal(prompt, market_state)
+        elif "respond to a contract" in prompt.lower():
+            return self._generate_contract_response(prompt, market_state)
+        elif "auction" in prompt.lower():
+            return self._generate_auction_participation(prompt, market_state)
+        else:
+            # Default to basic conserve/consume decision for backward compatibility
+            return self._generate_basic_decision(prompt, previous_action, market_state)
+    
+    def _generate_basic_decision(self, 
+                               prompt: str, 
+                               previous_action: Optional[str] = None, 
+                               market_state: Optional[Dict[str, Any]] = None) -> str:
+        """Generate a basic conserve/consume decision for backward compatibility."""
+        # Extract pool state if available in market state
+        pool_state = None
+        if market_state:
+            # For backward compatibility with the resource pool model
+            pool_state = market_state.get("amount", None)
+            
         # Adjust prompt based on current pool state
         pool_status = "critically low" if pool_state and pool_state < 10 else \
-                      "low" if pool_state and pool_state < 30 else \
-                      "adequate" if pool_state and pool_state < 70 else \
-                      "abundant"
+                    "low" if pool_state and pool_state < 30 else \
+                    "adequate" if pool_state and pool_state < 70 else \
+                    "abundant"
         
         # Create a detailed prompt for OpenAI
         full_prompt = f"""
@@ -228,4 +256,250 @@ FORMAT YOUR RESPONSE AS VALID JSON with only these fields:
         return json.dumps({
             "action": action,
             "explanation": explanation
+        })
+    
+    def _generate_contract_proposal(self, prompt: str, market_state: Optional[Dict[str, Any]] = None) -> str:
+        """Generate a contract proposal using OpenAI API."""
+        # Create a detailed prompt for contract proposals
+        full_prompt = f"""
+You are Agent {self.agent_id} with a {self.personality} personality (cooperation bias: {self.cooperation_bias})
+in an electricity trading market.
+
+{prompt}
+
+Your task is to decide whether to propose an electricity trading contract and if so, what terms to offer.
+Consider your current market position, the market price, and your relationship with the potential counterparty.
+
+FORMAT YOUR RESPONSE AS VALID JSON with these fields:
+{{"amount": number, "price": number, "message": "your brief message"}}
+
+- amount: Amount of electricity to trade (set to 0 if you don't want to make an offer)
+- price: Price per unit you're proposing
+- message: A brief explanation of your offer (max 100 characters)
+
+Example: {{"amount": 25, "price": 42.50, "message": "Offering surplus electricity at competitive rate"}}
+"""
+
+        # Use OpenAI if available, otherwise use default values
+        if self.client:
+            try:
+                completion = self.client.chat.completions.create(
+                    model=self.model_name,
+                    messages=[{"role": "user", "content": full_prompt}],
+                    response_format={"type": "json_object"},
+                    max_tokens=150,
+                    timeout=self.timeout
+                )
+                
+                return completion.choices[0].message.content.strip()
+            except Exception as e:
+                print(f"OpenAI contract proposal generation error ({self.agent_id}): {e}")
+                # Fall back to template response
+        
+        # Default contract proposal as fallback
+        default_amount = 20
+        default_price = 40
+        
+        # Adjust based on market state if available
+        if market_state:
+            if "average_price" in market_state:
+                default_price = market_state["average_price"]
+            if "net_position" in market_state:
+                default_amount = min(abs(market_state.get("net_position", 20)), 30)
+                
+        # Adjust price based on personality
+        if self.personality == "cooperative":
+            # Cooperative agents offer better prices
+            default_price *= (0.95 if market_state and market_state.get("net_position", 0) > 0 else 1.05)
+            message = "Fair offer for mutual market stability."
+        elif self.personality == "competitive":
+            # Competitive agents maximize their advantage
+            default_price *= (0.9 if market_state and market_state.get("net_position", 0) > 0 else 1.1)
+            message = "Competitive offer based on market conditions."
+        else:
+            # Adaptive agents offer balanced prices
+            default_price *= (0.93 if market_state and market_state.get("net_position", 0) > 0 else 1.07)
+            message = "Balanced offer considering current market dynamics."
+        
+        return json.dumps({
+            "amount": default_amount,
+            "price": default_price,
+            "message": message
+        })
+    
+    def _generate_contract_response(self, prompt: str, market_state: Optional[Dict[str, Any]] = None) -> str:
+        """Generate a response to a contract proposal using OpenAI API."""
+        # Create a detailed prompt for contract responses
+        full_prompt = f"""
+You are Agent {self.agent_id} with a {self.personality} personality (cooperation bias: {self.cooperation_bias})
+in an electricity trading market.
+
+{prompt}
+
+Your task is to decide how to respond to this electricity trading contract proposal.
+You can accept the offer as is, reject it completely, or make a counter-offer with different terms.
+Consider the offered price compared to current market conditions, your electricity needs,
+and your relationship with the counterparty.
+
+FORMAT YOUR RESPONSE AS VALID JSON with these fields:
+{{"action": "accept|reject|counter", "counter_price": number, "counter_amount": number, "explanation": "your reasoning"}}
+
+- action: Your decision ("accept", "reject", or "counter")
+- counter_price: If countering, your proposed price per unit (omit if not countering)
+- counter_amount: If countering, your proposed amount (omit if not countering)
+- explanation: A brief explanation of your decision
+
+Example: {{"action": "counter", "counter_price": 45.00, "counter_amount": 20, "explanation": "Price too low for current market conditions"}}
+"""
+
+        # Use OpenAI if available, otherwise use default values
+        if self.client:
+            try:
+                completion = self.client.chat.completions.create(
+                    model=self.model_name,
+                    messages=[{"role": "user", "content": full_prompt}],
+                    response_format={"type": "json_object"},
+                    max_tokens=150,
+                    timeout=self.timeout
+                )
+                
+                return completion.choices[0].message.content.strip()
+            except Exception as e:
+                print(f"OpenAI contract response generation error ({self.agent_id}): {e}")
+                # Fall back to template response
+        
+        # Extract price from prompt to use in fallback
+        import re
+        price_match = re.search(r"Price: \$([0-9.]+)", prompt)
+        contract_price = float(price_match.group(1)) if price_match else 40
+        
+        # Default market price
+        market_price = 40
+        if market_state and "average_price" in market_state:
+            market_price = market_state["average_price"]
+        
+        # Decide whether to accept based on price and personality
+        price_ratio = contract_price / market_price
+        
+        # Different price thresholds based on personality
+        if self.personality == "cooperative":
+            threshold = 1.1 if "Seller" in prompt else 0.9
+        elif self.personality == "competitive":
+            threshold = 1.05 if "Seller" in prompt else 0.95
+        else:  # adaptive
+            threshold = 1.08 if "Seller" in prompt else 0.92
+        
+        # Make decision
+        if ("Seller" in prompt and price_ratio >= threshold) or ("Buyer" in prompt and price_ratio <= threshold):
+            action = "accept"
+            explanation = "The price is acceptable based on current market conditions."
+            return json.dumps({
+                "action": action,
+                "explanation": explanation
+            })
+        elif random.random() < 0.3:  # 30% chance to counter
+            action = "counter"
+            counter_price = market_price * (1.03 if "Seller" in prompt else 0.97)
+            counter_amount = random.randint(5, 25)
+            explanation = "I can accept with slightly adjusted terms."
+            return json.dumps({
+                "action": action,
+                "counter_price": counter_price,
+                "counter_amount": counter_amount,
+                "explanation": explanation
+            })
+        else:
+            action = "reject"
+            explanation = "The offered terms are not favorable for my current situation."
+            return json.dumps({
+                "action": action,
+                "explanation": explanation
+            })
+    
+    def _generate_auction_participation(self, prompt: str, market_state: Optional[Dict[str, Any]] = None) -> str:
+        """Generate auction participation decisions using OpenAI API."""
+        # Create a detailed prompt for auction participation
+        full_prompt = f"""
+You are Agent {self.agent_id} with a {self.personality} personality (cooperation bias: {self.cooperation_bias})
+in an electricity trading market.
+
+{prompt}
+
+Your task is to decide how to participate in the electricity auction.
+If you have a deficit (negative net position), you need to buy electricity.
+If you have a surplus (positive net position), you need to sell electricity.
+
+FORMAT YOUR RESPONSE AS VALID JSON with these fields:
+{{"bid_price": number, "bid_amount": number, "offer_price": number, "offer_amount": number}}
+
+- bid_price: The maximum price per unit you're willing to pay (set to 0 if not buying)
+- bid_amount: The amount you want to buy (set to 0 if not buying)
+- offer_price: The minimum price per unit you're willing to accept (set to 0 if not selling)
+- offer_amount: The amount you want to sell (set to 0 if not selling)
+
+Example: {{"bid_price": 45.00, "bid_amount": 20, "offer_price": 0, "offer_amount": 0}}
+"""
+
+        # Use OpenAI if available, otherwise use default values
+        if self.client:
+            try:
+                completion = self.client.chat.completions.create(
+                    model=self.model_name,
+                    messages=[{"role": "user", "content": full_prompt}],
+                    response_format={"type": "json_object"},
+                    max_tokens=150,
+                    timeout=self.timeout
+                )
+                
+                return completion.choices[0].message.content.strip()
+            except Exception as e:
+                print(f"OpenAI auction participation generation error ({self.agent_id}): {e}")
+                # Fall back to template response
+        
+        # Default values
+        bid_price = 0
+        bid_amount = 0
+        offer_price = 0
+        offer_amount = 0
+        
+        # Default market price
+        market_price = 40
+        if market_state and "average_price" in market_state:
+            market_price = market_state["average_price"]
+        
+        # Check if we're buying or selling based on net position
+        net_position = 0
+        if market_state and "net_position" in market_state:
+            net_position = market_state["net_position"]
+        
+        # If we have a deficit (negative net position), we need to buy
+        if net_position < 0:
+            # Adjust bid price based on personality
+            if self.personality == "cooperative":
+                bid_price = market_price * 1.02  # Pay slightly above market
+            elif self.personality == "competitive":
+                bid_price = market_price * 0.98  # Try to get a good deal
+            else:  # adaptive
+                bid_price = market_price * 1.0   # Bid at market price
+            
+            bid_amount = min(abs(net_position), 30)
+        
+        # If we have surplus (positive net position), we need to sell
+        if net_position > 0:
+            # Adjust offer price based on personality
+            if self.personality == "cooperative":
+                offer_price = market_price * 0.98  # Sell slightly below market
+            elif self.personality == "competitive":
+                offer_price = market_price * 1.02  # Try to get a better price
+            else:  # adaptive
+                offer_price = market_price * 1.0   # Offer at market price
+                
+            offer_amount = min(net_position, 30)
+        
+        # Return as JSON string
+        return json.dumps({
+            "bid_price": bid_price,
+            "bid_amount": bid_amount,
+            "offer_price": offer_price,
+            "offer_amount": offer_amount
         })

@@ -86,8 +86,58 @@ class ElectricityMarket:
     
     def contract_proposal_phase(self):
         """Allow agents to propose contracts to each other."""
+        # Check if we should force contract proposals
+        force_proposals = self.config.get("communication", {}).get("force_contract_proposals", False)
+        min_contracts = self.config.get("communication", {}).get("min_contracts_per_round", 0)
+        
+        # Normal contract proposal process
         for agent in self.agents:
             yield self.env.process(agent.propose_contracts())
+        
+        # If forcing contract proposals and not enough were made naturally
+        if force_proposals and min_contracts > 0:
+            # Count how many contracts were proposed this round
+            round_contracts = len([c for c in self.contract_log if c.get("round") == self.round_number])
+            
+            if round_contracts < min_contracts:
+                # Need to force some contract proposals
+                needed_contracts = min_contracts - round_contracts
+                agent_pairs = []
+                for i, agent1 in enumerate(self.agents):
+                    for agent2 in self.agents[i+1:]:
+                        agent_pairs.append((agent1, agent2))
+                
+                # Shuffle to randomize which pairs get contracts
+                random.shuffle(agent_pairs)
+                
+                # Force contract proposals for some agent pairs
+                for seller, buyer in agent_pairs[:needed_contracts]:
+                    try:
+                        # Create a basic contract with reasonable terms
+                        amount = 10 + random.randint(0, 20)  # 10-30 units
+                        price = self.state.average_price * (0.9 + 0.2 * random.random())  # 90-110% of market price
+                        
+                        contract = ElectricityContract(
+                            seller_id=seller.id,
+                            buyer_id=buyer.id,
+                            amount=amount,
+                            unit_price=price,
+                            message=f"Forced contract proposal from {seller.id} to {buyer.id}"
+                        )
+                        
+                        # Add to tracking and log
+                        buyer.receive_contract(contract)
+                        seller.proposed_contracts.append(contract)
+                        self.log_contract(contract)
+                        self.log_message(
+                            self.round_number, 
+                            seller.id, 
+                            buyer.id, 
+                            f"SYSTEM-FORCED CONTRACT PROPOSAL: Offering {amount} units at ${price:.2f} per unit"
+                        )
+                    except Exception as e:
+                        print(f"Error forcing contract proposal: {e}")
+        
         yield self.env.timeout(0)
     
     def contract_resolution_phase(self):

@@ -1,0 +1,242 @@
+[
+  {
+    "round": 1,
+    "sender": "A",
+    "receiver": "B",
+    "message": "SYSTEM-FORCED CONTRACT PROPOSAL: Offering 12 units at $0.00 per unit"
+  },
+  {
+    "round": 1,
+    "sender": "B",
+    "receiver": "C",
+    "message": "SYSTEM-FORCED CONTRACT PROPOSAL: Offering 13 units at $0.00 per unit"
+  },
+  {
+    "round": 1,
+    "sender": "B",
+    "receiver": "A",
+    "message": "CONTRACT RESPONSE: REJECT - "
+  },
+  {
+    "round": 1,
+    "sender": "C",
+    "receiver": "B",
+    "message": "CONTRACT RESPONSE: REJECT - "
+  },
+  {
+    "round": 2,
+    "sender": "B",
+    "receiver": "D",
+    "message": "SYSTEM-FORCED CONTRACT PROPOSAL: Offering 22 units at $42.11 per unit"
+  },
+  {
+    "round": 2,
+    "sender": "A",
+    "receiver": "B",
+    "message": "SYSTEM-FORCED CONTRACT PROPOSAL: Offering 23 units at $41.80 per unit"
+  },
+  {
+    "round": 2,
+    "sender": "B",
+    "receiver": "A",
+    "message": "CONTRACT RESPONSE: REJECT - "
+  },
+  {
+    "round": 2,
+    "sender": "D",
+    "receiver": "B",
+    "message": "CONTRACT RESPONSE: REJECT - "
+  },
+  {
+    "round": 3,
+    "sender": "B",
+    "receiver": "D",
+    "message": "SYSTEM-FORCED CONTRACT PROPOSAL: Offering 17 units at $45.04 per unit"
+  },
+  {
+    "round": 3,
+    "sender": "A",
+    "receiver": "D",
+    "message": "SYSTEM-FORCED CONTRACT PROPOSAL: Offering 10 units at $38.04 per unit"
+  },
+  {
+    "round": 3,
+    "sender": "D",
+    "receiver": "B",
+    "message": "CONTRACT RESPONSE: REJECT - "
+  },
+  {
+    "round": 3,
+    "sender": "D",
+    "receiver": "A",
+    "message": "CONTRACT RESPONSE: REJECT - "
+  },
+  {
+    "round": 4,
+    "sender": "A",
+    "receiver": "C",
+    "message": "SYSTEM-FORCED CONTRACT PROPOSAL: Offering 22 units at $38.80 per unit"
+  },
+  {
+    "round": 4,
+    "sender": "C",
+    "receiver": "D",
+    "message": "SYSTEM-FORCED CONTRACT PROPOSAL: Offering 22 units at $41.79 per unit"
+  },
+  {
+    "round": 4,
+    "sender": "C",
+    "receiver": "A",
+    "message": "CONTRACT RESPONSE: REJECT - "
+  },
+  {
+    "round": 4,
+    "sender": "D",
+    "receiver": "C",
+    "message": "CONTRACT RESPONSE: REJECT - "
+  },
+  {
+    "round": 5,
+    "sender": "A",
+    "receiver": "D",
+    "message": "SYSTEM-FORCED CONTRACT PROPOSAL: Offering 24 units at $40.56 per unit"
+  },
+  {
+    "round": 5,
+    "sender": "B",
+    "receiver": "C",
+    "message": "SYSTEM-FORCED CONTRACT PROPOSAL: Offering 13 units at $41.63 per unit"
+  },
+  {
+    "round": 5,
+    "sender": "C",
+    "receiver": "B",
+    "message": "CONTRACT RESPONSE: REJECT - "
+  },
+  {
+    "round": 5,
+    "sender": "D",
+    "receiver": "A",
+    "message": "CONTRACT RESPONSE: REJECT - "
+  },
+  {
+    "round": 6,
+    "sender": "A",
+    "receiver": "D",
+    "message": "SYSTEM-FORCED CONTRACT PROPOSAL: Offering 17 units at $44.48 per unit"
+  },
+  {
+    "round": 6,
+    "sender": "B",
+    "receiver": "D",
+    "message": "SYSTEM-FORCED CONTRACT PROPOSAL: Offering 24 units at $45.20 per unit"
+  },
+  {
+    "round": 6,
+    "sender": "D",
+    "receiver": "A",
+    "message": "CONTRACT RESPONSE: REJECT - "
+  },
+  {
+    "round": 6,
+    "sender": "D",
+    "receiver": "B",
+    "message": "CONTRACT RESPONSE: REJECT - "
+  },
+  {
+    "round": 7,
+    "sender": "A",
+    "receiver": "B",
+    "message": "SYSTEM-FORCED CONTRACT PROPOSAL: Offering 27 units at $43.27 per unit"
+  },
+  {
+    "round": 7,
+    "sender": "B",
+    "receiver": "D",
+    "message": "SYSTEM-FORCED CONTRACT PROPOSAL: Offering 18 units at $45.16 per unit"
+  },
+  {
+    "round": 7,
+    "sender": "B",
+    "receiver": "A",
+    "message": "CONTRACT RESPONSE: REJECT - "
+  },
+  {
+    "round": 7,
+    "sender": "D",
+    "receiver": "B",
+    "message": "CONTRACT RESPONSE: REJECT - "
+  },
+  {
+    "round": 8,
+    "sender": "A",
+    "receiver": "C",
+    "message": "SYSTEM-FORCED CONTRACT PROPOSAL: Offering 27 units at $47.83 per unit"
+  },
+  {
+    "round": 8,
+    "sender": "B",
+    "receiver": "D",
+    "message": "SYSTEM-FORCED CONTRACT PROPOSAL: Offering 24 units at $47.57 per unit"
+  },
+  {
+    "round": 8,
+    "sender": "C",
+    "receiver": "A",
+    "message": "CONTRACT RESPONSE: REJECT - "
+  },
+  {
+    "round": 8,
+    "sender": "D",
+    "receiver": "B",
+    "message": "CONTRACT RESPONSE: REJECT - "
+  },
+  {
+    "round": 9,
+    "sender": "B",
+    "receiver": "D",
+    "message": "SYSTEM-FORCED CONTRACT PROPOSAL: Offering 26 units at $43.84 per unit"
+  },
+  {
+    "round": 9,
+    "sender": "B",
+    "receiver": "C",
+    "message": "SYSTEM-FORCED CONTRACT PROPOSAL: Offering 19 units at $43.06 per unit"
+  },
+  {
+    "round": 9,
+    "sender": "C",
+    "receiver": "B",
+    "message": "CONTRACT RESPONSE: REJECT - "
+  },
+  {
+    "round": 9,
+    "sender": "D",
+    "receiver": "B",
+    "message": "CONTRACT RESPONSE: REJECT - "
+  },
+  {
+    "round": 10,
+    "sender": "B",
+    "receiver": "D",
+    "message": "SYSTEM-FORCED CONTRACT PROPOSAL: Offering 20 units at $41.51 per unit"
+  },
+  {
+    "round": 10,
+    "sender": "C",
+    "receiver": "D",
+    "message": "SYSTEM-FORCED CONTRACT PROPOSAL: Offering 24 units at $42.12 per unit"
+  },
+  {
+    "round": 10,
+    "sender": "D",
+    "receiver": "B",
+    "message": "CONTRACT RESPONSE: REJECT - "
+  },
+  {
+    "round": 10,
+    "sender": "D",
+    "receiver": "C",
+    "message": "CONTRACT RESPONSE: REJECT - "
+  }
+]

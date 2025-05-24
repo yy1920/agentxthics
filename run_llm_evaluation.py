@@ -11,6 +11,15 @@ Example usage:
 import os
 import sys
 import argparse
+
+# Load environment variables from .env file
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+    print("Environment variables loaded from .env file")
+except ImportError:
+    print("python-dotenv package not installed. Environment variables may not be properly loaded.")
+
 from agentxthics.evaluation.llm_judge import run_llm_judge_evaluation
 
 

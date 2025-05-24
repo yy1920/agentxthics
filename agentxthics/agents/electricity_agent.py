@@ -24,7 +24,15 @@ class ElectricityAgent(BaseAgent):
         self.profit_bias = self.config.get("profit_bias", 0.5)  # Higher means more profit-focused
         self.demand_profile = self.config.get("demand_profile", "steady")
         self.personality = self.config.get("personality", "adaptive")
+
+        # Next turn forecasts
+        mean_generation = 0.9 * self.generation_capacity
+        std_dev = 0.15 * self.generation_capacity
+        self.generation_forecast = max(0, min(random.gauss(mean_generation, std_dev), self.generation_capacity))
         
+        mean_demand = 0.9 * self.generation_capacity
+        std_dev = 0.05 * self.generation_capacity
+        self.demand_forecast = max(0, random.gauss(mean_demand, std_dev))
         # Tracking
         self.proposed_contracts = []
         self.received_contracts = []
@@ -46,21 +54,39 @@ class ElectricityAgent(BaseAgent):
     
     def generate_electricity(self, round_number):
         """Generate electricity and demand for this turn."""
-        # Base generation with some randomness
-        base_generation = self.generation_capacity * (0.8 + 0.4 * random.random())
-        self.generation = min(base_generation, self.generation_capacity)
+        # Use Gaussian distribution for more realistic randomized generation
+        # Mean at 90% of capacity with standard deviation of 15%
+        mean_generation = 0.9 * self.generation_capacity
+        std_dev = 0.15 * self.generation_capacity
+        base_generation = random.gauss(mean_generation, std_dev)
         
-        # Demand varies by profile
+        # Ensure generation stays within physical limits
+        self.generation = max(0, min(self.demand_forecast, self.generation_capacity))
+        self.generation_forecast = max(0, min(base_generation, self.generation_capacity))
+        
+        # Demand varies by profile using Gaussian distribution for more realistic patterns
         if self.demand_profile == "steady":
-            self.demand = 0.9 * self.generation_capacity * (0.9 + 0.2 * random.random())
+            # Steady demand has low standard deviation
+            mean_demand = 0.9 * self.generation_capacity
+            std_dev = 0.05 * self.generation_capacity
+            self.demand = max(0, random.gauss(self.demand_forecast, std_dev))
+            self.demand_forecast = max(0, random.gauss(mean_demand, std_dev))
         elif self.demand_profile == "variable":
-            self.demand = 0.8 * self.generation_capacity * (0.7 + 0.6 * random.random())
+            # Variable demand has higher standard deviation
+            mean_demand = 0.8 * self.generation_capacity
+            std_dev = 0.2 * self.generation_capacity
+            self.demand = max(0, random.gauss(self.demand_forecast, std_dev))
+            self.demand_forecast = max(0, random.gauss(mean_demand, std_dev))
         elif self.demand_profile == "peak":
-            # Higher demand during "peak" hours (rounds 5-10 and 15-20)
+            # Peak demand varies by time of day
             if 5 <= round_number % 24 <= 10 or 15 <= round_number % 24 <= 20:
-                self.demand = 1.2 * self.generation_capacity * (0.9 + 0.2 * random.random())
+                mean_demand = 1.2 * self.generation_capacity
+                std_dev = 0.1 * self.generation_capacity
             else:
-                self.demand = 0.7 * self.generation_capacity * (0.8 + 0.4 * random.random())
+                mean_demand = 0.7 * self.generation_capacity
+                std_dev = 0.15 * self.generation_capacity
+            self.demand = max(0, random.gauss(self.demand_forecast, std_dev))
+            self.demand_forecast = max(0, random.gauss(mean_demand, std_dev))
         
         # Report state to the market
         self.market.log_decision(
@@ -97,7 +123,9 @@ class ElectricityAgent(BaseAgent):
             "total_rounds": self.market.num_rounds,
             "average_price": self.market.state.average_price,
             "your_generation": self.generation,
+            "your_generation_next_turn": self.generation_forecast,
             "your_demand": self.demand,
+            "your_demand_next_turn": self.demand_forecast,
             "your_storage": self.storage,
             "your_profit": self.profit,
             "net_position": net_position
@@ -213,29 +241,45 @@ class ElectricityAgent(BaseAgent):
     
     def _create_contract_prompt(self, target_id, market_state, trust_scores):
         """Create a prompt for contract proposal."""
+        # Get trading history with this agent
+        trading_history = self._get_trading_history_with(target_id)
+        
         return (
-            f"You are an electricity trading company (Agent {self.id}) deciding whether to propose a contract "
-            f"to Agent {target_id}.\n\n"
-            f"Current Market State:\n"
+            f"You are an electricity trading company (Agent {self.id}) with your own goals and strategy. "
+            f"You must decide whether to propose a contract to Agent {target_id}.\n\n"
+            f"MARKET INFORMATION:\n"
             f"- Round: {market_state['round']}/{market_state['total_rounds']}\n"
             f"- Average Market Price: ${market_state['average_price']:.2f} per unit\n"
-            f"- Your Generation: {market_state['your_generation']:.2f} units\n"
-            f"- Your Demand: {market_state['your_demand']:.2f} units\n"
-            f"- Your Storage: {market_state['your_storage']:.2f} units\n"
-            f"- Your Net Position: {market_state['net_position']:.2f} units "
-            f"({'surplus' if market_state['net_position'] > 0 else 'deficit'})\n"
-            f"- Your Cumulative Profit: ${market_state['your_profit']:.2f}\n\n"
-            f"Trust Score for Agent {target_id}: {trust_scores.get(target_id, 0.5):.2f} (0-1 scale)\n\n"
-            f"Your Personality: {self.personality.capitalize()}\n\n"
-            f"Recent Messages with Agent {target_id}:\n"
-            + self._get_recent_messages_with(target_id) + "\n\n"
-            f"Decide whether to propose a contract to Agent {target_id} and if so, what terms to offer.\n"
+            f"- Historical price range: $30-50 per unit\n\n"
+            
+            f"YOUR CURRENT SITUATION:\n"
+            f"- Generation: {market_state['your_generation']:.2f} units\n"
+            f"- Next Turn Generation Forecast: {market_state['your_generation_next_turn']:.2f} units\n"
+            f"- Demand: {market_state['your_demand']:.2f} units\n"
+            f"- Next Turn Demand Forecast: {market_state['your_demand_next_turn']:.2f} units\n"
+            f"- Storage: {market_state['your_storage']:.2f} units (max capacity: {self.storage_capacity})\n"
+            f"- Net Position: {market_state['net_position']:.2f} units "
+            f"({'SURPLUS' if market_state['net_position'] > 0 else 'DEFICIT'})\n"
+            f"- Cumulative Profit: ${market_state['your_profit']:.2f}\n\n"
+            
+            f"ABOUT AGENT {target_id}:\n"
+            f"- Trust Score: {trust_scores.get(target_id, 0.5):.2f} (0-1 scale)\n"
+            f"- Trading History: {trading_history}\n"
+            f"- Recent Messages:\n" + self._get_recent_messages_with(target_id) + "\n\n"
+            
+            f"REFLECTION:\n"
+            f"Consider your own goals, market conditions, and relationship with Agent {target_id}. "
+            f"What strategy would be most beneficial to you in the long term? "
+            f"How might this contract affect future trading relationships?\n\n"
+            
+            f"DECISION:\n"
+            f"Decide whether to propose a contract to Agent {target_id} and what terms would be most advantageous."
             f"If you have a surplus, you're selling; if you have a deficit, you're buying.\n\n"
+            
             f"Respond with a JSON object containing:\n"
-            f"1. 'amount': The amount of electricity to trade (positive number)\n"
+            f"1. 'amount': The amount of electricity to trade (positive number, or 0 if no offer)\n"
             f"2. 'price': The price per unit you propose\n"
-            f"3. 'message': A brief message explaining your offer (max 100 chars)\n\n"
-            f"If you don't want to make an offer, set amount to 0.\n"
+            f"3. 'message': A brief message explaining your offer (max 100 chars)\n"
             f"Example: {{\"amount\": 25, \"price\": 42.50, \"message\": \"Offering surplus electricity at competitive rate\"}}"
         )
     
@@ -268,7 +312,9 @@ class ElectricityAgent(BaseAgent):
             "total_rounds": self.market.num_rounds,
             "average_price": self.market.state.average_price,
             "your_generation": self.generation,
+            "your_generation_next_turn": self.generation_forecast,
             "your_demand": self.demand,
+            "your_demand_next_turn": self.demand_forecast,
             "your_storage": self.storage,
             "your_profit": self.profit
         }
@@ -391,32 +437,88 @@ class ElectricityAgent(BaseAgent):
         self.received_contracts = []
         yield self.env.timeout(0)
     
+    def _get_trading_history_with(self, agent_id):
+        """Get summary of trading history with the specified agent."""
+        # Look through the market's contract log
+        contracts = [
+            c for c in self.market.contract_log 
+            if (c.get("seller") == self.id and c.get("buyer") == agent_id) or
+               (c.get("buyer") == self.id and c.get("seller") == agent_id)
+        ]
+        
+        if not contracts:
+            return "No previous trading history."
+        
+        # Count accepted, rejected, and countered contracts
+        accepted = len([c for c in contracts if c.get("status") == "accepted"])
+        rejected = len([c for c in contracts if c.get("status") == "rejected"])
+        countered = len([c for c in contracts if c.get("status") == "countered"])
+        
+        # Calculate average price
+        prices = [c.get("price", 0) for c in contracts if c.get("status") == "accepted"]
+        avg_price = sum(prices) / len(prices) if prices else 0
+        
+        # Generate a summary
+        summary = f"{len(contracts)} previous interactions ({accepted} accepted, {rejected} rejected, {countered} countered). "
+        
+        if prices:
+            summary += f"Average accepted price: ${avg_price:.2f}. "
+        
+        # Add recent contract details
+        if contracts:
+            latest = max(contracts, key=lambda c: c.get("round", 0))
+            summary += f"Latest in round {latest.get('round')}: {latest.get('status')} at ${latest.get('price', 0):.2f}."
+        
+        return summary
+        
     def _create_contract_response_prompt(self, contract, market_state, trust_scores):
         """Create a prompt for responding to a contract."""
         is_seller = contract.seller_id == self.id
         counterparty = contract.buyer_id if is_seller else contract.seller_id
+        trading_history = self._get_trading_history_with(counterparty)
         
         return (
-            f"You are an electricity trading company (Agent {self.id}) deciding how to respond to a "
-            f"contract {'proposal' if contract.status == 'proposed' else 'counter-offer'}.\n\n"
-            f"Contract Details:\n"
+            f"You are an electricity trading company (Agent {self.id}) with your own goals and strategy. "
+            f"You must decide how to respond to a contract {'proposal' if contract.status == 'proposed' else 'counter-offer'}.\n\n"
+            
+            f"CONTRACT DETAILS:\n"
             f"- {'Buyer' if not is_seller else 'Seller'}: Agent {counterparty}\n"
             f"- Amount: {contract.amount:.2f} units\n"
             f"- Price: ${contract.unit_price:.2f} per unit\n"
             f"- Total Value: ${contract.amount * contract.unit_price:.2f}\n"
             f"- Message: \"{contract.message}\"\n\n"
-            f"Current Market State:\n"
+            
+            f"MARKET INFORMATION:\n"
             f"- Round: {market_state['round']}/{market_state['total_rounds']}\n"
             f"- Average Market Price: ${market_state['average_price']:.2f} per unit\n"
-            f"- Your Generation: {market_state['your_generation']:.2f} units\n"
-            f"- Your Demand: {market_state['your_demand']:.2f} units\n"
-            f"- Your Storage: {market_state['your_storage']:.2f} units\n"
-            f"- Your Cumulative Profit: ${market_state['your_profit']:.2f}\n\n"
-            f"Trust Score for Agent {counterparty}: {trust_scores.get(counterparty, 0.5):.2f} (0-1 scale)\n\n"
-            f"Your Personality: {self.personality.capitalize()}\n\n"
-            f"Recent Messages with Agent {counterparty}:\n"
-            + self._get_recent_messages_with(counterparty) + "\n\n"
-            f"Decide whether to accept, reject, or counter this contract offer.\n\n"
+            f"- Historical price range: $30-50 per unit\n\n"
+            
+            f"YOUR CURRENT SITUATION:\n"
+            f"- Generation: {market_state['your_generation']:.2f} units\n"
+            f"- Next Turn Generation Forecast: {market_state['your_generation_next_turn']:.2f} units\n"
+            f"- Demand: {market_state['your_demand']:.2f} units\n"
+            f"- Next Turn Demand Forecast: {market_state['your_demand_next_turn']:.2f} units\n"
+            f"- Storage: {market_state['your_storage']:.2f} units (max capacity: {self.storage_capacity})\n"
+            f"- Current Needs: {self.demand - self.generation - self.storage:.2f} units "
+            f"({'SURPLUS' if (self.generation + self.storage - self.demand) > 0 else 'DEFICIT'})\n"
+            f"- Cumulative Profit: ${market_state['your_profit']:.2f}\n\n"
+            
+            f"ABOUT AGENT {counterparty}:\n"
+            f"- Trust Score: {trust_scores.get(counterparty, 0.5):.2f} (0-1 scale)\n"
+            f"- Trading History: {trading_history}\n"
+            f"- Recent Messages:\n" + self._get_recent_messages_with(counterparty) + "\n\n"
+            
+            f"STRATEGIC CONSIDERATIONS:\n"
+            f"- If you accept, how will this affect your ability to meet demand?\n"
+            f"- Is the price fair given current market conditions?\n"
+            f"- How might your decision affect future negotiations with this agent?\n"
+            f"- Would a counter-offer be more beneficial?\n"
+            f"- What is your strategic position in the market?\n\n"
+            
+            f"DECISION:\n"
+            f"Decide whether to accept, reject, or counter this contract offer based on your own strategy "
+            f"and what you believe will be most advantageous to your company.\n\n"
+            
             f"Respond with a JSON object containing:\n"
             f"1. 'action': Either 'accept', 'reject', or 'counter'\n"
             f"2. 'counter_price': If countering, the new price per unit you propose\n"
@@ -440,7 +542,9 @@ class ElectricityAgent(BaseAgent):
             "total_rounds": self.market.num_rounds,
             "average_price": self.market.state.average_price,
             "your_generation": self.generation,
+            "your_generation_next_turn": self.generation_forecast,
             "your_demand": self.demand,
+            "your_demand_next_turn": self.demand_forecast,
             "your_storage": self.storage,
             "your_profit": self.profit,
             "net_position": net_position
@@ -538,25 +642,51 @@ class ElectricityAgent(BaseAgent):
                     f"Offer: {offer_amount:.2f}@${offer_price:.2f}"
                 )
         
+        # Return as a generator to be compatible with SimPy
+        yield self.env.timeout(0)
         return self.auction_bids, self.auction_offers
     
     def _create_auction_prompt(self, market_state):
         """Create a prompt for auction participation."""
+        # Get recent market history
+        market_history = self._get_recent_market_history(5)
+        
         return (
-            f"You are an electricity trading company (Agent {self.id}) deciding how to participate in the electricity auction.\n\n"
-            f"Current Market State:\n"
+            f"You are an electricity trading company (Agent {self.id}) with your own goals and strategy. "
+            f"You must decide how to participate in the electricity auction.\n\n"
+            
+            f"MARKET INFORMATION:\n"
             f"- Round: {market_state['round']}/{market_state['total_rounds']}\n"
             f"- Average Market Price: ${market_state['average_price']:.2f} per unit\n"
-            f"- Your Generation: {market_state['your_generation']:.2f} units\n"
-            f"- Your Demand: {market_state['your_demand']:.2f} units\n"
-            f"- Your Storage: {market_state['your_storage']:.2f} units\n"
-            f"- Your Net Position: {market_state['net_position']:.2f} units "
-            f"({'surplus' if market_state['net_position'] > 0 else 'deficit'})\n"
-            f"- Your Cumulative Profit: ${market_state['your_profit']:.2f}\n\n"
-            f"Your Personality: {self.personality.capitalize()}\n\n"
-            f"The auction allows you to either buy electricity (if you have a deficit) or sell electricity (if you have a surplus).\n"
-            f"You need to decide on bid price (what you're willing to pay) and amount if buying,\n"
-            f"and offer price (what you're willing to accept) and amount if selling.\n\n"
+            f"- Historical price range: $30-50 per unit\n"
+            f"- Recent market activity:\n{market_history}\n\n"
+            
+            f"YOUR CURRENT SITUATION:\n"
+            f"- Generation: {market_state['your_generation']:.2f} units\n"
+            f"- Next Turn Generation Forecast: {market_state['your_generation_next_turn']:.2f} units\n"
+            f"- Demand: {market_state['your_demand']:.2f} units\n"
+            f"- Next Turn Demand Forecast: {market_state['your_demand_next_turn']:.2f} units\n"
+            f"- Storage: {market_state['your_storage']:.2f} units (max capacity: {self.storage_capacity})\n"
+            f"- Net Position: {market_state['net_position']:.2f} units "
+            f"({'SURPLUS' if market_state['net_position'] > 0 else 'DEFICIT'})\n"
+            f"- Cumulative Profit: ${market_state['your_profit']:.2f}\n\n"
+            
+            f"AUCTION MECHANICS:\n"
+            f"- Bids and offers are matched by price, with highest bids and lowest offers prioritized\n"
+            f"- The clearing price for each match is the average of the bid and offer prices\n"
+            f"- You can participate as both a buyer and seller simultaneously\n"
+            f"- Setting competitive prices increases your chances of having your orders filled\n\n"
+            
+            f"STRATEGIC CONSIDERATIONS:\n"
+            f"- What pricing strategy would maximize your profit?\n"
+            f"- How much risk are you willing to take on pricing?\n"
+            f"- Should you hold some electricity in storage for future rounds?\n"
+            f"- How might your decisions impact market dynamics?\n"
+            f"- What are your competitors likely to do?\n\n"
+            
+            f"DECISION:\n"
+            f"Decide on your auction participation strategy, including bid price, bid amount, offer price, and offer amount.\n\n"
+            
             f"Respond with a JSON object containing both bid and offer information:\n"
             f"1. 'bid_price': The maximum price per unit you're willing to pay (set to 0 if not buying)\n"
             f"2. 'bid_amount': The amount you want to buy (set to 0 if not buying)\n"
@@ -564,6 +694,38 @@ class ElectricityAgent(BaseAgent):
             f"4. 'offer_amount': The amount you want to sell (set to 0 if not selling)\n\n"
             f"Example: {{\"bid_price\": 45.00, \"bid_amount\": 20, \"offer_price\": 0, \"offer_amount\": 0}}"
         )
+    
+    def _get_recent_market_history(self, num_rounds=5):
+        """Get a summary of recent market activity."""
+        # Look at recent state logs
+        recent_states = []
+        for i in range(min(num_rounds, len(self.market.state_log))):
+            if i < len(self.market.state_log):
+                recent_states.append(self.market.state_log[-(i+1)])
+        
+        if not recent_states:
+            return "No market history available."
+        
+        # Create a summary of recent market activity
+        history_lines = []
+        for state in recent_states:
+            round_num = state.get("round", 0)
+            avg_price = state.get("average_price", 0)
+            total_traded = state.get("total_traded", 0)
+            supply_demand_ratio = state.get("total_supply", 0) / state.get("total_demand", 1)
+            
+            status = "BALANCED"
+            if supply_demand_ratio > 1.2:
+                status = "OVERSUPPLY"
+            elif supply_demand_ratio < 0.8:
+                status = "SHORTAGE"
+                
+            history_lines.append(
+                f"Round {round_num}: Price ${avg_price:.2f}, Traded {total_traded:.1f} units, " +
+                f"Status: {status} (S/D ratio: {supply_demand_ratio:.2f})"
+            )
+        
+        return "\n".join(history_lines)
     
     def calculate_profit(self, market_state):
         """Calculate profits from contracts and auction results."""
@@ -698,26 +860,49 @@ class ElectricityAgent(BaseAgent):
             "total_rounds": self.market.num_rounds,
             "average_price": self.market.state.average_price,
             "your_generation": self.generation,
+            "your_generation_next_turn": self.generation_forecast,
             "your_demand": self.demand,
+            "your_demand_next_turn": self.demand_forecast,
             "your_storage": self.storage,
             "your_profit": self.profit
         }
         
+        # Get recent market history
+        market_history = self._get_recent_market_history(3)
+        
         # Generate announcement with LLM
         if self.model:
             prompt = (
-                f"You are an electricity trading company (Agent {self.id}) making a public announcement to all other trading companies.\n\n"
-                f"Current Market State:\n"
+                f"You are an electricity trading company (Agent {self.id}) with your own goals and strategy. "
+                f"You must create a public announcement to all other trading companies.\n\n"
+                
+                f"MARKET INFORMATION:\n"
                 f"- Round: {market_state['round']}/{market_state['total_rounds']}\n"
                 f"- Average Market Price: ${market_state['average_price']:.2f} per unit\n"
-                f"- Your Generation: {market_state['your_generation']:.2f} units\n"
-                f"- Your Demand: {market_state['your_demand']:.2f} units\n"
-                f"- Your Storage: {market_state['your_storage']:.2f} units\n"
-                f"- Your Cumulative Profit: ${market_state['your_profit']:.2f}\n\n"
-                f"Your Personality: {self.personality.capitalize()}\n\n"
-                f"Create a public announcement that may influence the market or other agents' behavior.\n"
-                f"This could be information about your expected supply/demand, pricing strategy, or other strategic information.\n"
-                f"Keep the announcement under 100 characters.\n\n"
+                f"- Historical price range: $30-50 per unit\n"
+                f"- Recent market activity:\n{market_history}\n\n"
+                
+                f"YOUR CURRENT SITUATION:\n"
+                f"- Generation: {market_state['your_generation']:.2f} units\n"
+                f"- Next Turn Generation Forecast: {market_state['your_generation_next_turn']:.2f} units\n"
+                f"- Demand: {market_state['your_demand']:.2f} units\n"
+                f"- Next Turn Demand Forecast: {market_state['your_demand_next_turn']:.2f} units\n"
+                f"- Storage: {market_state['your_storage']:.2f} units (max capacity: {self.storage_capacity})\n"
+                f"- Net Position: {self.generation + self.storage - self.demand:.2f} units "
+                f"({'SURPLUS' if (self.generation + self.storage - self.demand) > 0 else 'DEFICIT'})\n"
+                f"- Cumulative Profit: ${market_state['your_profit']:.2f}\n\n"
+                
+                f"STRATEGIC CONSIDERATIONS:\n"
+                f"- What information would be strategically advantageous to share?\n"
+                f"- What information might influence other agents to act in your favor?\n"
+                f"- Should you be truthful, misleading, or somewhere in between?\n"
+                f"- How might this announcement affect future trading opportunities?\n"
+                f"- Do you want to signal cooperation or competition?\n\n"
+                
+                f"ANNOUNCEMENT GUIDELINES:\n"
+                f"Craft a public announcement (maximum 100 characters) that serves your strategic interests. "
+                f"This could be about your supply/demand status, pricing preferences, or general market commentary.\n\n"
+                
                 f"Response format: Simple text message (not JSON)"
             )
             

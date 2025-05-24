@@ -6,7 +6,7 @@ import os
 import json
 import random
 from typing import Optional, Dict, Any
-
+import time
 from .base_llm import BaseLLM
 
 # Try to import Google's Generative AI library
@@ -105,13 +105,18 @@ YOUR RESPONSE:
         
         # Use Gemini if available, otherwise fall back to template responses
         if self.model:
-            try:
-                response = self.model.generate_content(full_prompt)
-                return response.text.strip()
-            except Exception as e:
-                print(f"Gemini message generation error ({self.agent_id}): {e}")
-                # Fall back to template response
-        
+            for attempt in range(5):
+                try:
+                    response = self.model.generate_content(full_prompt)
+                    return response.text.strip()
+                except Exception as e:
+                    if "rate limit" in str(e).lower() or "429" in str(e):
+                        print(f"Rate limit hit for {self.agent_id}, retrying in {30} seconds...")
+                        time.sleep(30)
+                    else:
+                        print(f"Gemini message generation error ({self.agent_id}): {e}")
+                        break  # exit on other errors
+                        
         # Template responses as fallback
         if self.personality == "cooperative":
             return f"Hello from {self.agent_id}. Let's all conserve resources for mutual benefit!"
@@ -146,6 +151,7 @@ YOUR RESPONSE:
             # Default to basic conserve/consume decision for backward compatibility
             return self._generate_basic_decision(prompt, previous_action, market_state)
     
+
     def _generate_basic_decision(self, 
                               prompt: str, 
                               previous_action: Optional[str] = None, 
@@ -179,7 +185,11 @@ YOUR RESPONSE:
                 market_status = "large deficit"
         else:
             market_status = "unknown"
-        
+        DECISION_SCHEMA = {"type":"OBJECT", "properties": {
+            "action": {"type": "STRING", "enum": ["sell","buy","conserve","consume"], "description": "Action to perform in the current electricity market. to SELL (if you have a surplus) or BUY (if you have a deficit) electricity. For backward compatibility, you may also use CONSERVE (prefer to use storage) or CONSUME (use available energy)"},
+            "explanation": {"type": "STRING", "description": "Reason for taking the action"}
+            }
+        }
         # Create a detailed prompt for Gemini
         full_prompt = f"""
 You are Agent {self.agent_id} with a {self.personality} personality (cooperation bias: {self.cooperation_bias}) 
@@ -209,9 +219,19 @@ FORMAT YOUR RESPONSE AS VALID JSON with only these fields:
 
         # Use Gemini if available, otherwise calculate probabilistically
         if self.model:
-            try:
-                response = self.model.generate_content(full_prompt)
-                
+            for attempt in range(5):
+                try:
+                    response = self.model.generate_content(full_prompt, generation_config={'response_mime_type': "application/json", 'response_schema': DECISION_SCHEMA})
+                    return response.text
+                except Exception as e:
+                    if "rate limit" in str(e).lower() or "429" in str(e):
+                        print(f"Rate limit hit for {self.agent_id}, retrying in {30} seconds...")
+                        time.sleep(30)
+                        continue
+                    else:
+                        print(f"Gemini decision generation error ({self.agent_id}): {e}")
+                        break  # exit on other errors
+                            
                 # Extract and validate the JSON response
                 try:
                     result = json.loads(response.text.strip())
@@ -228,10 +248,8 @@ FORMAT YOUR RESPONSE AS VALID JSON with only these fields:
                 except json.JSONDecodeError:
                     print(f"Non-JSON response from Gemini ({self.agent_id}): {response.text}")
                     # Fall back to probabilistic decision
-            except Exception as e:
-                print(f"Gemini decision generation error ({self.agent_id}): {e}")
-                # Fall back to probabilistic decision
-        
+                    break
+                        
         # Calculate a probability-based decision as fallback
         # Base probability adjusted for personality
         conserve_probability = self.cooperation_bias
@@ -287,30 +305,29 @@ FORMAT YOUR RESPONSE AS VALID JSON with only these fields:
     def _generate_contract_proposal(self, prompt: str, market_state: Optional[Dict[str, Any]] = None) -> str:
         """Generate a contract proposal using Gemini API."""
         # Create a detailed prompt for contract proposals
-        full_prompt = f"""
-You are Agent {self.agent_id} with a {self.personality} personality (cooperation bias: {self.cooperation_bias})
-in an electricity trading market.
-
-{prompt}
-
-Your task is to decide whether to propose an electricity trading contract and if so, what terms to offer.
-Consider your current market position, the market price, and your relationship with the potential counterparty.
-
-FORMAT YOUR RESPONSE AS VALID JSON with these fields:
-{{"amount": number, "price": number, "message": "your brief message"}}
-
-- amount: Amount of electricity to trade (set to 0 if you don't want to make an offer)
-- price: Price per unit you're proposing
-- message: A brief explanation of your offer (max 100 characters)
-
-Example: {{"amount": 25, "price": 42.50, "message": "Offering surplus electricity at competitive rate"}}
-"""
+        DECISION_SCHEMA = {"type":"OBJECT", "properties": {
+            "amount": {"type": "integer", "description": "Amount of electricity to trade (set to 0 if you don't want to make an offer)"},
+            "price": {"type": "integer", "description": "Price per unit you're proposing such as 42"},
+            "message": {"type": "STRING", "description": "A brief explanation of your offer (max 100 characters)"},
+            "reasoning": {"type": "STRING", "description": "The reasoning behind your decision. Include the STRATEGIC SCENARIO ANALYSIS, REASONING STEPS and SELF-CHECK"}
+            }
+        }
+        full_prompt = prompt
 
         # Use Gemini if available, otherwise use default values
         if self.model:
-            try:
-                response = self.model.generate_content(full_prompt)
-                
+            for attempt in range(5):
+                try:
+                    response = self.model.generate_content(full_prompt, generation_config={'response_mime_type': "application/json", 'response_schema': DECISION_SCHEMA})
+                except Exception as e:
+                    if "rate limit" in str(e).lower() or "429" in str(e):
+                        print(f"Rate limit hit for {self.agent_id}, retrying in {30} seconds...")
+                        time.sleep(30)
+                        continue
+                    else:
+                        print(f"Gemini contract proposal generation error ({self.agent_id}): {e}")
+                        break  # exit on other errors
+                                
                 # Extract and validate the JSON response
                 try:
                     result = json.loads(response.text.strip())
@@ -319,10 +336,11 @@ Example: {{"amount": 25, "price": 42.50, "message": "Offering surplus electricit
                         return response.text.strip()
                     else:
                         print(f"Invalid JSON structure from Gemini ({self.agent_id}) - missing fields")
+                        break
                 except json.JSONDecodeError:
                     print(f"Non-JSON response from Gemini ({self.agent_id}): {response.text}")
-            except Exception as e:
-                print(f"Gemini contract proposal generation error ({self.agent_id}): {e}")
+                    break
+                
         
         # Default contract proposal as fallback
         default_amount = 20
@@ -358,33 +376,51 @@ Example: {{"amount": 25, "price": 42.50, "message": "Offering surplus electricit
     def _generate_contract_response(self, prompt: str, market_state: Optional[Dict[str, Any]] = None) -> str:
         """Generate a response to a contract proposal using Gemini API."""
         # Create a detailed prompt for contract responses
+        DECISION_SCHEMA = {"type":"OBJECT", "properties": {
+            "action": {"type": "STRING", "enum": ["accept","reject","counter"], "description": "Your decision on the electricity trading contract proposal"},
+            "counter_price": {"type": "integer", "description": "If countering, your proposed price per unit (omit if not countering) such as 45"},
+            "counter_amount": {"type": "integer", "description": "If countering, your proposed amount (omit if not countering) such as 20"},
+            "explanation": {"type": "STRING", "description": "A brief explanation of your decision. E.g.: Price too low for current market conditions"}
+            }
+        }
         full_prompt = f"""
-You are Agent {self.agent_id} with a {self.personality} personality (cooperation bias: {self.cooperation_bias})
-in an electricity trading market.
+        You are Agent {self.agent_id} with a {self.personality} personality (cooperation bias: {self.cooperation_bias})
+        in an electricity trading market.
 
-{prompt}
+        {prompt}
 
-Your task is to decide how to respond to this electricity trading contract proposal.
-You can accept the offer as is, reject it completely, or make a counter-offer with different terms.
-Consider the offered price compared to current market conditions, your electricity needs,
-and your relationship with the counterparty.
+        Your task is to decide how to respond to this electricity trading contract proposal.
+        You can accept the offer as is, reject it completely, or make a counter-offer with different terms.
+        Consider the offered price compared to current market conditions, your electricity needs,
+        and your relationship with the counterparty.
+        """
+        
+        """
+        FORMAT YOUR RESPONSE AS VALID JSON with these fields:
+        {{"action": "accept|reject|counter", "counter_price": number, "counter_amount": number, "explanation": "your reasoning"}}
 
-FORMAT YOUR RESPONSE AS VALID JSON with these fields:
-{{"action": "accept|reject|counter", "counter_price": number, "counter_amount": number, "explanation": "your reasoning"}}
+        - action: Your decision ("accept", "reject", or "counter")
+        - counter_price: If countering, your proposed price per unit (omit if not countering)
+        - counter_amount: If countering, your proposed amount (omit if not countering)
+        - explanation: A brief explanation of your decision
 
-- action: Your decision ("accept", "reject", or "counter")
-- counter_price: If countering, your proposed price per unit (omit if not countering)
-- counter_amount: If countering, your proposed amount (omit if not countering)
-- explanation: A brief explanation of your decision
-
-Example: {{"action": "counter", "counter_price": 45.00, "counter_amount": 20, "explanation": "Price too low for current market conditions"}}
-"""
+        Example: {{"action": "counter", "counter_price": 45, "counter_amount": 20, "explanation": "Price too low for current market conditions"}}
+        """
 
         # Use Gemini if available, otherwise use default values
         if self.model:
-            try:
-                response = self.model.generate_content(full_prompt)
-                
+            for attempt in range(5):
+                try:
+                    response = self.model.generate_content(full_prompt, generation_config={'response_mime_type': "application/json", 'response_schema': DECISION_SCHEMA})
+                except Exception as e:
+                    if "rate limit" in str(e).lower() or "429" in str(e):
+                        print(f"Rate limit hit for {self.agent_id}, retrying in {30} seconds...")
+                        time.sleep(30)
+                        continue
+                    else:
+                        print(f"Gemini contract response generation error ({self.agent_id}): {e}")
+                        break  
+                                
                 # Extract and validate the JSON response
                 try:
                     result = json.loads(response.text.strip())
@@ -399,10 +435,11 @@ Example: {{"action": "counter", "counter_price": 45.00, "counter_amount": 20, "e
                             return response.text.strip()
                     
                     print(f"Invalid JSON structure from Gemini ({self.agent_id}) - validation failed")
+                    break
                 except json.JSONDecodeError:
                     print(f"Non-JSON response from Gemini ({self.agent_id}): {response.text}")
-            except Exception as e:
-                print(f"Gemini contract response generation error ({self.agent_id}): {e}")
+                    break
+                
         
         # Extract price from prompt to use in fallback
         import re
@@ -454,45 +491,99 @@ Example: {{"action": "counter", "counter_price": 45.00, "counter_amount": 20, "e
     
     def _generate_auction_participation(self, prompt: str, market_state: Optional[Dict[str, Any]] = None) -> str:
         """Generate auction participation decisions using Gemini API."""
+        DECISION_SCHEMA = {"type":"OBJECT", "properties": {
+            "bid_price": {"type": "integer", "description": "The maximum price per unit you're willing to pay (set to 0 if not buying). Output range: 0 - 999"},
+            "bid_amount": {"type": "integer","description": "The number of units of electricity you want to buy (set to 0 if not buying). Output range: 0 - 100000"},
+            "offer_price": {"type": "integer","description": "The minimum price per unit you're willing to accept (set to 0 if not selling). Output range: 0 - 999"},
+            "offer_amount": {"type": "integer", "description": "The amount you want to sell (set to 0 if not selling). Output range: 0 - 100000"},
+            "reasoning": {"type": "STRING", "description": "The reasoning behind your decision. Include the STRATEGIC SCENARIO ANALYSIS, REASONING STEPS, SELF-CHECK and REFLECTION."}
+            }
+        }
         # Create a detailed prompt for auction participation
-        full_prompt = f"""
-You are Agent {self.agent_id} with a {self.personality} personality (cooperation bias: {self.cooperation_bias})
-in an electricity trading market.
-
+        full_prompt = f"""You are Agent {self.agent_id}, an electricity trading company with a {self.personality} personality (cooperation bias: {self.cooperation_bias}). Your objective is to maximize cumulative profit through strategic auction decisions over multiple rounds.
+---
 {prompt}
+---
 
-Your task is to decide how to participate in the electricity auction.
-If you have a deficit (negative net position), you need to buy electricity.
-If you have a surplus (positive net position), you need to sell electricity.
+**STRATEGIC SCENARIO ANALYSIS (Tree-of-Thought)**
+Generate and evaluate **three distinct strategies** considering your {self.personality} personality:
+1. **Conservative Strategy** — prioritize stability and low risk
+2. **Aggressive Strategy** — maximize profit potential with high risk
+3. **Balanced Strategy** — blend of profit and risk management
 
-FORMAT YOUR RESPONSE AS VALID JSON with these fields:
-{{"bid_price": number, "bid_amount": number, "offer_price": number, "offer_amount": number}}
+For each strategy, consider:
+- Bid or offer prices
+- Amounts to trade
+- Use of storage
+- Forecast adjustments
 
-- bid_price: The maximum price per unit you're willing to pay (set to 0 if not buying)
-- bid_amount: The amount you want to buy (set to 0 if not buying)
-- offer_price: The minimum price per unit you're willing to accept (set to 0 if not selling)
-- offer_amount: The amount you want to sell (set to 0 if not selling)
+Then **select the best strategy** based on projected outcomes.
 
-Example: {{"bid_price": 45.00, "bid_amount": 20, "offer_price": 0, "offer_amount": 0}}
-"""
+---
+
+**REASONING STEPS (Chain-of-Thought)**
+Answer these questions to guide your decision:
+1. What is your current and projected net energy position?
+2. How do recent price trends influence expected market direction?
+3. How should you adjust pricing to stay competitive?
+4. Should you store energy for future rounds or trade now?
+5. What might your competitors do in this round?
+
+---
+
+**SELF-CHECK (Chain-of-Verification)**
+Before finalizing, verify:
+- Are your prices aligned with auction rules?
+- Are you acting according to your market position (surplus/deficit)?
+- Is your risk consistent with your personality?
+- Are you maximizing profit without violating capacity/storage limits?
+
+---
+
+**DECISION OUTPUT**
+Provide the final selected strategy:
+- Bid Price: 
+- Bid Amount: 
+- Offer Price: 
+- Offer Amount: 
+
+---
+
+**REFLECTION (if not first round)**
+Based on previous round:
+- What worked? What failed?
+- Did your prices align with the clearing price?
+- What will you do differently this round?
+
+        """
 
         # Use Gemini if available, otherwise use default values
         if self.model:
-            try:
-                response = self.model.generate_content(full_prompt)
-                
+            for attempt in range(5):
+                try:
+                    response = self.model.generate_content(full_prompt, generation_config={'response_mime_type': "application/json", 'response_schema': DECISION_SCHEMA})
+                except Exception as e:
+                    if "rate limit" in str(e).lower() or "429" in str(e):
+                        print(f"Rate limit hit for {self.agent_id}, retrying in {30} seconds...")
+                        time.sleep(30)
+                        continue
+                    else:
+                        print(f"Gemini auction participation generation error ({self.agent_id}): {e}")
+                        break  # exit on other errors
+                            
                 # Extract and validate the JSON response
                 try:
                     result = json.loads(response.text.strip())
                     # Validate required fields
+                    print("raw result: ",result)
                     if all(k in result for k in ["bid_price", "bid_amount", "offer_price", "offer_amount"]):
                         return response.text.strip()
                     else:
                         print(f"Invalid JSON structure from Gemini ({self.agent_id}) - missing auction fields")
+                        break
                 except json.JSONDecodeError:
                     print(f"Non-JSON response from Gemini ({self.agent_id}): {response.text}")
-            except Exception as e:
-                print(f"Gemini auction participation generation error ({self.agent_id}): {e}")
+                    break
         
         # Default values
         bid_price = 0

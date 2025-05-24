@@ -1,11 +1,8 @@
-<<<<<<< Updated upstream
-=======
 ## Files
 `run_simulation_gemini.ipynb` to run simulation in gemini
 `run_simulation_lambda.ipynb` to run simulation in lambda.ai
 `trolley_problem_examination.ipynb` to observe how llms organically employ different ethical frameworks
 
->>>>>>> Stashed changes
 ## Links
 [Notebook](https://colab.research.google.com/drive/1LFAjKH89YcxonVtdYKwYwjawiW4F6-RN#scrollTo=nwgBAXeuDq3l) to run simulation
 

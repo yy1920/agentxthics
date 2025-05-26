@@ -1,0 +1,1115 @@
+[
+  {
+    "round": 1,
+    "agent": "A",
+    "type": "generation",
+    "decision": 146.6414830381746,
+    "explanation": "Generated 146.64 units with demand of 149.35 units"
+  },
+  {
+    "round": 1,
+    "agent": "B",
+    "type": "generation",
+    "decision": 56.556971975577014,
+    "explanation": "Generated 56.56 units with demand of 42.09 units"
+  },
+  {
+    "round": 1,
+    "agent": "C",
+    "type": "generation",
+    "decision": 95.85075852147685,
+    "explanation": "Generated 95.85 units with demand of 108.19 units"
+  },
+  {
+    "round": 1,
+    "agent": "D",
+    "type": "generation",
+    "decision": 27.614451704675176,
+    "explanation": "Generated 27.61 units with demand of 27.55 units"
+  },
+  {
+    "round": 1,
+    "agent": "B",
+    "type": "contract_response",
+    "decision": "reject",
+    "explanation": ""
+  },
+  {
+    "round": 1,
+    "agent": "C",
+    "type": "contract_response",
+    "decision": "reject",
+    "explanation": ""
+  },
+  {
+    "round": 1,
+    "agent": "A",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 271.00@$40.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 1,
+    "agent": "B",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 14.00@$40.00"
+  },
+  {
+    "round": 1,
+    "agent": "C",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 13.00@$40.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 1,
+    "agent": "D",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 1,
+    "agent": "A",
+    "type": "profit",
+    "decision": -560.0,
+    "explanation": "Round profit: $-560.00, Total profit: $-560.00"
+  },
+  {
+    "round": 1,
+    "agent": "B",
+    "type": "profit",
+    "decision": 560.0,
+    "explanation": "Round profit: $560.00, Total profit: $560.00"
+  },
+  {
+    "round": 1,
+    "agent": "C",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $0.00"
+  },
+  {
+    "round": 1,
+    "agent": "C",
+    "type": "shortage",
+    "decision": 12.343392753812651,
+    "explanation": "Electricity shortage of 12.34 units"
+  },
+  {
+    "round": 1,
+    "agent": "D",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $0.00"
+  },
+  {
+    "round": 2,
+    "agent": "A",
+    "type": "generation",
+    "decision": 139.4033224150795,
+    "explanation": "Generated 139.40 units with demand of 149.18 units"
+  },
+  {
+    "round": 2,
+    "agent": "B",
+    "type": "generation",
+    "decision": 35.12666022921027,
+    "explanation": "Generated 35.13 units with demand of 45.73 units"
+  },
+  {
+    "round": 2,
+    "agent": "C",
+    "type": "generation",
+    "decision": 69.30447370163589,
+    "explanation": "Generated 69.30 units with demand of 74.52 units"
+  },
+  {
+    "round": 2,
+    "agent": "D",
+    "type": "generation",
+    "decision": 26.009960956665644,
+    "explanation": "Generated 26.01 units with demand of 25.12 units"
+  },
+  {
+    "round": 2,
+    "agent": "B",
+    "type": "contract_response",
+    "decision": "reject",
+    "explanation": ""
+  },
+  {
+    "round": 2,
+    "agent": "D",
+    "type": "contract_response",
+    "decision": "reject",
+    "explanation": ""
+  },
+  {
+    "round": 2,
+    "agent": "A",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 10.00@$42.00"
+  },
+  {
+    "round": 2,
+    "agent": "B",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 10.00@$42.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 2,
+    "agent": "C",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 5.00@$42.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 2,
+    "agent": "D",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 2,
+    "agent": "A",
+    "type": "profit",
+    "decision": 420.0,
+    "explanation": "Round profit: $420.00, Total profit: $-140.00"
+  },
+  {
+    "round": 2,
+    "agent": "A",
+    "type": "shortage",
+    "decision": 16.968493653586734,
+    "explanation": "Electricity shortage of 16.97 units"
+  },
+  {
+    "round": 2,
+    "agent": "B",
+    "type": "profit",
+    "decision": -420.0,
+    "explanation": "Round profit: $-420.00, Total profit: $140.00"
+  },
+  {
+    "round": 2,
+    "agent": "B",
+    "type": "shortage",
+    "decision": 0.135611154091535,
+    "explanation": "Electricity shortage of 0.14 units"
+  },
+  {
+    "round": 2,
+    "agent": "C",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $0.00"
+  },
+  {
+    "round": 2,
+    "agent": "C",
+    "type": "shortage",
+    "decision": 5.21841991966987,
+    "explanation": "Electricity shortage of 5.22 units"
+  },
+  {
+    "round": 2,
+    "agent": "D",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $0.00"
+  },
+  {
+    "round": 3,
+    "agent": "A",
+    "type": "generation",
+    "decision": 128.9874367662809,
+    "explanation": "Generated 128.99 units with demand of 131.18 units"
+  },
+  {
+    "round": 3,
+    "agent": "B",
+    "type": "generation",
+    "decision": 49.24288279325492,
+    "explanation": "Generated 49.24 units with demand of 61.12 units"
+  },
+  {
+    "round": 3,
+    "agent": "C",
+    "type": "generation",
+    "decision": 86.1196906529767,
+    "explanation": "Generated 86.12 units with demand of 93.46 units"
+  },
+  {
+    "round": 3,
+    "agent": "D",
+    "type": "generation",
+    "decision": 28.298983012572112,
+    "explanation": "Generated 28.30 units with demand of 28.78 units"
+  },
+  {
+    "round": 3,
+    "agent": "D",
+    "type": "contract_response",
+    "decision": "reject",
+    "explanation": ""
+  },
+  {
+    "round": 3,
+    "agent": "D",
+    "type": "contract_response",
+    "decision": "reject",
+    "explanation": ""
+  },
+  {
+    "round": 3,
+    "agent": "A",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 20.00@$43.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 3,
+    "agent": "B",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 12.00@$44.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 3,
+    "agent": "C",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 7.00@$43.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 3,
+    "agent": "D",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 3,
+    "agent": "A",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $-140.00"
+  },
+  {
+    "round": 3,
+    "agent": "A",
+    "type": "shortage",
+    "decision": 2.1912790898130368,
+    "explanation": "Electricity shortage of 2.19 units"
+  },
+  {
+    "round": 3,
+    "agent": "B",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $140.00"
+  },
+  {
+    "round": 3,
+    "agent": "B",
+    "type": "shortage",
+    "decision": 11.87716463083865,
+    "explanation": "Electricity shortage of 11.88 units"
+  },
+  {
+    "round": 3,
+    "agent": "C",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $0.00"
+  },
+  {
+    "round": 3,
+    "agent": "C",
+    "type": "shortage",
+    "decision": 7.3375037679406745,
+    "explanation": "Electricity shortage of 7.34 units"
+  },
+  {
+    "round": 3,
+    "agent": "D",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $0.00"
+  },
+  {
+    "round": 4,
+    "agent": "A",
+    "type": "generation",
+    "decision": 140.0364135658186,
+    "explanation": "Generated 140.04 units with demand of 133.71 units"
+  },
+  {
+    "round": 4,
+    "agent": "B",
+    "type": "generation",
+    "decision": 48.91443085333572,
+    "explanation": "Generated 48.91 units with demand of 42.00 units"
+  },
+  {
+    "round": 4,
+    "agent": "C",
+    "type": "generation",
+    "decision": 69.72001865242142,
+    "explanation": "Generated 69.72 units with demand of 68.69 units"
+  },
+  {
+    "round": 4,
+    "agent": "D",
+    "type": "generation",
+    "decision": 25.814669728752296,
+    "explanation": "Generated 25.81 units with demand of 26.40 units"
+  },
+  {
+    "round": 4,
+    "agent": "C",
+    "type": "contract_response",
+    "decision": "reject",
+    "explanation": ""
+  },
+  {
+    "round": 4,
+    "agent": "D",
+    "type": "contract_response",
+    "decision": "reject",
+    "explanation": ""
+  },
+  {
+    "round": 4,
+    "agent": "A",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 6.00@$41.00"
+  },
+  {
+    "round": 4,
+    "agent": "B",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 6.00@$42.00"
+  },
+  {
+    "round": 4,
+    "agent": "C",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 1.00@$41.00"
+  },
+  {
+    "round": 4,
+    "agent": "D",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 4,
+    "agent": "A",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $-140.00"
+  },
+  {
+    "round": 4,
+    "agent": "B",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $140.00"
+  },
+  {
+    "round": 4,
+    "agent": "C",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $0.00"
+  },
+  {
+    "round": 4,
+    "agent": "D",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $0.00"
+  },
+  {
+    "round": 4,
+    "agent": "D",
+    "type": "shortage",
+    "decision": 0.11372925380362986,
+    "explanation": "Electricity shortage of 0.11 units"
+  },
+  {
+    "round": 5,
+    "agent": "A",
+    "type": "generation",
+    "decision": 142.51158022134464,
+    "explanation": "Generated 142.51 units with demand of 152.03 units"
+  },
+  {
+    "round": 5,
+    "agent": "B",
+    "type": "generation",
+    "decision": 58.183482619312855,
+    "explanation": "Generated 58.18 units with demand of 40.12 units"
+  },
+  {
+    "round": 5,
+    "agent": "C",
+    "type": "generation",
+    "decision": 76.67942642519974,
+    "explanation": "Generated 76.68 units with demand of 79.64 units"
+  },
+  {
+    "round": 5,
+    "agent": "D",
+    "type": "generation",
+    "decision": 27.742517637418146,
+    "explanation": "Generated 27.74 units with demand of 28.48 units"
+  },
+  {
+    "round": 5,
+    "agent": "C",
+    "type": "contract_response",
+    "decision": "reject",
+    "explanation": ""
+  },
+  {
+    "round": 5,
+    "agent": "D",
+    "type": "contract_response",
+    "decision": "reject",
+    "explanation": ""
+  },
+  {
+    "round": 5,
+    "agent": "A",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 12.00@$41.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 5,
+    "agent": "B",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 20.00@$42.00"
+  },
+  {
+    "round": 5,
+    "agent": "C",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 20.00@$42.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 5,
+    "agent": "D",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 5,
+    "agent": "A",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $-140.00"
+  },
+  {
+    "round": 5,
+    "agent": "A",
+    "type": "shortage",
+    "decision": 3.184477241948656,
+    "explanation": "Electricity shortage of 3.18 units"
+  },
+  {
+    "round": 5,
+    "agent": "B",
+    "type": "profit",
+    "decision": 840.0,
+    "explanation": "Round profit: $840.00, Total profit: $980.00"
+  },
+  {
+    "round": 5,
+    "agent": "C",
+    "type": "profit",
+    "decision": -840.0,
+    "explanation": "Round profit: $-840.00, Total profit: $-840.00"
+  },
+  {
+    "round": 5,
+    "agent": "D",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $0.00"
+  },
+  {
+    "round": 5,
+    "agent": "D",
+    "type": "shortage",
+    "decision": 0.7329913007359004,
+    "explanation": "Electricity shortage of 0.73 units"
+  },
+  {
+    "round": 6,
+    "agent": "A",
+    "type": "generation",
+    "decision": 150,
+    "explanation": "Generated 150.00 units with demand of 153.04 units"
+  },
+  {
+    "round": 6,
+    "agent": "B",
+    "type": "generation",
+    "decision": 56.670232472732,
+    "explanation": "Generated 56.67 units with demand of 71.67 units"
+  },
+  {
+    "round": 6,
+    "agent": "C",
+    "type": "generation",
+    "decision": 100,
+    "explanation": "Generated 100.00 units with demand of 129.16 units"
+  },
+  {
+    "round": 6,
+    "agent": "D",
+    "type": "generation",
+    "decision": 26.833677650139702,
+    "explanation": "Generated 26.83 units with demand of 27.00 units"
+  },
+  {
+    "round": 6,
+    "agent": "D",
+    "type": "contract_response",
+    "decision": "reject",
+    "explanation": ""
+  },
+  {
+    "round": 6,
+    "agent": "D",
+    "type": "contract_response",
+    "decision": "reject",
+    "explanation": ""
+  },
+  {
+    "round": 6,
+    "agent": "A",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 4.00@$44.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 6,
+    "agent": "B",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 15.00@$44.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 6,
+    "agent": "C",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 20.00@$42.00"
+  },
+  {
+    "round": 6,
+    "agent": "D",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 6,
+    "agent": "A",
+    "type": "profit",
+    "decision": -172.0,
+    "explanation": "Round profit: $-172.00, Total profit: $-312.00"
+  },
+  {
+    "round": 6,
+    "agent": "B",
+    "type": "profit",
+    "decision": -645.0,
+    "explanation": "Round profit: $-645.00, Total profit: $335.00"
+  },
+  {
+    "round": 6,
+    "agent": "C",
+    "type": "profit",
+    "decision": 817.0,
+    "explanation": "Round profit: $817.00, Total profit: $-23.00"
+  },
+  {
+    "round": 6,
+    "agent": "C",
+    "type": "shortage",
+    "decision": 48.16377995727518,
+    "explanation": "Electricity shortage of 48.16 units"
+  },
+  {
+    "round": 6,
+    "agent": "D",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $0.00"
+  },
+  {
+    "round": 6,
+    "agent": "D",
+    "type": "shortage",
+    "decision": 0.16987722159498375,
+    "explanation": "Electricity shortage of 0.17 units"
+  },
+  {
+    "round": 7,
+    "agent": "A",
+    "type": "generation",
+    "decision": 130.7382784612859,
+    "explanation": "Generated 130.74 units with demand of 126.04 units"
+  },
+  {
+    "round": 7,
+    "agent": "B",
+    "type": "generation",
+    "decision": 45.070168632600854,
+    "explanation": "Generated 45.07 units with demand of 71.88 units"
+  },
+  {
+    "round": 7,
+    "agent": "C",
+    "type": "generation",
+    "decision": 100,
+    "explanation": "Generated 100.00 units with demand of 115.60 units"
+  },
+  {
+    "round": 7,
+    "agent": "D",
+    "type": "generation",
+    "decision": 26.513218697041943,
+    "explanation": "Generated 26.51 units with demand of 26.50 units"
+  },
+  {
+    "round": 7,
+    "agent": "B",
+    "type": "contract_response",
+    "decision": "reject",
+    "explanation": ""
+  },
+  {
+    "round": 7,
+    "agent": "D",
+    "type": "contract_response",
+    "decision": "reject",
+    "explanation": ""
+  },
+  {
+    "round": 7,
+    "agent": "A",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 5.00@$44.00"
+  },
+  {
+    "round": 7,
+    "agent": "B",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 24.00@$44.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 7,
+    "agent": "C",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 20.00@$44.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 7,
+    "agent": "D",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 7,
+    "agent": "A",
+    "type": "profit",
+    "decision": 220.0,
+    "explanation": "Round profit: $220.00, Total profit: $-92.00"
+  },
+  {
+    "round": 7,
+    "agent": "B",
+    "type": "profit",
+    "decision": -220.0,
+    "explanation": "Round profit: $-220.00, Total profit: $115.00"
+  },
+  {
+    "round": 7,
+    "agent": "B",
+    "type": "shortage",
+    "decision": 18.754668188593122,
+    "explanation": "Electricity shortage of 18.75 units"
+  },
+  {
+    "round": 7,
+    "agent": "C",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $-23.00"
+  },
+  {
+    "round": 7,
+    "agent": "C",
+    "type": "shortage",
+    "decision": 15.600423496225176,
+    "explanation": "Electricity shortage of 15.60 units"
+  },
+  {
+    "round": 7,
+    "agent": "D",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $0.00"
+  },
+  {
+    "round": 8,
+    "agent": "A",
+    "type": "generation",
+    "decision": 136.2706809073187,
+    "explanation": "Generated 136.27 units with demand of 129.69 units"
+  },
+  {
+    "round": 8,
+    "agent": "B",
+    "type": "generation",
+    "decision": 60,
+    "explanation": "Generated 60.00 units with demand of 48.44 units"
+  },
+  {
+    "round": 8,
+    "agent": "C",
+    "type": "generation",
+    "decision": 100,
+    "explanation": "Generated 100.00 units with demand of 112.89 units"
+  },
+  {
+    "round": 8,
+    "agent": "D",
+    "type": "generation",
+    "decision": 27.9634408443312,
+    "explanation": "Generated 27.96 units with demand of 29.53 units"
+  },
+  {
+    "round": 8,
+    "agent": "C",
+    "type": "contract_response",
+    "decision": "reject",
+    "explanation": ""
+  },
+  {
+    "round": 8,
+    "agent": "D",
+    "type": "contract_response",
+    "decision": "reject",
+    "explanation": ""
+  },
+  {
+    "round": 8,
+    "agent": "A",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 6.00@$45.00"
+  },
+  {
+    "round": 8,
+    "agent": "B",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 11.00@$44.00"
+  },
+  {
+    "round": 8,
+    "agent": "C",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 13.00@$45.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 8,
+    "agent": "D",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 2.00@$45.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 8,
+    "agent": "A",
+    "type": "profit",
+    "decision": 180.0,
+    "explanation": "Round profit: $180.00, Total profit: $88.00"
+  },
+  {
+    "round": 8,
+    "agent": "B",
+    "type": "profit",
+    "decision": 489.5,
+    "explanation": "Round profit: $489.50, Total profit: $604.50"
+  },
+  {
+    "round": 8,
+    "agent": "C",
+    "type": "profit",
+    "decision": -579.5,
+    "explanation": "Round profit: $-579.50, Total profit: $-602.50"
+  },
+  {
+    "round": 8,
+    "agent": "D",
+    "type": "profit",
+    "decision": -90.0,
+    "explanation": "Round profit: $-90.00, Total profit: $-90.00"
+  },
+  {
+    "round": 9,
+    "agent": "A",
+    "type": "generation",
+    "decision": 126.6087936884564,
+    "explanation": "Generated 126.61 units with demand of 119.02 units"
+  },
+  {
+    "round": 9,
+    "agent": "B",
+    "type": "generation",
+    "decision": 47.400011004576264,
+    "explanation": "Generated 47.40 units with demand of 56.25 units"
+  },
+  {
+    "round": 9,
+    "agent": "C",
+    "type": "generation",
+    "decision": 100,
+    "explanation": "Generated 100.00 units with demand of 110.24 units"
+  },
+  {
+    "round": 9,
+    "agent": "D",
+    "type": "generation",
+    "decision": 26.500930209551235,
+    "explanation": "Generated 26.50 units with demand of 25.43 units"
+  },
+  {
+    "round": 9,
+    "agent": "C",
+    "type": "contract_response",
+    "decision": "reject",
+    "explanation": ""
+  },
+  {
+    "round": 9,
+    "agent": "D",
+    "type": "contract_response",
+    "decision": "reject",
+    "explanation": ""
+  },
+  {
+    "round": 9,
+    "agent": "A",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 10.00@$45.00"
+  },
+  {
+    "round": 9,
+    "agent": "B",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 8.00@$45.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 9,
+    "agent": "C",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 10.00@$45.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 9,
+    "agent": "D",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 1.00@$45.00"
+  },
+  {
+    "round": 9,
+    "agent": "A",
+    "type": "profit",
+    "decision": 450.0,
+    "explanation": "Round profit: $450.00, Total profit: $538.00"
+  },
+  {
+    "round": 9,
+    "agent": "B",
+    "type": "profit",
+    "decision": -360.0,
+    "explanation": "Round profit: $-360.00, Total profit: $244.50"
+  },
+  {
+    "round": 9,
+    "agent": "B",
+    "type": "shortage",
+    "decision": 0.28808744866586977,
+    "explanation": "Electricity shortage of 0.29 units"
+  },
+  {
+    "round": 9,
+    "agent": "C",
+    "type": "profit",
+    "decision": -135.0,
+    "explanation": "Round profit: $-135.00, Total profit: $-737.50"
+  },
+  {
+    "round": 9,
+    "agent": "C",
+    "type": "shortage",
+    "decision": 7.131162541144789,
+    "explanation": "Electricity shortage of 7.13 units"
+  },
+  {
+    "round": 9,
+    "agent": "D",
+    "type": "profit",
+    "decision": 45.0,
+    "explanation": "Round profit: $45.00, Total profit: $-45.00"
+  },
+  {
+    "round": 10,
+    "agent": "A",
+    "type": "generation",
+    "decision": 141.42228381348494,
+    "explanation": "Generated 141.42 units with demand of 142.44 units"
+  },
+  {
+    "round": 10,
+    "agent": "B",
+    "type": "generation",
+    "decision": 36.45114768762834,
+    "explanation": "Generated 36.45 units with demand of 48.49 units"
+  },
+  {
+    "round": 10,
+    "agent": "C",
+    "type": "generation",
+    "decision": 100,
+    "explanation": "Generated 100.00 units with demand of 101.10 units"
+  },
+  {
+    "round": 10,
+    "agent": "D",
+    "type": "generation",
+    "decision": 27.98852832656591,
+    "explanation": "Generated 27.99 units with demand of 28.63 units"
+  },
+  {
+    "round": 10,
+    "agent": "D",
+    "type": "contract_response",
+    "decision": "reject",
+    "explanation": ""
+  },
+  {
+    "round": 10,
+    "agent": "D",
+    "type": "contract_response",
+    "decision": "reject",
+    "explanation": ""
+  },
+  {
+    "round": 10,
+    "agent": "A",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 10.00@$46.00"
+  },
+  {
+    "round": 10,
+    "agent": "B",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 1204.00@$46.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 10,
+    "agent": "C",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 10.00@$46.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 10,
+    "agent": "D",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 10,
+    "agent": "A",
+    "type": "profit",
+    "decision": 460.0,
+    "explanation": "Round profit: $460.00, Total profit: $998.00"
+  },
+  {
+    "round": 10,
+    "agent": "A",
+    "type": "shortage",
+    "decision": 11.014146742846435,
+    "explanation": "Electricity shortage of 11.01 units"
+  },
+  {
+    "round": 10,
+    "agent": "B",
+    "type": "profit",
+    "decision": -460.0,
+    "explanation": "Round profit: $-460.00, Total profit: $-215.50"
+  },
+  {
+    "round": 10,
+    "agent": "B",
+    "type": "shortage",
+    "decision": 2.0429245987823847,
+    "explanation": "Electricity shortage of 2.04 units"
+  },
+  {
+    "round": 10,
+    "agent": "C",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $-737.50"
+  },
+  {
+    "round": 10,
+    "agent": "C",
+    "type": "shortage",
+    "decision": 1.101075807418141,
+    "explanation": "Electricity shortage of 1.10 units"
+  },
+  {
+    "round": 10,
+    "agent": "D",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $-45.00"
+  }
+]

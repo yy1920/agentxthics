@@ -114,9 +114,9 @@ class ElectricityTradingGame:
         elif llm_type == "gemini":
             try:
                 self.llm = GeminiLLM(
-                    model=llm_config.get("model", "gemini-pro"),
-                    api_key=llm_config.get("api_key"),
-                    timeout=llm_config.get("timeout", 30)
+                    model="gemini-1.5-flash-002",#"gemma-3-27b-it",#"gemini-2.0-flash-lite-001",#"gemini-2.0-flash-001",#llm_config.get("model", "gemini-pro"),
+                    api_key=os.getenv("GEMINI_API_KEY"),#llm_config.get("api_key"),
+                    timeout=30#llm_config.get("timeout", 30)
                 )
                 print("Using Gemini LLM")
             except Exception as e:

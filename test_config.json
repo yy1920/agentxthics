@@ -2,8 +2,12 @@
   "output_dir": "logs/electricity_trading",
   "market": {
     "initial_price": 40,
-    "price_volatility": 0.2,
-    "num_rounds": 20
+    "price_volatility": 0.4,
+    "num_rounds": 5
+  },
+  "llm": {
+    "type": "openai",
+    "model": "gpt-4"
   },
   "agents": [
     {
@@ -18,29 +22,24 @@
       "id": "B",
       "personality": "competitive",
       "profit_bias": 0.7,
-      "generation_capacity": 120,
-      "storage_capacity": 60,
+      "generation_capacity": 80,
+      "storage_capacity": 40,
       "demand_profile": "variable"
     },
     {
       "id": "C",
       "personality": "adaptive",
       "profit_bias": 0.5,
-      "generation_capacity": 80,
-      "storage_capacity": 40,
+      "generation_capacity": 120,
+      "storage_capacity": 60,
       "demand_profile": "peak"
     }
   ],
-  "market_conditions": {
-    "enable_scarcity": true,
-    "demand_fluctuation": 0.3,
-    "enable_grid_failures": true,
-    "failure_probability": 0.1
-  },
   "communication": {
-    "max_message_length": 100,
     "enable_bilateral_negotiation": true,
     "enable_public_announcements": true,
-    "max_contracts_per_turn": 2
+    "max_contracts_per_turn": 2,
+    "force_contract_proposals": true,
+    "min_contracts_per_round": 1
   }
 }

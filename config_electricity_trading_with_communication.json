@@ -6,8 +6,8 @@
     "num_rounds": 15
   },
   "llm": {
-    "type": "gemini",
-    "model": "gemini-1.5-pro"
+    "type": "openai",
+    "model": "gpt-4"
   },
   "agents": [
     {

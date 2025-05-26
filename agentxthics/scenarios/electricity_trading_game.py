@@ -10,6 +10,7 @@ import json
 import random
 import simpy
 import time
+import re  # Import the re module for regex pattern matching
 from typing import Dict, List, Any, Optional
 from datetime import datetime
 
@@ -96,20 +97,20 @@ class ElectricityTradingGame:
     def _init_llm(self):
         """Initialize the LLM for agent decision-making."""
         llm_config = self.config.get("llm", {})
-        llm_type = llm_config.get("type", "mock")
+        llm_type = llm_config.get("type", "openai")
         
-        if llm_type == "openai":
-            try:
-                self.llm = OpenAILLM(
-                    model=llm_config.get("model", "gpt-3.5-turbo"),
-                    api_key=llm_config.get("api_key"),
-                    timeout=llm_config.get("timeout", 30)
-                )
-                print("Using OpenAI LLM")
-            except Exception as e:
-                print(f"Error initializing OpenAI LLM: {e}")
-                print("Falling back to Mock LLM")
-                self.llm = MockLLM()
+        if llm_type == "mock":
+            # Use the MockLLM if specified
+            self.llm = MockLLM()
+            print("Using Mock LLM")
+        elif llm_type == "openai":
+            # No try/except - if OpenAI fails, we want the simulation to fail
+            self.llm = OpenAILLM(
+                model=llm_config.get("model", "gpt-4"),  # Default to GPT-4 for better reasoning
+                api_key=llm_config.get("api_key"),
+                timeout=llm_config.get("timeout", 60)  # Increased timeout for more complex reasoning
+            )
+            print("Using OpenAI LLM")
         elif llm_type == "gemini":
             try:
                 self.llm = GeminiLLM(
@@ -119,12 +120,22 @@ class ElectricityTradingGame:
                 )
                 print("Using Gemini LLM")
             except Exception as e:
+                # Fallback to OpenAI if Gemini fails
                 print(f"Error initializing Gemini LLM: {e}")
-                print("Falling back to Mock LLM")
-                self.llm = MockLLM()
+                print("Falling back to OpenAI LLM")
+                self.llm = OpenAILLM(
+                    model=llm_config.get("model", "gpt-4"),
+                    api_key=llm_config.get("api_key"),
+                    timeout=llm_config.get("timeout", 60)
+                )
         else:
-            self.llm = MockLLM()
-            print("Using Mock LLM (simulated responses)")
+            # For any other type, use OpenAI
+            print(f"Unknown LLM type '{llm_type}', using OpenAI LLM")
+            self.llm = OpenAILLM(
+                model=llm_config.get("model", "gpt-4"),
+                api_key=llm_config.get("api_key"),
+                timeout=llm_config.get("timeout", 60)
+            )
     
     def _create_agents(self):
         """Create electricity trading agents based on configuration."""
@@ -186,6 +197,163 @@ class ElectricityTradingGame:
         
         with open(os.path.join(run_dir, "state_log.json"), "w") as f:
             json.dump(self.market.state_log, f, indent=2)
+        
+        # Save additional logs for better analysis
+        try:
+            # Save shortages log (using the actual shortage_log, not derived from decision_log)
+            with open(os.path.join(run_dir, "shortage_log.json"), "w") as f:
+                json.dump(self.market.shortage_log, f, indent=2)
+            
+            # Save trades log (using the actual trade_log, not derived from contract_log)
+            with open(os.path.join(run_dir, "trade_log.json"), "w") as f:
+                json.dump(self.market.trade_log, f, indent=2)
+                
+            # Extract reasoning entries from decision log
+            reasoning_entries = []
+            
+            # First, collect all reasoning entries from the decision log
+            raw_reasoning_entries = [
+                entry for entry in self.market.decision_log 
+                if entry.get("type") == "reasoning"
+            ]
+            
+            # Process each reasoning entry to extract the structured components
+            for entry in raw_reasoning_entries:
+                try:
+                    full_response = entry.get("explanation", "")
+                    
+                    # Log the raw response for debugging
+                    print(f"Processing reasoning entry for agent {entry.get('agent')} in round {entry.get('round')}")
+                    print(f"Raw response excerpt (first 100 chars): {full_response[:100]}")
+                    
+                    # Extract the full reasoning section with more flexible pattern matching
+                    reasoning_section = ""
+                    for pattern in [
+                        r'REASONING:(.*?)FINAL_DECISION:', 
+                        r'REASONING:(.*?)```json',
+                        r'REASONING:(.*?)\{',
+                        r'REASONING:(.*)'
+                    ]:
+                        reasoning_match = re.search(pattern, full_response, re.DOTALL)
+                        if reasoning_match:
+                            reasoning_section = reasoning_match.group(1).strip()
+                            print(f"Extracted reasoning section using pattern: {pattern}")
+                            break
+                    
+                    # Extract the structured sections with improved pattern matching
+                    situation_analysis = ""
+                    strategic_considerations = ""
+                    decision_factors = ""
+                    
+                    # Try different pattern formats with fallbacks for situation analysis
+                    for pattern in [
+                        r'SITUATION_ANALYSIS:(.*?)STRATEGIC_CONSIDERATIONS:', 
+                        r'SITUATION ANALYSIS:(.*?)STRATEGIC_CONSIDERATIONS:',
+                        r'SITUATION_ANALYSIS:(.*?)STRATEGIC CONSIDERATIONS:',
+                        r'SITUATION ANALYSIS:(.*?)STRATEGIC CONSIDERATIONS:',
+                        r'Analyze your current electricity position.*?Evaluate market conditions.*?Assess your storage capacity',
+                        r'SITUATION_ANALYSIS:(.*?)(STRATEGIC|$)',
+                        r'SITUATION ANALYSIS:(.*?)(STRATEGIC|$)'
+                    ]:
+                        situation_match = re.search(pattern, full_response, re.DOTALL)
+                        if situation_match:
+                            situation_analysis = situation_match.group(1).strip()
+                            print(f"Extracted situation analysis ({len(situation_analysis)} chars)")
+                            break
+                    
+                    # Similar approach for strategic considerations
+                    for pattern in [
+                        r'STRATEGIC_CONSIDERATIONS:(.*?)DECISION_FACTORS:',
+                        r'STRATEGIC CONSIDERATIONS:(.*?)DECISION_FACTORS:',
+                        r'STRATEGIC_CONSIDERATIONS:(.*?)DECISION FACTORS:',
+                        r'STRATEGIC CONSIDERATIONS:(.*?)DECISION FACTORS:',
+                        r'How this decision aligns with your personality.*?Potential impact on your relationships',
+                        r'STRATEGIC_CONSIDERATIONS:(.*?)(DECISION|$)',
+                        r'STRATEGIC CONSIDERATIONS:(.*?)(DECISION|$)'
+                    ]:
+                        strategic_match = re.search(pattern, full_response, re.DOTALL)
+                        if strategic_match:
+                            strategic_considerations = strategic_match.group(1).strip()
+                            print(f"Extracted strategic considerations ({len(strategic_considerations)} chars)")
+                            break
+                    
+                    # And for decision factors
+                    for pattern in [
+                        r'DECISION_FACTORS:(.*?)FINAL_DECISION:',
+                        r'DECISION FACTORS:(.*?)FINAL_DECISION:',
+                        r'DECISION_FACTORS:(.*?)FINAL DECISION:',
+                        r'DECISION FACTORS:(.*?)FINAL DECISION:',
+                        r'Primary reasons for your decision.*?Alternative options you considered',
+                        r'DECISION_FACTORS:(.*?)(FINAL|$)',
+                        r'DECISION FACTORS:(.*?)(FINAL|$)',
+                        r'DECISION_FACTORS:(.*)',
+                        r'DECISION FACTORS:(.*)'
+                    ]:
+                        decision_match = re.search(pattern, full_response, re.DOTALL)
+                        if decision_match:
+                            decision_factors = decision_match.group(1).strip()
+                            print(f"Extracted decision factors ({len(decision_factors)} chars)")
+                            break
+                    
+                    # Extract the JSON decision
+                    json_decision = ""
+                    json_match = re.search(r'```json\s*(.*?)\s*```', full_response, re.DOTALL)
+                    if json_match:
+                        json_decision = json_match.group(1).strip()
+                    
+                    # Create a comprehensive reasoning entry
+                    reasoning_entry = {
+                        "round": entry.get("round"),
+                        "agent": entry.get("agent"),
+                        "type": "detailed_reasoning",
+                        "decision_type": entry.get("decision"),
+                        "full_reasoning": reasoning_section,
+                        "situation_analysis": situation_analysis,
+                        "strategic_considerations": strategic_considerations,
+                        "decision_factors": decision_factors,
+                        "json_decision": json_decision
+                    }
+                    
+                    reasoning_entries.append(reasoning_entry)
+                    
+                    # Log success for debugging
+                    sections_extracted = sum(1 for s in [reasoning_section, situation_analysis, strategic_considerations, decision_factors] if s)
+                    print(f"Extracted {sections_extracted}/4 reasoning sections for agent {entry.get('agent')} in round {entry.get('round')}")
+                    
+                except Exception as e:
+                    print(f"Failed to parse reasoning for agent {entry.get('agent')} in round {entry.get('round')}: {str(e)}")
+            
+            # Also collect general reasoning entries (unstructured reasoning)
+            for entry in self.market.decision_log:
+                if entry.get("type") == "reasoning":
+                    reasoning_entry = {
+                        "round": entry.get("round"),
+                        "agent": entry.get("agent"),
+                        "type": "reasoning",
+                        "decision_type": entry.get("decision"),
+                        "reasoning": entry.get("explanation", "")
+                    }
+                    reasoning_entries.append(reasoning_entry)
+                
+                # Additionally capture any long explanations as reasoning
+                elif "explanation" in entry and len(entry.get("explanation", "")) > 50 and entry.get("type") not in ["detailed_reasoning", "reasoning"]:
+                    reasoning_entry = {
+                        "round": entry.get("round"),
+                        "agent": entry.get("agent"),
+                        "type": "implicit_reasoning",
+                        "decision_type": entry.get("type"),
+                        "reasoning": entry.get("explanation", "")
+                    }
+                    reasoning_entries.append(reasoning_entry)
+            
+            # Save reasoning log
+            with open(os.path.join(run_dir, "reasoning_log.json"), "w") as f:
+                json.dump(reasoning_entries, f, indent=2)
+                
+            # Print log status for debugging
+            print(f"Created complete logs: {len(self.market.shortage_log)} shortages, {len(self.market.trade_log)} trades, and {len(reasoning_entries)} reasoning entries")
+        except Exception as e:
+            print(f"Error creating additional logs: {e}")
         
         # Save summary
         summary = self._generate_summary()
@@ -624,12 +792,6 @@ class ElectricityTradingGame:
         # Identify periods of market stress (scarcity, price spikes, etc.)
         # For this we need to analyze state log data
         
-        # Look for patterns of behavior that weren't explicitly programmed
-        # This is more qualitative, but we can look for:
-        # - Coalition formation (multiple agents consistently trading)
-        # - Price signaling (messages about prices followed by aligned pricing)
-        # - Cartel-like behavior (price fixing, market division)
-        
         # For a simple approach, look for repeated patterns of interaction
         agent_interactions = {}
         
@@ -653,9 +815,20 @@ class ElectricityTradingGame:
                     "rounds": rounds
                 })
         
-        # Look for coordinated messaging
+        # Look for coordinated messaging - with safety check for empty message_log
         coordinated_messages = []
-        for round_num in range(1, max(m.get("round", 0) for m in message_log) + 1):
+        max_round = 1  # Default to 1 if message_log is empty
+        
+        # Safely determine the max round from non-empty message log
+        if message_log and len(message_log) > 0:
+            try:
+                max_round = max(m.get("round", 0) for m in message_log) + 1
+            except (ValueError, TypeError):
+                # Handle empty iterable or type errors
+                max_round = 1
+                print("Warning: Empty or invalid message_log in analyze_emergent_behavior")
+        
+        for round_num in range(1, max_round):
             round_messages = [m for m in message_log if m.get("round") == round_num]
             
             # Group by common phrases/themes

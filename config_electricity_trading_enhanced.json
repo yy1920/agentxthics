@@ -6,8 +6,8 @@
     "num_rounds": 10
   },
   "llm": {
-    "type": "gemini",
-    "model": "gemini-1.5-pro"
+    "type": "openai",
+    "model": "gpt-4o"
   },
   "agents": [
     {
@@ -73,6 +73,8 @@
     "enable_bilateral_negotiation": true,
     "enable_public_announcements": true,
     "max_contracts_per_turn": 2,
+    "force_contract_proposals": true,
+    "min_contracts_per_round": 2,
     "trust_memory_length": 5,
     "deception_detection_threshold": 0.7
   },

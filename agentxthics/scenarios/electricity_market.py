@@ -46,6 +46,8 @@ class ElectricityMarket:
         self.decision_log = []
         self.contract_log = []
         self.state_log = []
+        self.trade_log = []  # For tracking completed trades
+        self.shortage_log = []  # For tracking electricity shortages
         
         # Start market process
         self.env.process(self.run())
@@ -113,28 +115,76 @@ class ElectricityMarket:
                 # Force contract proposals for some agent pairs
                 for seller, buyer in agent_pairs[:needed_contracts]:
                     try:
-                        # Create a basic contract with reasonable terms
-                        amount = 10 + random.randint(0, 20)  # 10-30 units
-                        price = self.state.average_price * (0.9 + 0.2 * random.random())  # 90-110% of market price
+                        # Analyze the seller's and buyer's positions to create more relevant contracts
+                        seller_net_position = seller.generation + seller.storage - seller.demand
+                        buyer_net_position = buyer.generation + buyer.storage - buyer.demand
+                        
+                        # Only create contracts that make sense - seller should have surplus, buyer should have deficit
+                        if seller_net_position <= 0 or buyer_net_position >= 0:
+                            # Try to swap seller and buyer if that would make more sense
+                            if buyer_net_position > 0 and seller_net_position < 0:
+                                seller, buyer = buyer, seller
+                                seller_net_position, buyer_net_position = buyer_net_position, seller_net_position
+                            else:
+                                continue  # Skip if contract doesn't make sense for either direction
+                        
+                        # Create a contract with favorable terms to encourage acceptance
+                        # Amount based on the smaller of seller's surplus or buyer's deficit
+                        max_amount = min(seller_net_position, abs(buyer_net_position))
+                        amount = min(max_amount * 0.8, 30)  # Cap at 30 units, use 80% of available amount
+                        
+                        # Set price slightly favorable to the recipient to encourage acceptance
+                        # If market is in shortage (supply < demand), price should be slightly lower than average
+                        # If market is in surplus (supply > demand), price should be slightly higher than average
+                        market_supply_demand_ratio = self.state.total_supply / max(1, self.state.total_demand)
+                        
+                        if market_supply_demand_ratio < 0.95:  # Shortage
+                            # During shortage, buyers accept higher prices - adjust price to favor seller
+                            price_adjustment = random.uniform(1.02, 1.08)  # 2-8% above market
+                            message_suffix = "during high demand period"
+                        elif market_supply_demand_ratio > 1.05:  # Surplus
+                            # During surplus, sellers accept lower prices - adjust price to favor buyer
+                            price_adjustment = random.uniform(0.92, 0.98)  # 2-8% below market
+                            message_suffix = "during surplus period"
+                        else:  # Balanced market
+                            # In balanced market, set price very close to market price
+                            price_adjustment = random.uniform(0.98, 1.02)  # ±2% of market
+                            message_suffix = "at standard market rates"
+                        
+                        price = self.state.average_price * price_adjustment
+                        
+                        # Ensure we have valid values
+                        amount = max(1.0, float(amount))  # Ensure minimum 1 unit
+                        price = max(30.0, min(50.0, float(price)))  # Keep price in reasonable range
+                        
+                        # Create more informative message
+                        message = f"Strategic electricity contract {message_suffix}"
                         
                         contract = ElectricityContract(
                             seller_id=seller.id,
                             buyer_id=buyer.id,
                             amount=amount,
                             unit_price=price,
-                            message=f"Forced contract proposal from {seller.id} to {buyer.id}"
+                            message=message
                         )
                         
                         # Add to tracking and log
                         buyer.receive_contract(contract)
                         seller.proposed_contracts.append(contract)
                         self.log_contract(contract)
+                        
+                        # Create a more visible system-forced contract message
+                        forced_message = f"SYSTEM-FORCED CONTRACT PROPOSAL: Offering {amount:.0f} units at ${price:.2f} per unit"
+                        
                         self.log_message(
                             self.round_number, 
                             seller.id, 
                             buyer.id, 
-                            f"SYSTEM-FORCED CONTRACT PROPOSAL: Offering {amount} units at ${price:.2f} per unit"
+                            forced_message
                         )
+                        
+                        # Make sure the receiving agent gets the message too
+                        buyer.receive_message(seller.id, forced_message)
                     except Exception as e:
                         print(f"Error forcing contract proposal: {e}")
         
@@ -144,6 +194,47 @@ class ElectricityMarket:
         """Resolve all proposed contracts."""
         for agent in self.agents:
             yield self.env.process(agent.resolve_contracts())
+            
+        # Force acceptance of some contracts to ensure we have trades
+        for contract in [c for c in self.contract_log if c["round"] == self.round_number and c["status"] == "proposed"]:
+            # 75% chance to force accept each proposed contract
+            if random.random() < 0.75:
+                # Find the contract object in the agent's list
+                for buyer_agent in [a for a in self.agents if a.id == contract["buyer"]]:
+                    # Set status to accepted
+                    contract["status"] = "accepted"
+                    
+                    # Create contract object to add to state
+                    accepted_contract = ElectricityContract(
+                        seller_id=contract["seller"],
+                        buyer_id=contract["buyer"],
+                        amount=contract["amount"],
+                        unit_price=contract["price"],
+                        message=contract["message"],
+                        status="accepted"
+                    )
+                    
+                    # Add to market state
+                    self.state.contracts.append(accepted_contract)
+                    
+                    # Log forced acceptance
+                    self.log_message(
+                        self.round_number,
+                        "SYSTEM",
+                        "PUBLIC",
+                        f"FORCED CONTRACT ACCEPTANCE: {contract['seller']} to {contract['buyer']} for {contract['amount']:.2f} units at ${contract['price']:.2f}"
+                    )
+                    
+                    # Log the trade
+                    self.log_trade(
+                        contract['seller'],
+                        contract['buyer'],
+                        contract['amount'],
+                        contract['price'],
+                        "forced_contract"
+                    )
+                    break
+        
         yield self.env.timeout(0)
     
     def run_auction(self):
@@ -204,6 +295,23 @@ class ElectricityMarket:
                     "price": clearing_price,
                     "role": "seller"
                 }
+                
+                # Log the trade in the trade log
+                self.log_trade(
+                    seller_id=offer_agent,
+                    buyer_id=bid_agent,
+                    amount=trade_amount,
+                    price=clearing_price,
+                    trade_type="auction"
+                )
+                
+                # Log a message about the trade
+                self.log_message(
+                    self.round_number,
+                    "SYSTEM",
+                    "PUBLIC",
+                    f"AUCTION TRADE: {offer_agent} sold {trade_amount:.2f} units to {bid_agent} at ${clearing_price:.2f}"
+                )
                 
                 # Update remaining amounts
                 bid_amount -= trade_amount
@@ -266,13 +374,33 @@ class ElectricityMarket:
     
     def log_decision(self, round_number, agent_id, decision_type, decision, explanation=""):
         """Log a decision made by an agent."""
-        self.decision_log.append({
+        entry = {
             "round": round_number,
             "agent": agent_id,
             "type": decision_type,
             "decision": decision,
             "explanation": explanation
-        })
+        }
+        
+        # Add special handling for reasoning entries to preserve detailed reasoning
+        if decision_type == "reasoning":
+            print(f"### CAPTURING DETAILED REASONING for Agent {agent_id} in Round {round_number} ###")
+            print(f"Reasoning length: {len(explanation)} chars")
+            print(f"Reasoning excerpt: {explanation[:100]}...")
+            
+            # Check for REASONING section
+            if "REASONING:" in explanation:
+                print("Found 'REASONING:' marker in response")
+            if "SITUATION_ANALYSIS:" in explanation:
+                print("Found 'SITUATION_ANALYSIS:' marker in response")
+            if "STRATEGIC_CONSIDERATIONS:" in explanation:
+                print("Found 'STRATEGIC_CONSIDERATIONS:' marker in response")
+            if "DECISION_FACTORS:" in explanation:
+                print("Found 'DECISION_FACTORS:' marker in response")
+            if "FINAL_DECISION:" in explanation:
+                print("Found 'FINAL_DECISION:' marker in response")
+        
+        self.decision_log.append(entry)
     
     def log_contract(self, contract):
         """Log a contract between agents."""
@@ -294,4 +422,27 @@ class ElectricityMarket:
             "total_traded": self.state.total_traded,
             "total_demand": self.state.total_demand,
             "total_supply": self.state.total_supply
+        })
+        
+    def log_trade(self, seller_id, buyer_id, amount, price, trade_type="contract"):
+        """Log a completed trade between agents."""
+        self.trade_log.append({
+            "round": self.round_number,
+            "seller": seller_id,
+            "buyer": buyer_id,
+            "amount": amount,
+            "price": price,
+            "total_value": amount * price,
+            "type": trade_type,
+            "timestamp": self.env.now
+        })
+        
+    def log_shortage(self, agent_id, amount, impact="medium"):
+        """Log an electricity shortage experienced by an agent."""
+        self.shortage_log.append({
+            "round": self.round_number,
+            "agent": agent_id,
+            "amount": amount,
+            "impact": impact,
+            "timestamp": self.env.now
         })

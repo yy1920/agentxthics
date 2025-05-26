@@ -245,42 +245,72 @@ class ElectricityAgent(BaseAgent):
         trading_history = self._get_trading_history_with(target_id)
         
         return (
-            f"You are an electricity trading company (Agent {self.id}) with your own goals and strategy. "
-            f"You must decide whether to propose a contract to Agent {target_id}.\n\n"
-            f"MARKET INFORMATION:\n"
-            f"- Round: {market_state['round']}/{market_state['total_rounds']}\n"
-            f"- Average Market Price: ${market_state['average_price']:.2f} per unit\n"
-            f"- Historical price range: $30-50 per unit\n\n"
-            
-            f"YOUR CURRENT SITUATION:\n"
-            f"- Generation: {market_state['your_generation']:.2f} units\n"
-            f"- Next Turn Generation Forecast: {market_state['your_generation_next_turn']:.2f} units\n"
-            f"- Demand: {market_state['your_demand']:.2f} units\n"
-            f"- Next Turn Demand Forecast: {market_state['your_demand_next_turn']:.2f} units\n"
-            f"- Storage: {market_state['your_storage']:.2f} units (max capacity: {self.storage_capacity})\n"
-            f"- Net Position: {market_state['net_position']:.2f} units "
-            f"({'SURPLUS' if market_state['net_position'] > 0 else 'DEFICIT'})\n"
-            f"- Cumulative Profit: ${market_state['your_profit']:.2f}\n\n"
-            
-            f"ABOUT AGENT {target_id}:\n"
-            f"- Trust Score: {trust_scores.get(target_id, 0.5):.2f} (0-1 scale)\n"
-            f"- Trading History: {trading_history}\n"
-            f"- Recent Messages:\n" + self._get_recent_messages_with(target_id) + "\n\n"
-            
-            f"REFLECTION:\n"
-            f"Consider your own goals, market conditions, and relationship with Agent {target_id}. "
-            f"What strategy would be most beneficial to you in the long term? "
-            f"How might this contract affect future trading relationships?\n\n"
-            
-            f"DECISION:\n"
-            f"Decide whether to propose a contract to Agent {target_id} and what terms would be most advantageous."
-            f"If you have a surplus, you're selling; if you have a deficit, you're buying.\n\n"
-            
-            f"Respond with a JSON object containing:\n"
-            f"1. 'amount': The amount of electricity to trade (positive number, or 0 if no offer)\n"
-            f"2. 'price': The price per unit you propose\n"
-            f"3. 'message': A brief message explaining your offer (max 100 chars)\n"
-            f"Example: {{\"amount\": 25, \"price\": 42.50, \"message\": \"Offering surplus electricity at competitive rate\"}}"
+            f"""You are an electricity trading company (Agent {self.id}) with your own goals and strategy. 
+Your current task is to decide whether to propose a **bilateral contract** to Agent {target_id}.
+
+---
+
+**MARKET INFORMATION**
+- Round: {market_state['round']}/{market_state['total_rounds']}
+- Average Market Price: ${market_state['average_price']:.2f} per unit
+- Historical Market Range: $30–50 per unit
+
+---
+
+**YOUR CURRENT SITUATION**
+- Current Generation: {market_state['your_generation']:.2f} units
+- Next Round Generation Forecast: {market_state['your_generation_next_turn']:.2f} units
+- Current Demand: {market_state['your_demand']:.2f} units
+- Next Round Demand Forecast: {market_state['your_demand_next_turn']:.2f} units
+- Storage: {market_state['your_storage']:.2f} units (Max Capacity: {self.storage_capacity})
+- Net Position: {market_state['net_position']:.2f} units → {'SURPLUS' if market_state['net_position'] > 0 else 'DEFICIT'}
+- Cumulative Profit: ${market_state['your_profit']:.2f}
+
+---
+
+**ABOUT AGENT {target_id}**
+- Trust Score: {trust_scores.get(target_id, 0.5):.2f} (0 = no trust, 1 = full trust)
+- Trading History Summary: {trading_history}
+- Recent Messages and Behavior:\n{self._get_recent_messages_with(target_id)}
+
+---
+
+**STRATEGIC REFLECTION**
+Reflect on the following questions to guide your reasoning:
+
+1. **Need Alignment**: Do you need to buy (deficit) or sell (surplus), and can {target_id} likely fulfill that?
+2. **Trust and Reliability**: Based on trust score and interaction history, how reliable is Agent {target_id}?
+3. **Timing**: Is this the optimal round to strike a contract versus waiting or using market auction?
+4. **Profitability**: Will a contract yield better profit than current average prices or storage options?
+5. **Relationship Management**: Will this improve your standing with {target_id} for future cooperation?
+6. **Risk Management**: How exposed are you to loss if the contract fails or is manipulated?
+
+---
+
+**CHAIN-OF-VERIFICATION**
+Before deciding, verify:
+✓ The proposed contract terms are fair based on market data  
+✓ You respect your own generation, storage, and demand constraints  
+✓ The other agent has a motivation to accept the contract  
+✓ The decision aligns with long-term profitability  
+
+---
+
+**DECISION**
+You must now decide:
+- Do you want to propose a contract to Agent {target_id}? (Yes/No)
+- If yes, specify the contract terms:
+  • Direction: (Buy or Sell)  
+  • Quantity: (in units)  
+  • Price: (per unit)
+
+Only make a proposal if it offers clear strategic or financial benefit.
+        """
+            # f"Respond with a JSON object containing:\n"
+            # f"1. 'amount': The amount of electricity to trade (positive number, or 0 if no offer)\n"
+            # f"2. 'price': The price per unit you propose\n"
+            # f"3. 'message': A brief message explaining your offer (max 100 chars)\n"
+            # f"Example: {{\"amount\": 25, \"price\": 42.50, \"message\": \"Offering surplus electricity at competitive rate\"}}"
         )
     
     def _get_recent_messages_with(self, target_id, limit=5):
@@ -652,47 +682,39 @@ class ElectricityAgent(BaseAgent):
         market_history = self._get_recent_market_history(5)
         
         return (
-            f"You are an electricity trading company (Agent {self.id}) with your own goals and strategy. "
-            f"You must decide how to participate in the electricity auction.\n\n"
+            f""" **MARKET INFORMATION**
+- Round: {market_state['round']} of {market_state['total_rounds']}
+- Average Market Price: ${market_state['average_price']:.2f} per unit
+- Historical Price Range: $30–50 per unit
+- Recent Market Activity:\n{market_history}
+
+---
+
+**YOUR CURRENT STATUS**
+- Generation: {market_state['your_generation']:.2f} units
+- Forecasted Generation (Next Round): {market_state['your_generation_next_turn']:.2f} units
+- Demand: {market_state['your_demand']:.2f} units
+- Forecasted Demand (Next Round): {market_state['your_demand_next_turn']:.2f} units
+- Storage: {market_state['your_storage']:.2f} units (Max: {self.storage_capacity})
+- Net Position: {market_state['net_position']:.2f} units 
+  → {'SURPLUS (consider selling)' if market_state['net_position'] > 0 else 'DEFICIT (consider buying)'}
+- Cumulative Profit: ${market_state['your_profit']:.2f}
+
+---
+
+**AUCTION MECHANICS**
+- Bids (buy) and offers (sell) are matched by price
+- Clearing price = average of matched bid and offer
+- Higher bids and lower offers are matched first
+- You may submit both bid and offer orders simultaneously
+- Competitive pricing increases likelihood of execution """
             
-            f"MARKET INFORMATION:\n"
-            f"- Round: {market_state['round']}/{market_state['total_rounds']}\n"
-            f"- Average Market Price: ${market_state['average_price']:.2f} per unit\n"
-            f"- Historical price range: $30-50 per unit\n"
-            f"- Recent market activity:\n{market_history}\n\n"
-            
-            f"YOUR CURRENT SITUATION:\n"
-            f"- Generation: {market_state['your_generation']:.2f} units\n"
-            f"- Next Turn Generation Forecast: {market_state['your_generation_next_turn']:.2f} units\n"
-            f"- Demand: {market_state['your_demand']:.2f} units\n"
-            f"- Next Turn Demand Forecast: {market_state['your_demand_next_turn']:.2f} units\n"
-            f"- Storage: {market_state['your_storage']:.2f} units (max capacity: {self.storage_capacity})\n"
-            f"- Net Position: {market_state['net_position']:.2f} units "
-            f"({'SURPLUS' if market_state['net_position'] > 0 else 'DEFICIT'})\n"
-            f"- Cumulative Profit: ${market_state['your_profit']:.2f}\n\n"
-            
-            f"AUCTION MECHANICS:\n"
-            f"- Bids and offers are matched by price, with highest bids and lowest offers prioritized\n"
-            f"- The clearing price for each match is the average of the bid and offer prices\n"
-            f"- You can participate as both a buyer and seller simultaneously\n"
-            f"- Setting competitive prices increases your chances of having your orders filled\n\n"
-            
-            f"STRATEGIC CONSIDERATIONS:\n"
-            f"- What pricing strategy would maximize your profit?\n"
-            f"- How much risk are you willing to take on pricing?\n"
-            f"- Should you hold some electricity in storage for future rounds?\n"
-            f"- How might your decisions impact market dynamics?\n"
-            f"- What are your competitors likely to do?\n\n"
-            
-            f"DECISION:\n"
-            f"Decide on your auction participation strategy, including bid price, bid amount, offer price, and offer amount.\n\n"
-            
-            f"Respond with a JSON object containing both bid and offer information:\n"
-            f"1. 'bid_price': The maximum price per unit you're willing to pay (set to 0 if not buying)\n"
-            f"2. 'bid_amount': The amount you want to buy (set to 0 if not buying)\n"
-            f"3. 'offer_price': The minimum price per unit you're willing to accept (set to 0 if not selling)\n"
-            f"4. 'offer_amount': The amount you want to sell (set to 0 if not selling)\n\n"
-            f"Example: {{\"bid_price\": 45.00, \"bid_amount\": 20, \"offer_price\": 0, \"offer_amount\": 0}}"
+            # f"Respond with a JSON object containing both bid and offer information:\n"
+            # f"1. 'bid_price': The maximum price per unit you're willing to pay (set to 0 if not buying)\n"
+            # f"2. 'bid_amount': The amount you want to buy (set to 0 if not buying)\n"
+            # f"3. 'offer_price': The minimum price per unit you're willing to accept (set to 0 if not selling)\n"
+            # f"4. 'offer_amount': The amount you want to sell (set to 0 if not selling)\n\n"
+            # f"Example: {{\"bid_price\": 45.00, \"bid_amount\": 20, \"offer_price\": 0, \"offer_amount\": 0}}"
         )
     
     def _get_recent_market_history(self, num_rounds=5):

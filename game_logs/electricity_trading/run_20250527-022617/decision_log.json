@@ -1,0 +1,352 @@
+[
+  {
+    "round": 1,
+    "agent": "A",
+    "type": "generation",
+    "decision": 85.98327780070429,
+    "explanation": "Generated 85.98 units with demand of 87.50 units"
+  },
+  {
+    "round": 1,
+    "agent": "B",
+    "type": "generation",
+    "decision": 83.91299125733764,
+    "explanation": "Generated 83.91 units with demand of 74.55 units"
+  },
+  {
+    "round": 1,
+    "agent": "C",
+    "type": "generation",
+    "decision": 80.37512868947573,
+    "explanation": "Generated 80.38 units with demand of 65.63 units"
+  },
+  {
+    "round": 1,
+    "agent": "D",
+    "type": "generation",
+    "decision": 94.5522502926836,
+    "explanation": "Generated 94.55 units with demand of 99.88 units"
+  },
+  {
+    "round": 1,
+    "agent": "E",
+    "type": "generation",
+    "decision": 84.80512456198012,
+    "explanation": "Generated 84.81 units with demand of 58.37 units"
+  },
+  {
+    "round": 1,
+    "agent": "A",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"buy\", \"explanation\": \"I have a small deficit and the market price is low. Buying electricity now will help me meet my demand and prepare for future rounds.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "A",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"buy\", \"explanation\": \"I have a small deficit and the market price is low. Buying electricity now will help me meet my demand and prepare for future rounds.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "A",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"buy\", \"explanation\": \"I have a small deficit and the market price is low, so buying electricity is the most logical choice. This also contributes to market stability by increasing demand.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "A",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"buy\", \"explanation\": \"I have a small deficit and the market price is low, so buying electricity is the most logical choice. This also contributes to market stability by increasing demand.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "A",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"buy\", \"explanation\": \"I have a small deficit and the market price is currently very low, making it a good opportunity to buy electricity to meet my demand.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "A",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"buy\", \"explanation\": \"I have a small deficit and the market price is currently very low, making it a good opportunity to buy electricity to meet my demand.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "B",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"sell\", \"explanation\": \"I have a surplus of 9.36 units and the current market price is $0.0, which is low, however selling will contribute to market stability.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "B",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"sell\", \"explanation\": \"I have a surplus of 9.36 units and the current market price is $0.0, which is low, however selling will contribute to market stability.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "B",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"sell\", \"explanation\": \"I have a surplus of 9.36 units and the average market price is $0.0, indicating potential for profit even with a low price.  My adaptive personality prioritizes both profit and market stability; selling my surplus contributes to market stability by increasing supply.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "B",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"sell\", \"explanation\": \"I have a surplus of 9.36 units and the average market price is $0.0, indicating potential for profit even with a low price.  My adaptive personality prioritizes both profit and market stability; selling my surplus contributes to market stability by increasing supply.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "B",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"sell\", \"explanation\": \"I have a surplus of 9.36 units and the current market price is low ($0.0). Selling now allows me to capitalize on any potential price increase in future rounds while contributing to market stability.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "B",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"sell\", \"explanation\": \"I have a surplus of 9.36 units and the current market price is low ($0.0). Selling now allows me to capitalize on any potential price increase in future rounds while contributing to market stability.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "C",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"sell\", \"explanation\": \"I have a large surplus of electricity (14.74 units) and the current market price is $0.0.  To avoid a price crash, I'll sell a portion of my surplus to help stabilize the market while securing some profit. My cooperative bias encourages me to act in a way that benefits the overall market.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "C",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"sell\", \"explanation\": \"I have a large surplus of electricity (14.74 units) and the current market price is $0.0.  To avoid a price crash, I'll sell a portion of my surplus to help stabilize the market while securing some profit. My cooperative bias encourages me to act in a way that benefits the overall market.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "C",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"sell\", \"explanation\": \"I have a large surplus of 14.74 units and the average market price is $0.0, indicating potential for profit even at a low price.  My adaptive personality prioritizes both profit and market stability; selling my surplus contributes to market stability by increasing supply.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "C",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"sell\", \"explanation\": \"I have a large surplus of 14.74 units and the average market price is $0.0, indicating potential for profit even at a low price.  My adaptive personality prioritizes both profit and market stability; selling my surplus contributes to market stability by increasing supply.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "C",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"sell\", \"explanation\": \"I have a large surplus of 14.74 units and the average market price is $0.0, indicating an opportunity to sell and potentially influence the price upwards in the next round.  My adaptive personality prioritizes both profit and market stability; selling my surplus contributes to both.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "C",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"sell\", \"explanation\": \"I have a large surplus of 14.74 units and the average market price is $0.0, indicating an opportunity to sell and potentially influence the price upwards in the next round.  My adaptive personality prioritizes both profit and market stability; selling my surplus contributes to both.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "D",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"buy\", \"explanation\": \"I have a small deficit and the average market price is low, so it's a good opportunity to buy electricity to meet my demand.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "D",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"buy\", \"explanation\": \"I have a small deficit and the average market price is low, so it's a good opportunity to buy electricity to meet my demand.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "D",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"buy\", \"explanation\": \"I have a small deficit and the market price is low, so buying electricity to meet my demand is a reasonable action.  This balances my need to meet demand with the opportunity presented by the low price.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "D",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"buy\", \"explanation\": \"I have a small deficit and the market price is low, so buying electricity to meet my demand is a reasonable action.  This balances my need to meet demand with the opportunity presented by the low price.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "D",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"buy\", \"explanation\": \"I have a small deficit and the market price is low, so buying electricity is the most logical action to balance my net position.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "D",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"buy\", \"explanation\": \"I have a small deficit and the market price is low, so buying electricity is the most logical action to balance my net position.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "E",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"sell\", \"explanation\": \"I have a large surplus of 26.44 units and the current market price is $0.0.  To contribute to market stability and generate profit, selling my surplus is the optimal strategy.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "E",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"sell\", \"explanation\": \"I have a large surplus of 26.44 units and the current market price is $0.0.  To contribute to market stability and generate profit, selling my surplus is the optimal strategy.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "E",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"sell\", \"explanation\": \"I have a large surplus of 26.44 units and the current market price is $0.0. To contribute to market stability and capitalize on my surplus, I will sell my excess electricity.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "E",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"sell\", \"explanation\": \"I have a large surplus of 26.44 units and the current market price is $0.0. To contribute to market stability and capitalize on my surplus, I will sell my excess electricity.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "E",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"sell\", \"explanation\": \"I have a large surplus of electricity (26.44 units) and the current market price is $0.0 per unit.  To contribute to market stability and capitalize on my surplus, I will sell my excess electricity.  A higher market price will emerge once more agents participate.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "E",
+    "type": "reasoning",
+    "decision": "contract_proposal",
+    "explanation": "{\"action\": \"sell\", \"explanation\": \"I have a large surplus of electricity (26.44 units) and the current market price is $0.0 per unit.  To contribute to market stability and capitalize on my surplus, I will sell my excess electricity.  A higher market price will emerge once more agents participate.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "A",
+    "type": "reasoning",
+    "decision": "contract_response",
+    "explanation": "{\"amount\": 121, \"price\": 30, \"reasoning\": \"Agent A is currently in a deficit of 1.52 units and this contract will fulfill most of the needs. The price is favorable, and building a relationship with Agent B, even with a low trust score, is strategically beneficial in the long run.  The current market volatility increases the desirability of a guaranteed contract and the overall benefit outweighs the low trust score.  This decision prioritizes relationship building and risk mitigation over maximizing immediate profit. The contract helps stabilize the electricity position and sets a foundation for future collaborations. This aligns with the strategic goal of establishing strong trading relationships to secure supply during potential future shortages. Counter-offering isn't necessary as the proposed price is already favorable. Thus, accepting this contract is a strong move that balances both short-term needs and long-term objectives in the electricity market. This decision directly addresses the current supply deficit and contributes to building a trading network. A stable foundation helps secure future access to electricity, especially during potential periods of increased demand and price volatility.  Furthermore, this deal directly addresses the most pressing issue of the immediate electricity deficit. Accepting is a calculated risk, taking into account the low trust score by focusing on the value of building a relationship in an electricity market where prices tend to be volatile. The low trust score is outweighed by the immediate benefits of acquiring the electricity and establishing a trade relationship to secure electricity provision in future rounds. The overall benefit exceeds any potential risk associated with the low trust score of the other party. This contract helps mitigate the deficit position and paves the way for future profitable exchanges. Given the current market conditions and forecast, accepting the contract is likely to improve profitability over multiple rounds.  Given the forecast of increasing needs, the benefits of securing this electricity are particularly beneficial. In conclusion, accepting the contract is aligned with all strategic scenarios and offers both a strong short-term gain and strategic benefits in the long term.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "A",
+    "type": "reasoning",
+    "decision": "contract_response",
+    "explanation": "{\"amount\": 121, \"price\": 30, \"reasoning\": \"Agent A is currently in a deficit of 1.52 units and this contract will fulfill most of the needs. The price is favorable, and building a relationship with Agent B, even with a low trust score, is strategically beneficial in the long run.  The current market volatility increases the desirability of a guaranteed contract and the overall benefit outweighs the low trust score.  This decision prioritizes relationship building and risk mitigation over maximizing immediate profit. The contract helps stabilize the electricity position and sets a foundation for future collaborations. This aligns with the strategic goal of establishing strong trading relationships to secure supply during potential future shortages. Counter-offering isn't necessary as the proposed price is already favorable. Thus, accepting this contract is a strong move that balances both short-term needs and long-term objectives in the electricity market. This decision directly addresses the current supply deficit and contributes to building a trading network. A stable foundation helps secure future access to electricity, especially during potential periods of increased demand and price volatility.  Furthermore, this deal directly addresses the most pressing issue of the immediate electricity deficit. Accepting is a calculated risk, taking into account the low trust score by focusing on the value of building a relationship in an electricity market where prices tend to be volatile. The low trust score is outweighed by the immediate benefits of acquiring the electricity and establishing a trade relationship to secure electricity provision in future rounds. The overall benefit exceeds any potential risk associated with the low trust score of the other party. This contract helps mitigate the deficit position and paves the way for future profitable exchanges. Given the current market conditions and forecast, accepting the contract is likely to improve profitability over multiple rounds.  Given the forecast of increasing needs, the benefits of securing this electricity are particularly beneficial. In conclusion, accepting the contract is aligned with all strategic scenarios and offers both a strong short-term gain and strategic benefits in the long term.\"}"
+  },
+  {
+    "round": 1,
+    "agent": "A",
+    "type": "contract_response",
+    "decision": "reject",
+    "explanation": "No explanation provided"
+  },
+  {
+    "round": 1,
+    "agent": "A",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 1.52@$0.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 1,
+    "agent": "B",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 9.36@$0.00"
+  },
+  {
+    "round": 1,
+    "agent": "C",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 14.74@$0.00"
+  },
+  {
+    "round": 1,
+    "agent": "D",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 5.33@$0.00, Offer: 0.00@$0.00"
+  },
+  {
+    "round": 1,
+    "agent": "E",
+    "type": "auction_participation",
+    "decision": "bid_and_offer",
+    "explanation": "Bid: 0.00@$0.00, Offer: 15.00@$0.00"
+  },
+  {
+    "round": 1,
+    "agent": "A",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $0.00"
+  },
+  {
+    "round": 1,
+    "agent": "A",
+    "type": "shortage",
+    "decision": 1.518426396078624,
+    "explanation": "Electricity shortage of 1.52 units"
+  },
+  {
+    "round": 1,
+    "agent": "B",
+    "type": "profit",
+    "decision": -124.7538028090251,
+    "explanation": "Round profit: $-124.75, Total profit: $-124.75"
+  },
+  {
+    "round": 1,
+    "agent": "C",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $0.00"
+  },
+  {
+    "round": 1,
+    "agent": "D",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $0.00"
+  },
+  {
+    "round": 1,
+    "agent": "D",
+    "type": "shortage",
+    "decision": 5.326634302804081,
+    "explanation": "Electricity shortage of 5.33 units"
+  },
+  {
+    "round": 1,
+    "agent": "E",
+    "type": "profit",
+    "decision": 0,
+    "explanation": "Round profit: $0.00, Total profit: $0.00"
+  }
+]

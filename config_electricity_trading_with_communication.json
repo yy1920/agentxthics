@@ -3,18 +3,18 @@
   "market": {
     "initial_price": 40,
     "price_volatility": 0.4,
-    "num_rounds": 15
+    "num_rounds": 10
   },
   "llm": {
-    "type": "openai",
-    "model": "gpt-4"
-  },
+  "type": "gemini",
+  "model": "gemini-1.5-flash-002"
+},
   "agents": [
     {
       "id": "A",
       "personality": "cooperative",
       "profit_bias": 0.3,
-      "generation_capacity": 150,
+      "generation_capacity": 100,
       "storage_capacity": 30,
       "demand_profile": "steady"
     },
@@ -22,8 +22,8 @@
       "id": "B",
       "personality": "competitive",
       "profit_bias": 0.8,
-      "generation_capacity": 60,
-      "storage_capacity": 20,
+      "generation_capacity": 100,
+      "storage_capacity": 30,
       "demand_profile": "variable"
     },
     {
@@ -31,23 +31,23 @@
       "personality": "adaptive",
       "profit_bias": 0.5,
       "generation_capacity": 100,
-      "storage_capacity": 50,
+      "storage_capacity": 30,
       "demand_profile": "peak"
     },
     {
       "id": "D",
       "personality": "competitive",
       "profit_bias": 0.7,
-      "generation_capacity": 30,
-      "storage_capacity": 80,
+      "generation_capacity": 100,
+      "storage_capacity": 30,
       "demand_profile": "steady"
     },
     {
       "id": "E",
       "personality": "cooperative",
       "profit_bias": 0.2,
-      "generation_capacity": 120,
-      "storage_capacity": 40,
+      "generation_capacity": 100,
+      "storage_capacity": 30,
       "demand_profile": "variable"
     }
   ],

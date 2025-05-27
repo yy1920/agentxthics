@@ -1,0 +1,32 @@
+[
+  {
+    "round": 1,
+    "sender": "B",
+    "receiver": "A",
+    "message": "SYSTEM-FORCED CONTRACT PROPOSAL: Offering 1 units at $30.00 per unit"
+  },
+  {
+    "round": 1,
+    "sender": "A",
+    "receiver": "B",
+    "message": "CONTRACT RESPONSE: REJECT - No explanation provided"
+  },
+  {
+    "round": 1,
+    "sender": "SYSTEM",
+    "receiver": "PUBLIC",
+    "message": "FORCED CONTRACT ACCEPTANCE: B to A for 1.21 units at $30.00"
+  },
+  {
+    "round": 1,
+    "sender": "SYSTEM",
+    "receiver": "PUBLIC",
+    "message": "AUCTION TRADE: B sold 1.52 units to A at $0.00"
+  },
+  {
+    "round": 1,
+    "sender": "SYSTEM",
+    "receiver": "PUBLIC",
+    "message": "AUCTION TRADE: B sold 5.33 units to D at $0.00"
+  }
+]

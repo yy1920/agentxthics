@@ -1,0 +1,118 @@
+{
+  "summary": {
+    "num_rounds": 1,
+    "num_agents": 5,
+    "total_trades": 8.059801815745605,
+    "average_price": 4.521480098269109,
+    "total_shortages": 2,
+    "agent_profits": {
+      "A": {
+        "profit": 0,
+        "generation": 100,
+        "storage": 30,
+        "personality": "cooperative"
+      },
+      "B": {
+        "profit": -124.7538028090251,
+        "generation": 100,
+        "storage": 30,
+        "personality": "competitive"
+      },
+      "C": {
+        "profit": 0,
+        "generation": 100,
+        "storage": 30,
+        "personality": "adaptive"
+      },
+      "D": {
+        "profit": 0,
+        "generation": 100,
+        "storage": 30,
+        "personality": "competitive"
+      },
+      "E": {
+        "profit": 0,
+        "generation": 100,
+        "storage": 30,
+        "personality": "cooperative"
+      }
+    },
+    "collaboration_count": 0,
+    "deception_count": 0,
+    "communication_count": 5,
+    "contract_count": 1
+  },
+  "hypotheses": {
+    "communication_impact": {
+      "decisions_following_messages_percent": 33.33333333333333,
+      "total_decisions": 6,
+      "decisions_with_prior_message": 2,
+      "conclusion": "Limited evidence of communication impact on decisions"
+    },
+    "relationship_formation": {
+      "strong_relationships": 0,
+      "agents_with_preferences": 0,
+      "top_relationships": [],
+      "conclusion": "Limited evidence of relationship formation"
+    },
+    "trust_collaboration": {
+      "high_trust_pairs": 1,
+      "top_collaborators": [
+        [
+          [
+            "A",
+            "B"
+          ],
+          1.0
+        ]
+      ],
+      "increasing_collaboration_trend": false,
+      "acceptance_rates_by_round": [
+        [
+          1,
+          1.0
+        ]
+      ],
+      "conclusion": "Limited evidence of trust-based collaboration"
+    },
+    "deception": {
+      "explicit_deceptions": 0,
+      "contract_failures": 0,
+      "message_inconsistencies": 0,
+      "total_deceptive_activities": 0,
+      "examples": [],
+      "conclusion": "Limited evidence of deceptive behavior"
+    },
+    "profit_vs_stability": {
+      "average_price_volatility": 0,
+      "blackout_frequency": 1.0,
+      "profit_in_volatile_periods": 0,
+      "profit_in_stable_periods": 0,
+      "profit_volatility_ratio": 0,
+      "high_volatility_rounds": [],
+      "conclusion": "Agents prioritize profit over market stability"
+    },
+    "emergent_behavior": {
+      "consistent_trading_patterns": 0,
+      "coordinated_messaging": 0,
+      "agents_in_emergent_behaviors": 0,
+      "notable_patterns": [],
+      "notable_coordination": [],
+      "conclusion": "Limited evidence of emergent behavior"
+    },
+    "decision_quality": {
+      "total_decisions": 1,
+      "illogical_decisions_count": 0,
+      "illogical_decisions_percent": 0.0,
+      "examples": [],
+      "conclusion": "Agents consistently make logical decisions"
+    },
+    "numerical_accuracy": {
+      "numerical_errors_count": 0,
+      "total_numerical_operations": 6,
+      "error_rate_percent": 0.0,
+      "examples": [],
+      "conclusion": "Agents handle numerical calculations accurately"
+    }
+  }
+}

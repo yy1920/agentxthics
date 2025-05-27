@@ -42,7 +42,52 @@ class ElectricityTradingGame:
         self.agents = []
         self.llm = None
         self.output_dir = self.config.get("output_dir", "logs/electricity_trading")
+        self.terminal_logs = []  # Store terminal logs
         
+        # Set up terminal log capture
+        self.original_print = print
+        self.capture_print = True
+        
+        # We'll setup print redirection after initialization
+        # to avoid using 'print' before the global declaration
+        
+    def setup(self):
+        """Set up the simulation environment."""
+        # Setup print redirection (before any other setup that might use print)
+        self._setup_print_redirection()
+        
+        # Initialize LLM
+        self._init_llm()
+        
+        # Create market
+        self.market = ElectricityMarket(self.env, self.config)
+        
+        # Create agents
+        self._create_agents()
+        
+        # Set up output directory
+        os.makedirs(self.output_dir, exist_ok=True)
+        
+        # Return self for method chaining
+        return self
+        
+    def _setup_print_redirection(self):
+        """Set up print redirection to capture logs."""
+        if self.capture_print:
+            # Create a logging function that captures print output
+            def log_print(*args, **kwargs):
+                # Call the original print function
+                self.original_print(*args, **kwargs)
+                
+                # Capture the output
+                output = " ".join(str(arg) for arg in args)
+                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                self.terminal_logs.append(f"[{timestamp}] {output}")
+            
+            # Replace the global print function
+            global print
+            print = log_print
+    
     def _load_config(self, config_path):
         """Load configuration from file."""
         try:
@@ -77,22 +122,6 @@ class ElectricityTradingGame:
                 ]
             }
     
-    def setup(self):
-        """Set up the simulation environment."""
-        # Initialize LLM
-        self._init_llm()
-        
-        # Create market
-        self.market = ElectricityMarket(self.env, self.config)
-        
-        # Create agents
-        self._create_agents()
-        
-        # Set up output directory
-        os.makedirs(self.output_dir, exist_ok=True)
-        
-        # Return self for method chaining
-        return self
     
     def _init_llm(self):
         """Initialize the LLM for agent decision-making."""
@@ -185,7 +214,15 @@ class ElectricityTradingGame:
         with open(os.path.join(run_dir, "config.json"), "w") as f:
             json.dump(self.config, f, indent=2)
         
-        # Save market logs
+        # Save market logs - print for debugging
+        print(f"Saving logs to {run_dir}")
+        print(f"Message log has {len(self.market.message_log)} entries")
+        print(f"Decision log has {len(self.market.decision_log)} entries")
+        print(f"Contract log has {len(self.market.contract_log)} entries")
+        print(f"State log has {len(self.market.state_log)} entries")
+        print(f"Trade log has {len(self.market.trade_log)} entries")
+        print(f"Shortage log has {len(self.market.shortage_log)} entries")
+        
         with open(os.path.join(run_dir, "message_log.json"), "w") as f:
             json.dump(self.market.message_log, f, indent=2)
         
@@ -197,6 +234,13 @@ class ElectricityTradingGame:
         
         with open(os.path.join(run_dir, "state_log.json"), "w") as f:
             json.dump(self.market.state_log, f, indent=2)
+            
+        # Save additional logs that weren't being saved before
+        with open(os.path.join(run_dir, "trade_log.json"), "w") as f:
+            json.dump(self.market.trade_log, f, indent=2)
+            
+        with open(os.path.join(run_dir, "shortage_log.json"), "w") as f:
+            json.dump(self.market.shortage_log, f, indent=2)
         
         # Save additional logs for better analysis
         try:
@@ -226,80 +270,105 @@ class ElectricityTradingGame:
                     print(f"Processing reasoning entry for agent {entry.get('agent')} in round {entry.get('round')}")
                     print(f"Raw response excerpt (first 100 chars): {full_response[:100]}")
                     
-                    # Extract the full reasoning section with more flexible pattern matching
-                    reasoning_section = ""
-                    for pattern in [
-                        r'REASONING:(.*?)FINAL_DECISION:', 
-                        r'REASONING:(.*?)```json',
-                        r'REASONING:(.*?)\{',
-                        r'REASONING:(.*)'
-                    ]:
-                        reasoning_match = re.search(pattern, full_response, re.DOTALL)
-                        if reasoning_match:
-                            reasoning_section = reasoning_match.group(1).strip()
-                            print(f"Extracted reasoning section using pattern: {pattern}")
-                            break
-                    
-                    # Extract the structured sections with improved pattern matching
+                    # Try to parse as JSON first
+                    reasoning_section = full_response
                     situation_analysis = ""
                     strategic_considerations = ""
                     decision_factors = ""
-                    
-                    # Try different pattern formats with fallbacks for situation analysis
-                    for pattern in [
-                        r'SITUATION_ANALYSIS:(.*?)STRATEGIC_CONSIDERATIONS:', 
-                        r'SITUATION ANALYSIS:(.*?)STRATEGIC_CONSIDERATIONS:',
-                        r'SITUATION_ANALYSIS:(.*?)STRATEGIC CONSIDERATIONS:',
-                        r'SITUATION ANALYSIS:(.*?)STRATEGIC CONSIDERATIONS:',
-                        r'Analyze your current electricity position.*?Evaluate market conditions.*?Assess your storage capacity',
-                        r'SITUATION_ANALYSIS:(.*?)(STRATEGIC|$)',
-                        r'SITUATION ANALYSIS:(.*?)(STRATEGIC|$)'
-                    ]:
-                        situation_match = re.search(pattern, full_response, re.DOTALL)
-                        if situation_match:
-                            situation_analysis = situation_match.group(1).strip()
-                            print(f"Extracted situation analysis ({len(situation_analysis)} chars)")
-                            break
-                    
-                    # Similar approach for strategic considerations
-                    for pattern in [
-                        r'STRATEGIC_CONSIDERATIONS:(.*?)DECISION_FACTORS:',
-                        r'STRATEGIC CONSIDERATIONS:(.*?)DECISION_FACTORS:',
-                        r'STRATEGIC_CONSIDERATIONS:(.*?)DECISION FACTORS:',
-                        r'STRATEGIC CONSIDERATIONS:(.*?)DECISION FACTORS:',
-                        r'How this decision aligns with your personality.*?Potential impact on your relationships',
-                        r'STRATEGIC_CONSIDERATIONS:(.*?)(DECISION|$)',
-                        r'STRATEGIC CONSIDERATIONS:(.*?)(DECISION|$)'
-                    ]:
-                        strategic_match = re.search(pattern, full_response, re.DOTALL)
-                        if strategic_match:
-                            strategic_considerations = strategic_match.group(1).strip()
-                            print(f"Extracted strategic considerations ({len(strategic_considerations)} chars)")
-                            break
-                    
-                    # And for decision factors
-                    for pattern in [
-                        r'DECISION_FACTORS:(.*?)FINAL_DECISION:',
-                        r'DECISION FACTORS:(.*?)FINAL_DECISION:',
-                        r'DECISION_FACTORS:(.*?)FINAL DECISION:',
-                        r'DECISION FACTORS:(.*?)FINAL DECISION:',
-                        r'Primary reasons for your decision.*?Alternative options you considered',
-                        r'DECISION_FACTORS:(.*?)(FINAL|$)',
-                        r'DECISION FACTORS:(.*?)(FINAL|$)',
-                        r'DECISION_FACTORS:(.*)',
-                        r'DECISION FACTORS:(.*)'
-                    ]:
-                        decision_match = re.search(pattern, full_response, re.DOTALL)
-                        if decision_match:
-                            decision_factors = decision_match.group(1).strip()
-                            print(f"Extracted decision factors ({len(decision_factors)} chars)")
-                            break
-                    
-                    # Extract the JSON decision
                     json_decision = ""
-                    json_match = re.search(r'```json\s*(.*?)\s*```', full_response, re.DOTALL)
-                    if json_match:
-                        json_decision = json_match.group(1).strip()
+                    
+                    try:
+                        # Check if response is directly a JSON string
+                        json_data = json.loads(full_response)
+                        
+                        # Extract explanation as the full reasoning
+                        if "explanation" in json_data:
+                            reasoning_section = json_data["explanation"]
+                            
+                        # Extract other fields if available
+                        if "action" in json_data:
+                            situation_analysis = f"Action: {json_data['action']}"
+                            
+                        if "reasoning" in json_data:
+                            decision_factors = json_data["reasoning"]
+                            
+                        # Store the full JSON for reference
+                        json_decision = json.dumps(json_data, indent=2)
+                        
+                        print(f"Successfully parsed JSON response with {len(reasoning_section)} chars of reasoning")
+                        
+                    except json.JSONDecodeError:
+                        # If not JSON, try traditional pattern matching
+                        print("Response is not JSON, trying pattern matching")
+                        
+                        # Extract the full reasoning section with more flexible pattern matching
+                        for pattern in [
+                            r'REASONING:(.*?)FINAL_DECISION:', 
+                            r'REASONING:(.*?)```json',
+                            r'REASONING:(.*?)\{',
+                            r'REASONING:(.*)'
+                        ]:
+                            reasoning_match = re.search(pattern, full_response, re.DOTALL)
+                            if reasoning_match:
+                                reasoning_section = reasoning_match.group(1).strip()
+                                print(f"Extracted reasoning section using pattern: {pattern}")
+                                break
+                        
+                        # Extract the structured sections with improved pattern matching
+                        # Try different pattern formats with fallbacks for situation analysis
+                        for pattern in [
+                            r'SITUATION_ANALYSIS:(.*?)STRATEGIC_CONSIDERATIONS:', 
+                            r'SITUATION ANALYSIS:(.*?)STRATEGIC_CONSIDERATIONS:',
+                            r'SITUATION_ANALYSIS:(.*?)STRATEGIC CONSIDERATIONS:',
+                            r'SITUATION ANALYSIS:(.*?)STRATEGIC CONSIDERATIONS:',
+                            r'Analyze your current electricity position.*?Evaluate market conditions.*?Assess your storage capacity',
+                            r'SITUATION_ANALYSIS:(.*?)(STRATEGIC|$)',
+                            r'SITUATION ANALYSIS:(.*?)(STRATEGIC|$)'
+                        ]:
+                            situation_match = re.search(pattern, full_response, re.DOTALL)
+                            if situation_match:
+                                situation_analysis = situation_match.group(1).strip()
+                                print(f"Extracted situation analysis ({len(situation_analysis)} chars)")
+                                break
+                        
+                        # Similar approach for strategic considerations
+                        for pattern in [
+                            r'STRATEGIC_CONSIDERATIONS:(.*?)DECISION_FACTORS:',
+                            r'STRATEGIC CONSIDERATIONS:(.*?)DECISION_FACTORS:',
+                            r'STRATEGIC_CONSIDERATIONS:(.*?)DECISION FACTORS:',
+                            r'STRATEGIC CONSIDERATIONS:(.*?)DECISION FACTORS:',
+                            r'How this decision aligns with your personality.*?Potential impact on your relationships',
+                            r'STRATEGIC_CONSIDERATIONS:(.*?)(DECISION|$)',
+                            r'STRATEGIC CONSIDERATIONS:(.*?)(DECISION|$)'
+                        ]:
+                            strategic_match = re.search(pattern, full_response, re.DOTALL)
+                            if strategic_match:
+                                strategic_considerations = strategic_match.group(1).strip()
+                                print(f"Extracted strategic considerations ({len(strategic_considerations)} chars)")
+                                break
+                        
+                        # And for decision factors
+                        for pattern in [
+                            r'DECISION_FACTORS:(.*?)FINAL_DECISION:',
+                            r'DECISION FACTORS:(.*?)FINAL_DECISION:',
+                            r'DECISION_FACTORS:(.*?)FINAL DECISION:',
+                            r'DECISION FACTORS:(.*?)FINAL DECISION:',
+                            r'Primary reasons for your decision.*?Alternative options you considered',
+                            r'DECISION_FACTORS:(.*?)(FINAL|$)',
+                            r'DECISION FACTORS:(.*?)(FINAL|$)',
+                            r'DECISION_FACTORS:(.*)',
+                            r'DECISION FACTORS:(.*)'
+                        ]:
+                            decision_match = re.search(pattern, full_response, re.DOTALL)
+                            if decision_match:
+                                decision_factors = decision_match.group(1).strip()
+                                print(f"Extracted decision factors ({len(decision_factors)} chars)")
+                                break
+                        
+                        # Extract the JSON decision
+                        json_match = re.search(r'```json\s*(.*?)\s*```', full_response, re.DOTALL)
+                        if json_match:
+                            json_decision = json_match.group(1).strip()
                     
                     # Create a comprehensive reasoning entry
                     reasoning_entry = {
@@ -359,6 +428,19 @@ class ElectricityTradingGame:
         summary = self._generate_summary()
         with open(os.path.join(run_dir, "summary.json"), "w") as f:
             json.dump(summary, f, indent=2)
+            
+        # Save terminal logs to a formatted text file
+        if self.terminal_logs:
+            with open(os.path.join(run_dir, "terminal_log.txt"), "w") as f:
+                f.write("==========================================================\n")
+                f.write("           ELECTRICITY TRADING SIMULATION LOGS            \n")
+                f.write("==========================================================\n\n")
+                for log_entry in self.terminal_logs:
+                    f.write(f"{log_entry}\n")
+                f.write("\n==========================================================\n")
+                f.write("                     END OF LOG FILE                      \n")
+                f.write("==========================================================\n")
+            print(f"Terminal logs saved with {len(self.terminal_logs)} entries")
         
         print(f"Results saved to {run_dir}")
         return run_dir

@@ -1,0 +1,32 @@
+[
+  {
+    "round": 1,
+    "seller": "B",
+    "buyer": "A",
+    "amount": 1.2147411168628992,
+    "price": 30.0,
+    "total_value": 36.442233505886975,
+    "type": "forced_contract",
+    "timestamp": 0
+  },
+  {
+    "round": 1,
+    "seller": "B",
+    "buyer": "A",
+    "amount": 1.518426396078624,
+    "price": 0.0,
+    "total_value": 0.0,
+    "type": "auction",
+    "timestamp": 0
+  },
+  {
+    "round": 1,
+    "seller": "B",
+    "buyer": "D",
+    "amount": 5.326634302804081,
+    "price": 0.0,
+    "total_value": 0.0,
+    "type": "auction",
+    "timestamp": 0
+  }
+]

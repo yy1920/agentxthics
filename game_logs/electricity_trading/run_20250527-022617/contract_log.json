@@ -1,0 +1,11 @@
+[
+  {
+    "round": 1,
+    "seller": "B",
+    "buyer": "A",
+    "amount": 1.2147411168628992,
+    "price": 30.0,
+    "status": "accepted",
+    "message": "Strategic electricity contract during high demand period"
+  }
+]

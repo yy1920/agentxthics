@@ -1,0 +1,152 @@
+==========================================================
+           ELECTRICITY TRADING SIMULATION LOGS            
+==========================================================
+
+[2025-05-27 02:25:57] Using Gemini LLM
+[2025-05-27 02:25:57] Created agent A with personality 'cooperative'
+[2025-05-27 02:25:57] Created agent B with personality 'competitive'
+[2025-05-27 02:25:57] Created agent C with personality 'adaptive'
+[2025-05-27 02:25:57] Created agent D with personality 'competitive'
+[2025-05-27 02:25:57] Created agent E with personality 'cooperative'
+[2025-05-27 02:25:57] Starting electricity trading simulation with 5 agents for 1 rounds
+[2025-05-27 02:26:17] Simulation completed in 20.28 seconds
+[2025-05-27 02:26:17] Saving logs to logs/electricity_trading/run_20250527-022617
+[2025-05-27 02:26:17] Message log has 5 entries
+[2025-05-27 02:26:17] Decision log has 50 entries
+[2025-05-27 02:26:17] Contract log has 1 entries
+[2025-05-27 02:26:17] State log has 1 entries
+[2025-05-27 02:26:17] Trade log has 3 entries
+[2025-05-27 02:26:17] Shortage log has 2 entries
+[2025-05-27 02:26:17] Processing reasoning entry for agent A in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "buy", "explanation": "I have a small deficit and the market price is low. Buying electri
+[2025-05-27 02:26:17] Successfully parsed JSON response with 133 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent A in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent A in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "buy", "explanation": "I have a small deficit and the market price is low. Buying electri
+[2025-05-27 02:26:17] Successfully parsed JSON response with 133 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent A in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent A in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "buy", "explanation": "I have a small deficit and the market price is low, so buying elec
+[2025-05-27 02:26:17] Successfully parsed JSON response with 165 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent A in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent A in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "buy", "explanation": "I have a small deficit and the market price is low, so buying elec
+[2025-05-27 02:26:17] Successfully parsed JSON response with 165 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent A in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent A in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "buy", "explanation": "I have a small deficit and the market price is currently very low,
+[2025-05-27 02:26:17] Successfully parsed JSON response with 133 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent A in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent A in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "buy", "explanation": "I have a small deficit and the market price is currently very low,
+[2025-05-27 02:26:17] Successfully parsed JSON response with 133 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent A in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent B in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "sell", "explanation": "I have a surplus of 9.36 units and the current market price is $0
+[2025-05-27 02:26:17] Successfully parsed JSON response with 135 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent B in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent B in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "sell", "explanation": "I have a surplus of 9.36 units and the current market price is $0
+[2025-05-27 02:26:17] Successfully parsed JSON response with 135 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent B in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent B in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "sell", "explanation": "I have a surplus of 9.36 units and the average market price is $0
+[2025-05-27 02:26:17] Successfully parsed JSON response with 267 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent B in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent B in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "sell", "explanation": "I have a surplus of 9.36 units and the average market price is $0
+[2025-05-27 02:26:17] Successfully parsed JSON response with 267 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent B in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent B in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "sell", "explanation": "I have a surplus of 9.36 units and the current market price is lo
+[2025-05-27 02:26:17] Successfully parsed JSON response with 199 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent B in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent B in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "sell", "explanation": "I have a surplus of 9.36 units and the current market price is lo
+[2025-05-27 02:26:17] Successfully parsed JSON response with 199 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent B in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent C in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "sell", "explanation": "I have a large surplus of electricity (14.74 units) and the curre
+[2025-05-27 02:26:17] Successfully parsed JSON response with 289 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent C in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent C in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "sell", "explanation": "I have a large surplus of electricity (14.74 units) and the curre
+[2025-05-27 02:26:17] Successfully parsed JSON response with 289 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent C in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent C in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "sell", "explanation": "I have a large surplus of 14.74 units and the average market pric
+[2025-05-27 02:26:17] Successfully parsed JSON response with 272 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent C in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent C in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "sell", "explanation": "I have a large surplus of 14.74 units and the average market pric
+[2025-05-27 02:26:17] Successfully parsed JSON response with 272 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent C in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent C in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "sell", "explanation": "I have a large surplus of 14.74 units and the average market pric
+[2025-05-27 02:26:17] Successfully parsed JSON response with 283 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent C in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent C in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "sell", "explanation": "I have a large surplus of 14.74 units and the average market pric
+[2025-05-27 02:26:17] Successfully parsed JSON response with 283 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent C in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent D in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "buy", "explanation": "I have a small deficit and the average market price is low, so it'
+[2025-05-27 02:26:17] Successfully parsed JSON response with 124 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent D in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent D in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "buy", "explanation": "I have a small deficit and the average market price is low, so it'
+[2025-05-27 02:26:17] Successfully parsed JSON response with 124 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent D in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent D in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "buy", "explanation": "I have a small deficit and the market price is low, so buying elec
+[2025-05-27 02:26:17] Successfully parsed JSON response with 202 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent D in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent D in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "buy", "explanation": "I have a small deficit and the market price is low, so buying elec
+[2025-05-27 02:26:17] Successfully parsed JSON response with 202 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent D in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent D in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "buy", "explanation": "I have a small deficit and the market price is low, so buying elec
+[2025-05-27 02:26:17] Successfully parsed JSON response with 128 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent D in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent D in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "buy", "explanation": "I have a small deficit and the market price is low, so buying elec
+[2025-05-27 02:26:17] Successfully parsed JSON response with 128 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent D in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent E in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "sell", "explanation": "I have a large surplus of 26.44 units and the current market pric
+[2025-05-27 02:26:17] Successfully parsed JSON response with 175 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent E in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent E in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "sell", "explanation": "I have a large surplus of 26.44 units and the current market pric
+[2025-05-27 02:26:17] Successfully parsed JSON response with 175 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent E in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent E in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "sell", "explanation": "I have a large surplus of 26.44 units and the current market pric
+[2025-05-27 02:26:17] Successfully parsed JSON response with 174 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent E in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent E in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "sell", "explanation": "I have a large surplus of 26.44 units and the current market pric
+[2025-05-27 02:26:17] Successfully parsed JSON response with 174 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent E in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent E in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "sell", "explanation": "I have a large surplus of electricity (26.44 units) and the curre
+[2025-05-27 02:26:17] Successfully parsed JSON response with 263 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent E in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent E in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"action": "sell", "explanation": "I have a large surplus of electricity (26.44 units) and the curre
+[2025-05-27 02:26:17] Successfully parsed JSON response with 263 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent E in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent A in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"amount": 121, "price": 30, "reasoning": "Agent A is currently in a deficit of 1.52 units and this 
+[2025-05-27 02:26:17] Successfully parsed JSON response with 2290 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent A in round 1
+[2025-05-27 02:26:17] Processing reasoning entry for agent A in round 1
+[2025-05-27 02:26:17] Raw response excerpt (first 100 chars): {"amount": 121, "price": 30, "reasoning": "Agent A is currently in a deficit of 1.52 units and this 
+[2025-05-27 02:26:17] Successfully parsed JSON response with 2290 chars of reasoning
+[2025-05-27 02:26:17] Extracted 2/4 reasoning sections for agent A in round 1
+[2025-05-27 02:26:17] Created complete logs: 2 shortages, 3 trades, and 64 reasoning entries
+
+==========================================================
+                     END OF LOG FILE                      
+==========================================================

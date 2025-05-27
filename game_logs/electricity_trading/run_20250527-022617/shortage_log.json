@@ -1,0 +1,16 @@
+[
+  {
+    "round": 1,
+    "agent": "A",
+    "amount": 1.518426396078624,
+    "impact": "low",
+    "timestamp": 0
+  },
+  {
+    "round": 1,
+    "agent": "D",
+    "amount": 5.326634302804081,
+    "impact": "medium",
+    "timestamp": 0
+  }
+]

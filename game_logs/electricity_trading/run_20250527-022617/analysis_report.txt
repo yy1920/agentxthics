@@ -2,13 +2,13 @@
                 ELECTRICITY TRADING SIMULATION ANALYSIS              
 ====================================================================
 
-Number of Agents: 4
-Number of Rounds: 10
-Total Trades: 170.86 units
-Average Price: $39.78
-Total Shortages: 9
-Communication Count: 40
-Contract Count: 20
+Number of Agents: 5
+Number of Rounds: 1
+Total Trades: 8.06 units
+Average Price: $4.52
+Total Shortages: 2
+Communication Count: 5
+Contract Count: 1
 Collaboration Count: 0
 Deception Count: 0
 
@@ -16,42 +16,47 @@ Deception Count: 0
                          AGENT PERFORMANCE                          
 ====================================================================
 
-Agent B (competitive):
-  Profit: $2486.71
-  Generation Capacity: 60.00 units
-  Storage Capacity: 20.00 units
-
 Agent A (cooperative):
-  Profit: $1317.62
-  Generation Capacity: 150.00 units
+  Profit: $0.00
+  Generation Capacity: 100.00 units
+  Storage Capacity: 30.00 units
+
+Agent C (adaptive):
+  Profit: $0.00
+  Generation Capacity: 100.00 units
   Storage Capacity: 30.00 units
 
 Agent D (competitive):
-  Profit: $-442.33
-  Generation Capacity: 30.00 units
-  Storage Capacity: 80.00 units
-
-Agent C (adaptive):
-  Profit: $-3362.00
+  Profit: $0.00
   Generation Capacity: 100.00 units
-  Storage Capacity: 50.00 units
+  Storage Capacity: 30.00 units
+
+Agent E (cooperative):
+  Profit: $0.00
+  Generation Capacity: 100.00 units
+  Storage Capacity: 30.00 units
+
+Agent B (competitive):
+  Profit: $-124.75
+  Generation Capacity: 100.00 units
+  Storage Capacity: 30.00 units
 
 ====================================================================
                         HYPOTHESIS TESTING                          
 ====================================================================
 
 Communication Impact:
-  Conclusion: Communication appears to impact decision making
-  Decisions Following Messages: 66.7%
+  Conclusion: Limited evidence of communication impact on decisions
+  Decisions Following Messages: 33.3%
 
 Relationship Formation:
-  Conclusion: Agents form consistent trading relationships
-  Strong Relationships: 5
-  Agents with Preferences: 4
+  Conclusion: Limited evidence of relationship formation
+  Strong Relationships: 0
+  Agents with Preferences: 0
 
 Trust Collaboration:
   Conclusion: Limited evidence of trust-based collaboration
-  High Trust Pairs: 0
+  High Trust Pairs: 1
   Increasing Collaboration Trend: False
 
 Deception:
@@ -62,24 +67,24 @@ Deception:
 
 Profit Vs Stability:
   Conclusion: Agents prioritize profit over market stability
-  Price Volatility: 0.006
-  Blackout Frequency: 0.82
+  Price Volatility: 0.000
+  Blackout Frequency: 1.00
   Profit in Volatile Periods: $0.00
   Profit in Stable Periods: $0.00
 
 Emergent Behavior:
-  Conclusion: Evidence of emergent behavior detected
-  Consistent Trading Patterns: 4
+  Conclusion: Limited evidence of emergent behavior
+  Consistent Trading Patterns: 0
   Coordinated Messaging: 0
-  Agents in Emergent Behaviors: 4
+  Agents in Emergent Behaviors: 0
 
 Decision Quality:
   Conclusion: Agents consistently make logical decisions
   Illogical Decisions: 0.0%
 
 Numerical Accuracy:
-  Conclusion: Agents show numerical accuracy issues
-  Numerical Error Rate: 3.33%
+  Conclusion: Agents handle numerical calculations accurately
+  Numerical Error Rate: 0.00%
 
 ====================================================================
                             SUMMARY                                 
@@ -87,13 +92,13 @@ Numerical Accuracy:
 
 This simulation tested various hypotheses about agent behavior in an
 electricity trading market. Key findings include:
-- Communication appears to impact decision making
-- Agents form consistent trading relationships
+- Limited evidence of communication impact on decisions
+- Limited evidence of relationship formation
 - Limited evidence of trust-based collaboration
 - Limited evidence of deceptive behavior
 - Agents prioritize profit over market stability
-- Evidence of emergent behavior detected
+- Limited evidence of emergent behavior
 - Agents consistently make logical decisions
-- Agents show numerical accuracy issues
+- Agents handle numerical calculations accurately
 
 End of Analysis Report

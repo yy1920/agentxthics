@@ -9,6 +9,8 @@ and tests various hypotheses about their behavior.
 import os
 import sys
 import argparse
+import logging
+from datetime import datetime
 from agentxthics.scenarios.electricity_trading_game import ElectricityTradingGame
 
 def parse_arguments():
@@ -20,11 +22,46 @@ def parse_arguments():
                       help='Only analyze results without running a new simulation')
     parser.add_argument('--run-dir', type=str, default=None,
                       help='Run directory to analyze (used with --analyze-only)')
+    parser.add_argument('--log-file', type=str, default=None,
+                      help='Path to save real-time logs (default: simulation_TIMESTAMP.log)')
     return parser.parse_args()
+
+def setup_logging(log_file=None):
+    """Set up logging to file and console."""
+    if log_file is None:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        log_file = f"simulation_{timestamp}.log"
+    
+    # Configure root logger
+    root_logger = logging.getLogger()
+    root_logger.setLevel(logging.INFO)
+    
+    # Create file handler which logs even debug messages
+    file_handler = logging.FileHandler(log_file, mode='w')
+    file_handler.setLevel(logging.INFO)
+    
+    # Create console handler with the same log level
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.INFO)
+    
+    # Create formatter and add it to the handlers
+    formatter = logging.Formatter('[%(asctime)s] %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+    file_handler.setFormatter(formatter)
+    console_handler.setFormatter(formatter)
+    
+    # Add the handlers to the logger
+    root_logger.addHandler(file_handler)
+    root_logger.addHandler(console_handler)
+    
+    logging.info(f"Logging to {os.path.abspath(log_file)}")
+    return log_file
 
 def main():
     """Main entry point for the electricity trading game."""
     args = parse_arguments()
+    
+    # Set up logging
+    log_file = setup_logging(args.log_file)
     
     # Create the game
     game = ElectricityTradingGame(config_path=args.config)
@@ -32,47 +69,49 @@ def main():
     if args.analyze_only:
         # Only analyze a previous run
         if args.run_dir:
-            print(f"Analyzing results in {args.run_dir}")
+            logging.info(f"Analyzing results in {args.run_dir}")
             analysis = game.analyze_results(run_dir=args.run_dir)
         else:
-            print("Analyzing most recent run results")
+            logging.info("Analyzing most recent run results")
             analysis = game.analyze_results()
         
         # Print key findings to console
         if "hypotheses" in analysis:
-            print("\nKey Findings:")
+            logging.info("\nKey Findings:")
             for name, results in analysis["hypotheses"].items():
                 if "conclusion" in results:
                     title = " ".join(word.capitalize() for word in name.split("_"))
-                    print(f"- {title}: {results['conclusion']}")
+                    logging.info(f"- {title}: {results['conclusion']}")
     else:
         # Run a new simulation and analyze results
-        print("Setting up electricity trading simulation")
+        logging.info("Setting up electricity trading simulation")
         game.setup()
         
-        print("Running simulation")
+        logging.info("Running simulation")
         game.run()
         
-        print("Analyzing results")
+        logging.info("Analyzing results")
         analysis = game.analyze_results()
         
         # Print summary to console
         if "summary" in analysis:
             summary = analysis["summary"]
-            print("\nSimulation Summary:")
-            print(f"Rounds: {summary.get('num_rounds', 0)}")
-            print(f"Agents: {summary.get('num_agents', 0)}")
-            print(f"Total Trades: {summary.get('total_trades', 0):.2f} units")
-            print(f"Average Price: ${summary.get('average_price', 0):.2f}")
-            print(f"Total Shortages: {summary.get('total_shortages', 0)}")
+            logging.info("\nSimulation Summary:")
+            logging.info(f"Rounds: {summary.get('num_rounds', 0)}")
+            logging.info(f"Agents: {summary.get('num_agents', 0)}")
+            logging.info(f"Total Trades: {summary.get('total_trades', 0):.2f} units")
+            logging.info(f"Average Price: ${summary.get('average_price', 0):.2f}")
+            logging.info(f"Total Shortages: {summary.get('total_shortages', 0)}")
             
             # Show agent profits
             agent_profits = summary.get("agent_profits", {})
             if agent_profits:
-                print("\nAgent Profits:")
+                logging.info("\nAgent Profits:")
                 sorted_agents = sorted(agent_profits.items(), key=lambda x: x[1].get("profit", 0), reverse=True)
                 for agent_id, data in sorted_agents:
-                    print(f"  Agent {agent_id} ({data.get('personality', 'unknown')}): ${data.get('profit', 0):.2f}")
+                    logging.info(f"  Agent {agent_id} ({data.get('personality', 'unknown')}): ${data.get('profit', 0):.2f}")
+        
+        logging.info(f"Full logs saved to {log_file}")
 
 if __name__ == "__main__":
     main()

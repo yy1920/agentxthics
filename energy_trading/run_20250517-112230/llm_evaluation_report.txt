@@ -1,0 +1,66 @@
+===============================================
+   LLM JUDGE EVALUATION OF AGENT BEHAVIOR
+===============================================
+
+OVERALL ASSESSMENT:
+The simulation shows limited evidence of the hypothesized behaviors. This may indicate that either the simulation parameters need adjustment or that the hypotheses themselves need reconsideration.
+
+KEY FINDINGS:
+
+HYPOTHESIS EVALUATIONS:
+
+COMMUNICATION_IMPACT:
+Conclusion: Unable to evaluate due to error
+Confidence: none
+Evidence:
+- LLM evaluation failed with error: 'GeminiLLM' object has no attribute 'generate_analysis'
+Interpretation: Analysis could not be completed
+
+RELATIONSHIP_FORMATION:
+Conclusion: Unable to evaluate due to error
+Confidence: none
+Evidence:
+- LLM evaluation failed with error: 'GeminiLLM' object has no attribute 'generate_analysis'
+Interpretation: Analysis could not be completed
+
+TRUST_COLLABORATION:
+Conclusion: Unable to evaluate due to error
+Confidence: none
+Evidence:
+- LLM evaluation failed with error: 'GeminiLLM' object has no attribute 'generate_analysis'
+Interpretation: Analysis could not be completed
+
+DECEPTION:
+Conclusion: Unable to evaluate due to error
+Confidence: none
+Evidence:
+- LLM evaluation failed with error: 'GeminiLLM' object has no attribute 'generate_analysis'
+Interpretation: Analysis could not be completed
+
+PROFIT_VS_STABILITY:
+Conclusion: Unable to evaluate due to error
+Confidence: none
+Evidence:
+- LLM evaluation failed with error: 'GeminiLLM' object has no attribute 'generate_analysis'
+Interpretation: Analysis could not be completed
+
+EMERGENT_BEHAVIOR:
+Conclusion: Unable to evaluate due to error
+Confidence: none
+Evidence:
+- LLM evaluation failed with error: 'GeminiLLM' object has no attribute 'generate_analysis'
+Interpretation: Analysis could not be completed
+
+DECISION_QUALITY:
+Conclusion: Unable to evaluate due to error
+Confidence: none
+Evidence:
+- LLM evaluation failed with error: 'GeminiLLM' object has no attribute 'generate_analysis'
+Interpretation: Analysis could not be completed
+
+NUMERICAL_ACCURACY:
+Conclusion: Unable to evaluate due to error
+Confidence: none
+Evidence:
+- LLM evaluation failed with error: 'GeminiLLM' object has no attribute 'generate_analysis'
+Interpretation: Analysis could not be completed
